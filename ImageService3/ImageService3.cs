@@ -74,6 +74,7 @@ namespace ImageService3
                 this.modal = new ImageServiceModal()
                 {
                     OutputFolder = ConfigurationManager.AppSettings.Get("OutputDir"),
+
                     ThumbnailSize = Int32.Parse(ConfigurationManager.AppSettings.Get("ThumbnailSize"))
 
                 };
