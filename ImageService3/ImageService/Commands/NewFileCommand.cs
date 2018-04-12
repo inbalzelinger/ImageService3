@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace ImageService.Commands
@@ -19,9 +20,26 @@ namespace ImageService.Commands
 
         public string Execute(string[] args, out bool result)
         {
-            // The String Will Return the New Path if result = true, and will return the error message
-            return this.m_modal.AddFile(args[0], out result);
-                
+            try
+            {
+                if (args.Length == 0)
+                {
+                    throw new Exception("there were no args");
+                }
+                else if (File.Exists(args[0]))
+                {
+                    // The String Will Return the New Path if result = true, and will return the error message
+                    return this.m_modal.AddFile(args[0], out result);
+                }
+                result = true;
+                return args[0].ToString();
+            } catch(Exception e)
+            {
+                result = true;
+                return e.ToString();
+
+            }
+
+        }       
         }
     }
-}

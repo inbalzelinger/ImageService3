@@ -70,6 +70,7 @@ namespace ImageService3
                 eventLog1.Source = eventSourceName;
                 eventLog1.Log = logName;
                 this.logging = new LoggingService();
+                logging.MessageRecieved += onMessage;
                 //this.logging.MessageRecieved += WriteMessage;
                 this.modal = new ImageServiceModal()
                 {
@@ -88,10 +89,14 @@ namespace ImageService3
             }
 
         }
-
+        private void onMessage(object sender, MessageRecievedEventArgs e)
+        {
+            eventLog1.WriteEntry(e.Status + ":" + e.Message);
+        }
         protected override void OnStart(string[] args)
         {
-            eventLog1.WriteEntry("In OnStart");
+            logging.Log("In OnStart", MessageTypeEnum.INFO);
+            
             // Update the service state to Start Pending.  
             ServiceStatus serviceStatus = new ServiceStatus();
             serviceStatus.dwCurrentState = ServiceState.SERVICE_START_PENDING;
@@ -116,6 +121,10 @@ namespace ImageService3
         protected override void OnStop()
         {
             eventLog1.WriteEntry("In onStop.");
+        }
+        public void onDebug()
+        {
+            OnStart(null);
         }
     }
 }

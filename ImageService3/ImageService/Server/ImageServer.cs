@@ -32,9 +32,10 @@ namespace ImageService.Server
             {
                 try
                 {
-                    IDirectoryHandler handler = new DirectoyHandler(m_controller, m_logging, directory);
+                    IDirectoryHandler handler = new DirectoyHandler(m_controller, m_logging , directory);
                     CommandRecieved += handler.OnCommandRecieved;
                     handler.StartHandleDirectory(directory);
+                    m_logging.Log("Handler created for " + directory, Logging.Modal.MessageTypeEnum.INFO);
                 }
                 catch (Exception e)
                 {

@@ -25,12 +25,12 @@ namespace ImageService.Controller.Handlers
         public event EventHandler<DirectoryCloseEventArgs> DirectoryClose;  // The Event That Notifies that the Directory is being closed
 
 
-        public DirectoyHandler(IImageController m_controller , ILoggingService m_logging , string m_path)
+        public DirectoyHandler(IImageController m_controller , ILoggingService m_logging , string dirPath)
         {
+            //this.m_path = dirPath;
             this.m_controller = m_controller;
             this.m_logging = m_logging;
-            this.m_path = m_path;
-            this.m_dirWatcher = new FileSystemWatcher();
+            
 
         }
 
@@ -38,29 +38,21 @@ namespace ImageService.Controller.Handlers
 
         public void StartHandleDirectory(string dirPath)
         {
-            this.m_logging.Log("start listning to: " + dirPath, MessageTypeEnum.INFO);
-            // 
+            this.m_path = dirPath;
+            this.m_dirWatcher = new FileSystemWatcher();
+            m_dirWatcher.Path = dirPath;
+            m_dirWatcher.Created += OnNewFileCreated;
+            m_dirWatcher.EnableRaisingEvents = true;
 
-            string[] allFilesInDir = Directory.GetFiles(dirPath);
-            foreach(string file in allFilesInDir)
-            {
-                this.m_logging.Log("StartHandleDirectory: " + file , MessageTypeEnum.INFO);
-                string ext = Path.GetExtension(file);
-                if(ext == ".jpg" || ext == ".png"|| ext == ".gif"|| ext == ".bmp")
-                {
-                    this.m_logging.Log("new file was found!!: " + file, MessageTypeEnum.INFO);
-
-
-                    string[] args = { "file" };
-                    CommandRecievedEventArgs e = new CommandRecievedEventArgs((int)CommandEnum.NewFileCommand, 
-                        args, file);
-
-                    this.OnCommandRecieved(this, e);
-                }
-            }
         }
 
-
+        private void OnNewFileCreated(object sender, FileSystemEventArgs e)
+        {
+            string[] args = new string[] { e.FullPath };
+            bool result;
+            string msg = m_controller.ExecuteCommand((int)CommandEnum.NewFileCommand, args, out result);
+            m_logging.Log(msg, MessageTypeEnum.INFO);
+        }
 
         public void OnCommandRecieved(object sender, CommandRecievedEventArgs e)
         {

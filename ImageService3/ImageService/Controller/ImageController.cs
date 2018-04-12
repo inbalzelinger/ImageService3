@@ -20,12 +20,12 @@ namespace ImageService.Controller
             m_modal = modal;                    // Storing the Modal Of The System
             commands = new Dictionary<int, ICommand>();
             // For Now will contain NEW_FILE_COMMAND
-            commands.Add((int)CommandEnum.NewFileCommand, new NewFileCommand(this.m_modal));
+            commands[(int)(CommandEnum.NewFileCommand)] = new NewFileCommand(m_modal);
+            //commands.Add((int)CommandEnum.NewFileCommand, new NewFileCommand(this.m_modal));
         }
 
         public string ExecuteCommand(int commandID, string[] args, out bool resultSuccesful)
         {
-
             Task<string[]> task = new Task<string[]>(() =>
            {
                bool resultSuccesful1;
@@ -43,6 +43,8 @@ namespace ImageService.Controller
                 resultSuccesful = false;
             }
             return task.Result[0];
+            
+           // return commands[commandID].Execute(args, out resultSuccesful);
         }
     }
 
