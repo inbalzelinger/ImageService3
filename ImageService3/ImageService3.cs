@@ -23,9 +23,9 @@ namespace ImageService3
 
         private int eventId = 1;
         private ImageServer m_imageServer;          // The Image Server
-        private IImageServiceModal modal;
-        private IImageController controller;
-        private ILoggingService logging;
+        private IImageServiceModal  m_modal;
+        private IImageController m_controller;
+        private ILoggingService m_logger;
 
         public enum ServiceState
         {
@@ -55,12 +55,11 @@ namespace ImageService3
 
         public ImageService3()
         {
-
             try
             {
                 InitializeComponent();
                 string eventSourceName = ConfigurationManager.AppSettings.Get("SourceName");
-                string logName = ConfigurationManager.AppSettings.Get("LogName");
+                string loggerName = ConfigurationManager.AppSettings.Get("LogName");
                 eventLog1 = new System.Diagnostics.EventLog();
                 if (!System.Diagnostics.EventLog.SourceExists("MySource"))
                 {
@@ -68,41 +67,43 @@ namespace ImageService3
                         "MySource", "MyNewLog");
                 }
                 eventLog1.Source = eventSourceName;
-                eventLog1.Log = logName;
-                this.logging = new LoggingService();
-                logging.MessageRecieved += onMessage;
-                //this.logging.MessageRecieved += WriteMessage;
-                this.modal = new ImageServiceModal()
-                {
-                    OutputFolder = ConfigurationManager.AppSettings.Get("OutputDir"),
-
-                    ThumbnailSize = Int32.Parse(ConfigurationManager.AppSettings.Get("ThumbnailSize"))
-
-                };
-                this.controller = new ImageController(this.modal);
-                this.m_imageServer = new ImageServer(this.controller, this.logging);
-
-
+                eventLog1.Log = loggerName;
             } catch(Exception e)
             {
                 ;
             }
 
         }
+
         private void onMessage(object sender, MessageRecievedEventArgs e)
         {
             eventLog1.WriteEntry(e.Status + ":" + e.Message);
         }
+
+
         protected override void OnStart(string[] args)
         {
-            logging.Log("In OnStart", MessageTypeEnum.INFO);
-            
+            this.m_logger = new LoggingService();
+
+            m_logger.Log("In OnStart", MessageTypeEnum.INFO);
+
             // Update the service state to Start Pending.  
             ServiceStatus serviceStatus = new ServiceStatus();
             serviceStatus.dwCurrentState = ServiceState.SERVICE_START_PENDING;
             serviceStatus.dwWaitHint = 100000;
             SetServiceStatus(this.ServiceHandle, ref serviceStatus);
             // Set up a timer to trigger every minute.  
+            m_logger.MessageRecieved += onMessage;
+            //this.logging.MessageRecieved += WriteMessage;
+            string OutputFolder = ConfigurationManager.AppSettings.Get("OutputDir");
+            int    ThumbnailSize = Int32.Parse(ConfigurationManager.AppSettings.Get("ThumbnailSize"));
+
+            this.m_modal = new ImageServiceModal(OutputFolder, ThumbnailSize);
+
+            this.m_controller = new ImageController(this.m_modal);
+            this.m_imageServer = new ImageServer(this.m_controller, this.m_logger);
+
+
             System.Timers.Timer timer = new System.Timers.Timer();
             timer.Interval = 60000; // 60 seconds  
             timer.Elapsed += new System.Timers.ElapsedEventHandler(this.OnTimer);
@@ -112,16 +113,18 @@ namespace ImageService3
             SetServiceStatus(this.ServiceHandle, ref serviceStatus);
         }
 
+
         public void OnTimer(object sender, System.Timers.ElapsedEventArgs args)
         {
             // TODO: Insert monitoring activities here.  
-            eventLog1.WriteEntry("Monitoring the System", EventLogEntryType.Information, eventId++);
+            m_logger.Log("In OnTimer", MessageTypeEnum.INFO);
         }
 
         protected override void OnStop()
         {
-            eventLog1.WriteEntry("In onStop.");
+            m_logger.Log("In In onStop", MessageTypeEnum.INFO);
         }
+
         public void onDebug()
         {
             OnStart(null);

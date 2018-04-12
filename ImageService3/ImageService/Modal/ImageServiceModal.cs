@@ -19,11 +19,16 @@ namespace ImageService.Modal
         private int m_thumbnailSize;   // The Size Of The Thumbnail Size
         private static Regex r = new Regex(":");
         #endregion
-        /*public ImageServiceModal(string m_OutputFolder, int m_thumbnailSize)
+
+        public ImageServiceModal(string m_OutputFolder, int m_thumbnailSize)
         {
             this.m_OutputFolder = m_OutputFolder;
             this.m_thumbnailSize = m_thumbnailSize;
-        }*/
+
+            Directory.CreateDirectory(m_OutputFolder);
+            new FileInfo(m_OutputFolder).Attributes = new FileInfo(m_OutputFolder).Attributes | FileAttributes.Hidden;
+        }
+
         public string OutputFolder
         {
             get
@@ -47,24 +52,34 @@ namespace ImageService.Modal
                 m_thumbnailSize = value;
             }
         }
-        
+
 
         public string AddFile(string path, out bool result)
         {
             result = true;
 
+            DateTime dateTime;
+
             string imageName = Path.GetFileName(path);
 
-            DateTime dateTime = GetDateTakenFromImage(path);
+
+            try
+            {
+                dateTime = GetDateTakenFromImage(path);
+            }
+            catch (Exception e)
+            {
+                dateTime = File.GetCreationTime(path);
+            }
 
             string year = dateTime.Year.ToString();
             string month = dateTime.Month.ToString();
 
-            string yearPath = this.m_OutputFolder + "\\" + year.ToString();
-            string monthPath = yearPath + "\\" + month.ToString();
+            string yearPath = this.m_OutputFolder + "\\" + year;
+            string monthPath = yearPath + "\\" + month;
 
-            string yearThumbPath = this.m_OutputFolder + "\\" + "thumbNail" + '\\' + year.ToString();
-            string monthTumbPath = yearThumbPath + "\\" + month.ToString();
+            string yearThumbPath = this.m_OutputFolder + "\\" + "thumbNail" + '\\' + year;
+            string monthTumbPath = yearThumbPath + "\\" + month;
 
             string forThumb = monthTumbPath + "\\" + Path.GetFileName(path);
             string forImage = monthPath + "\\" + Path.GetFileName(path);
@@ -118,7 +133,7 @@ namespace ImageService.Modal
             //move the file and save the thumbNail picture.
 
 
-            
+
             changeSameName = CheckName(path, monthTumbPath);
 
             try
@@ -143,7 +158,7 @@ namespace ImageService.Modal
             int count = 0;
             string fileNamePath = pathDir + "\\" + Path.GetFileName(pathFile);
 
-            while(File.Exists(fileNamePath))
+            while (File.Exists(fileNamePath))
             {
                 count++;
                 fileNamePath = pathDir + "\\" + Path.GetFileNameWithoutExtension(pathFile) + "(" + count.ToString() + ")" + Path.GetExtension(pathFile);
@@ -161,6 +176,6 @@ namespace ImageService.Modal
                 return DateTime.Parse(dateTaken);
             }
         }
-      
+
     }
 }

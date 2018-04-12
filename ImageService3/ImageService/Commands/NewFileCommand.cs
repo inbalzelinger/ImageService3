@@ -13,10 +13,12 @@ namespace ImageService.Commands
     {
         private IImageServiceModal m_modal;
 
+
         public NewFileCommand(IImageServiceModal modal)
         {
             m_modal = modal;            // Storing the Modal
         }
+
 
         public string Execute(string[] args, out bool result)
         {

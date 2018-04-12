@@ -15,7 +15,7 @@ namespace ImageService3
         static void Main()
         {
 
-            ServiceBase[] ServicesToRun;
+           ServiceBase[] ServicesToRun;
             ServicesToRun = new ServiceBase[]
             {
                 new ImageService3()
