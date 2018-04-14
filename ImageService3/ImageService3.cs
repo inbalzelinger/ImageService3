@@ -22,7 +22,7 @@ namespace ImageService3
     {
 
         private int eventId = 1;
-        private ImageServer m_imageServer;          // The Image Server
+        private ImageServer m_server;          // The Image Server
         private IImageServiceModal  m_modal;
         private IImageController m_controller;
         private ILoggingService m_logger;
@@ -94,6 +94,8 @@ namespace ImageService3
             SetServiceStatus(this.ServiceHandle, ref serviceStatus);
             // Set up a timer to trigger every minute.  
             m_logger.MessageRecieved += onMessage;
+
+ 
             //this.logging.MessageRecieved += WriteMessage;
             string OutputFolder = ConfigurationManager.AppSettings.Get("OutputDir");
             int    ThumbnailSize = Int32.Parse(ConfigurationManager.AppSettings.Get("ThumbnailSize"));
@@ -101,7 +103,7 @@ namespace ImageService3
             this.m_modal = new ImageServiceModal(OutputFolder, ThumbnailSize);
 
             this.m_controller = new ImageController(this.m_modal);
-            this.m_imageServer = new ImageServer(this.m_controller, this.m_logger);
+            this.m_server = new ImageServer(this.m_controller, this.m_logger);
 
 
             System.Timers.Timer timer = new System.Timers.Timer();
@@ -123,6 +125,7 @@ namespace ImageService3
         protected override void OnStop()
         {
             m_logger.Log("In In onStop", MessageTypeEnum.INFO);
+            this.m_server.OnCloseSevice();
         }
 
         public void onDebug()

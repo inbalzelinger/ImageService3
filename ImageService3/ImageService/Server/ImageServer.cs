@@ -21,6 +21,7 @@ namespace ImageService.Server
 
         #region Properties
         public event EventHandler<CommandRecievedEventArgs> CommandRecieved; // The event that notifies about a new Command being recieved
+        public event EventHandler<CommandRecievedEventArgs> CloseService;
         #endregion
 
         public ImageServer(IImageController controller, ILoggingService loggingService)
@@ -33,6 +34,7 @@ namespace ImageService.Server
                 try
                 {
                     IDirectoryHandler handler = new DirectoyHandler(m_controller, m_logging , directory);
+                    CloseService += handler.OnCloseSevice;
                     CommandRecieved += handler.OnCommandRecieved;
                     handler.StartHandleDirectory(directory);
                     m_logging.Log("Handler created for " + directory, Logging.Modal.MessageTypeEnum.INFO);
@@ -43,8 +45,26 @@ namespace ImageService.Server
                 }
             }
         }
+
+
+        public void OnCloseSevice()
+        {
+            try
+            {
+                m_logging.Log("server->on flose service", Logging.Modal.MessageTypeEnum.INFO);
+                CloseService?.Invoke(this, null);
+            }
+            catch (Exception ex)
+            {
+                this.m_logging.Log("server->on flose service Exception: " + ex.ToString(), Logging.Modal.MessageTypeEnum.FAIL);
+            }
+        }
     }
+
+
+
 }
+
 
 
 

@@ -9,6 +9,7 @@ using ImageService.Infrastructure;
 using ImageService.Infrastructure.Enums;
 using ImageService.Logging;
 using ImageService.Logging.Modal;
+using ImageService.Server;
 using System.Text.RegularExpressions;
 
 namespace ImageService.Controller.Handlers
@@ -54,6 +55,8 @@ namespace ImageService.Controller.Handlers
             m_logging.Log(msg, MessageTypeEnum.INFO);
         }
 
+
+
         public void OnCommandRecieved(object sender, CommandRecievedEventArgs e)
         {
             bool result;
@@ -66,6 +69,16 @@ namespace ImageService.Controller.Handlers
             {
                 m_logging.Log("OnCommandRecieve:  faild to add the file",MessageTypeEnum.FAIL);
             }
+        }
+
+
+        public void OnCloseSevice(object sender, CommandRecievedEventArgs e)
+        {
+            m_dirWatcher.EnableRaisingEvents = false;
+            ImageServer server = (ImageServer)sender;
+            m_dirWatcher.Dispose();
+            m_logging.Log("Handler closed " + m_path, MessageTypeEnum.INFO);
+            server.CloseService -= OnCommandRecieved;
         }
     }
 }
