@@ -53,6 +53,12 @@ namespace ImageService3
         [DllImport("advapi32.dll", SetLastError = true)]
         private static extern bool SetServiceStatus(IntPtr handle, ref ServiceStatus serviceStatus);
 
+
+
+
+        ///<summary>
+        ///ImageService constructor.
+        ///</summary>
         public ImageService3()
         {
             try
@@ -60,51 +66,61 @@ namespace ImageService3
                 InitializeComponent();
                 string eventSourceName = ConfigurationManager.AppSettings.Get("SourceName");
                 string loggerName = ConfigurationManager.AppSettings.Get("LogName");
-                eventLog1 = new System.Diagnostics.EventLog();
-                if (!System.Diagnostics.EventLog.SourceExists("MySource"))
+                eventLog1 = new EventLog();
+                if (!EventLog.SourceExists("MySource"))
                 {
-                    System.Diagnostics.EventLog.CreateEventSource(
+                    EventLog.CreateEventSource(
                         "MySource", "MyNewLog");
                 }
                 eventLog1.Source = eventSourceName;
                 eventLog1.Log = loggerName;
-            } catch(Exception e)
+                this.m_logger = new LoggingService();
+                m_logger.MessageRecieved += onMessage;
+                m_logger.Log("end of ImageService3 constructor, the logger event was added", MessageTypeEnum.INFO);
+
+
+            }
+            catch (Exception e)
             {
-                ;
+                m_logger.Log("exception in ImageService constructor", MessageTypeEnum.FAIL);
             }
 
         }
 
+
+        ///<summary>
+        ///write masseges to the service log
+        ///</summary>
         private void onMessage(object sender, MessageRecievedEventArgs e)
         {
             eventLog1.WriteEntry(e.Status + ":" + e.Message);
         }
 
 
+
+        ///<summary>
+        ///start the service 
+        ///</summary>
         protected override void OnStart(string[] args)
         {
-            this.m_logger = new LoggingService();
 
             m_logger.Log("In OnStart", MessageTypeEnum.INFO);
-
             // Update the service state to Start Pending.  
             ServiceStatus serviceStatus = new ServiceStatus();
             serviceStatus.dwCurrentState = ServiceState.SERVICE_START_PENDING;
             serviceStatus.dwWaitHint = 100000;
             SetServiceStatus(this.ServiceHandle, ref serviceStatus);
-            // Set up a timer to trigger every minute.  
-            m_logger.MessageRecieved += onMessage;
 
- 
-            //this.logging.MessageRecieved += WriteMessage;
+            // reads from the app config the parameters. 
             string OutputFolder = ConfigurationManager.AppSettings.Get("OutputDir");
             int    ThumbnailSize = Int32.Parse(ConfigurationManager.AppSettings.Get("ThumbnailSize"));
 
+            // create the members.
             this.m_modal = new ImageServiceModal(OutputFolder, ThumbnailSize);
-
             this.m_controller = new ImageController(this.m_modal);
-            this.m_server = new ImageServer(this.m_controller, this.m_logger);
 
+            // create the server which will start listening.
+            this.m_server = new ImageServer(this.m_controller, this.m_logger);
 
             System.Timers.Timer timer = new System.Timers.Timer();
             timer.Interval = 60000; // 60 seconds  
@@ -116,18 +132,29 @@ namespace ImageService3
         }
 
 
+        ///<summary>
+        ///OnTimer
+        ///</summary>
         public void OnTimer(object sender, System.Timers.ElapsedEventArgs args)
         {
             // TODO: Insert monitoring activities here.  
             m_logger.Log("In OnTimer", MessageTypeEnum.INFO);
         }
 
+
+        ///<summary>
+        ///while stoping the service, will close the server.
+        ///</summary>
         protected override void OnStop()
         {
-            m_logger.Log("In In onStop", MessageTypeEnum.INFO);
+            m_logger.Log("In on onStop", MessageTypeEnum.INFO);
             this.m_server.OnCloseSevice();
         }
 
+
+        ///<summary>
+        ///for service debuging.
+        ///</summary>
         public void onDebug()
         {
             OnStart(null);

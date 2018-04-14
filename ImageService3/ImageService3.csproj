@@ -52,10 +52,10 @@
     <Compile Include="ImageService.Logging\LoggingService.cs" />
     <Compile Include="ImageService.Logging\Modal\MessageRecievedEventArgs.cs" />
     <Compile Include="ImageService.Logging\Modal\MessageTypeEnum.cs" />
-    <Compile Include="ImageService3.cs">
+    <Compile Include="ImageService\ImageService3.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="ImageService3.Designer.cs">
+    <Compile Include="ImageService\ImageService3.Designer.cs">
       <DependentUpon>ImageService3.cs</DependentUpon>
     </Compile>
     <Compile Include="ImageService\Commands\ICommand.cs" />
@@ -64,9 +64,6 @@
     <Compile Include="ImageService\Controller\Handlers\IDirectoryHandler.cs" />
     <Compile Include="ImageService\Controller\IImageController.cs" />
     <Compile Include="ImageService\Controller\ImageController.cs" />
-    <Compile Include="ImageService\ImageService.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="ImageService\Modal\Event\CommandRecievedEventArgs.cs" />
     <Compile Include="ImageService\Modal\Event\DirectoryCloseEventArgs.cs" />
     <Compile Include="ImageService\Modal\IImageServiceModal.cs" />
@@ -82,10 +79,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="ImageService\App.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ImageService3.resx">
+    <EmbeddedResource Include="ImageService\ImageService3.resx">
       <DependentUpon>ImageService3.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ProjectInstaller.resx">
