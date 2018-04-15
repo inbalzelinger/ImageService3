@@ -1,0 +1,59 @@
+commit 55916fd40b9932cf5842686bba2a0324d342e4b3
+Author: hadar sabag <hadar.sabag@live.biu.ac.il>
+Date:   Sun Apr 15 14:45:02 2018 +0300
+
+    h
+
+commit 9b2a3233523f183297b6f1c002cffada8ccfa8b8
+Author: hadar sabag <hadar.sabag@live.biu.ac.il>
+Date:   Sun Apr 15 14:35:15 2018 +0300
+
+    notes
+
+commit 0f73f5c612cab5ace7fa303200389ca535bb0bfb
+Author: inbal zelinger <inbal.zelinger@live.biu.ac.il>
+Date:   Sat Apr 14 19:41:52 2018 +0300
+
+    notes
+
+commit 999950d9d54e290c8fb3a6b1f19cf3abfc5a45b0
+Author: inbal zelinger <inbal.zelinger@live.biu.ac.il>
+Date:   Sat Apr 14 18:33:18 2018 +0300
+
+    start notes
+
+commit b665197675f0e6e6e5cd35f74d3cae75661c087d
+Author: inbal zelinger <inbal.zelinger@live.biu.ac.il>
+Date:   Sat Apr 14 17:12:17 2018 +0300
+
+    onClose
+
+commit 1bf2e66e7cc2ae2df39d5338fd47f17cbdb7202c
+Author: inbal zelinger <inbal.zelinger@live.biu.ac.il>
+Date:   Thu Apr 12 23:04:39 2018 +0300
+
+    s
+
+commit 1032d5c5f54f78f79af2094364c86b8e7dd1928a
+Author: inbal zelinger <inbal.zelinger@live.biu.ac.il>
+Date:   Thu Apr 12 16:12:16 2018 +0300
+
+    j
+
+commit ba48bed706ae10d5a000a9e4b8770ed1b55e0150
+Author: inbal zelinger <inbal.zelinger@live.biu.ac.il>
+Date:   Wed Apr 11 02:13:09 2018 +0300
+
+    exp
+
+commit 63e4c0efcfff81abfc3b80ec2747eedf5487959d
+Author: inbal zelinger <inbal.zelinger@live.biu.ac.il>
+Date:   Wed Apr 11 02:11:50 2018 +0300
+
+    Add project files.
+
+commit 7b88aeeb3a386ba8a9b528bd0883c72ce220dfd4
+Author: inbal zelinger <inbal.zelinger@live.biu.ac.il>
+Date:   Wed Apr 11 02:11:44 2018 +0300
+
+    Add .gitignore and .gitattributes.
