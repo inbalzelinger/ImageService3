@@ -7,7 +7,10 @@ using System.Threading.Tasks;
 namespace ImageService.Controller
 {
     public interface IImageController
-    {
+    {   
+        ///<summary>
+        ///executing the Command according to the command id in the dictinary
+        ///</summary>
         string ExecuteCommand(int commandID, string[] args, out bool result);          // Executing the Command Requet
     }
 }

@@ -14,7 +14,9 @@ namespace ImageService.Controller
     {
         private IImageServiceModal m_modal;                      // The Modal Object
         private Dictionary<int, ICommand> commands;
-
+        ///<summary>
+        ///constructor
+        ///</summary>
         public ImageController(IImageServiceModal modal)
         {
             m_modal = modal;                    // Storing the Modal Of The System
@@ -22,7 +24,12 @@ namespace ImageService.Controller
             // For Now will contain NEW_FILE_COMMAND
             commands[(int)(CommandEnum.NewFileCommand)] = new NewFileCommand(m_modal);
         }
-
+         ///<summary>
+        ///executing the Command according to the command id in the dictinary
+        ///</summary>
+        /// <param name="commandID">command id</param name>
+        /// <param name="args">args for the command</param name>
+        /// <param name="resultSuccesful">if execute well</param name>
         public string ExecuteCommand(int commandID, string[] args, out bool resultSuccesful)
         {
             Task<string[]> task = new Task<string[]>(() =>

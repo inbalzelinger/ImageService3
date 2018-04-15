@@ -22,10 +22,18 @@ namespace ImageService.Controller.Handlers
         private FileSystemWatcher m_dirWatcher;             // The Watcher of the Dir
         private string m_path;    // The Path of directory
         #endregion
-
+          ///</summary>
+         ///create folders according  to date if
+        ///needed and add the image in path
+        /// </summary>
+        /// <param name="path">The Path of the Image from the file</param>
+        /// <returns>Indication if the Addition Was Successful</returns>
         public event EventHandler<DirectoryCloseEventArgs> DirectoryClose;  // The Event That Notifies that the Directory is being closed
 
-
+          ///</summary>
+         ///constructor
+        /// </summary>
+        /// <param name="m_controller">
         public DirectoyHandler(IImageController m_controller , ILoggingService m_logging , string dirPath)
         {
             //this.m_path = dirPath;
@@ -36,7 +44,10 @@ namespace ImageService.Controller.Handlers
         }
 
 
-
+          ///</summary>
+         //  Recieves the directory to Handle and start listen
+        /// </summary>
+        /// <param name="dirPath">directory to Handle</param name>
         public void StartHandleDirectory(string dirPath)
         {
             this.m_path = dirPath;
@@ -46,7 +57,11 @@ namespace ImageService.Controller.Handlers
             m_dirWatcher.EnableRaisingEvents = true;
 
         }
-
+          ///</summary>
+         // The Event that will be activated upon creation of a file
+        /// </summary>
+        /// <param name="sender">the notifyer</param name>
+        ///<pararm name="e">arguments of the command</param name>
         private void OnNewFileCreated(object sender, FileSystemEventArgs e)
         {
             string[] args = new string[] { e.FullPath };
@@ -56,7 +71,12 @@ namespace ImageService.Controller.Handlers
         }
 
 
-
+        
+         ///</summary>
+         // The Event that will be activated upon new Command
+        /// </summary>
+        /// <param name="sender">the notifyer</param name>
+        ///<pararm name="e">arguments of the command</param name>
         public void OnCommandRecieved(object sender, CommandRecievedEventArgs e)
         {
             bool result;
@@ -71,7 +91,11 @@ namespace ImageService.Controller.Handlers
             }
         }
 
-
+          ///</summary>
+         ///the event that will be activated when service needs to be close
+        /// </summary>
+        /// <param name="sender">the notifyer</param name>
+        ///<pararm name="e">arguments of the command</param name>
         public void OnCloseSevice(object sender, CommandRecievedEventArgs e)
         {
             m_dirWatcher.EnableRaisingEvents = false;

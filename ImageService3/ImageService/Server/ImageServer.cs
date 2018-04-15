@@ -23,7 +23,11 @@ namespace ImageService.Server
         public event EventHandler<CommandRecievedEventArgs> CommandRecieved; // The event that notifies about a new Command being recieved
         public event EventHandler<CommandRecievedEventArgs> CloseService;
         #endregion
-
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="controller">image controller</param>
+        /// <param name="loggingService">logger</param>
         public ImageServer(IImageController controller, ILoggingService loggingService)
         {
             this.m_controller = controller;
@@ -46,7 +50,11 @@ namespace ImageService.Server
             }
         }
 
-
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="controller">image controller</param>
+        /// <param name="loggingService">logger</param>
         public void OnCloseSevice()
         {
             try
@@ -61,15 +69,4 @@ namespace ImageService.Server
         }
     }
 
-
-
 }
-
-
-
-
-
-
-
-
-

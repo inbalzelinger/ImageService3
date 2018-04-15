@@ -19,12 +19,15 @@ namespace ImageService.Modal
         private int m_thumbnailSize;   // The Size Of The Thumbnail Size
         private static Regex r = new Regex(":");
         #endregion
-
+      /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="m_OutputFolder">The Path of the destination foldr</param>
+        /// <param name="m_thumbnailSize">size of thumbnail pic </param>
         public ImageServiceModal(string m_OutputFolder, int m_thumbnailSize)
         {
             this.m_OutputFolder = m_OutputFolder;
             this.m_thumbnailSize = m_thumbnailSize;
-
             Directory.CreateDirectory(m_OutputFolder);
             new FileInfo(m_OutputFolder).Attributes = new FileInfo(m_OutputFolder).Attributes | FileAttributes.Hidden;
         }
@@ -52,8 +55,12 @@ namespace ImageService.Modal
                 m_thumbnailSize = value;
             }
         }
-
-
+        ///</summary>
+         ///create folders according  to date if
+        ///needed and add the image in path
+        /// </summary>
+        /// <param name="path">The Path of the Image from the file</param>
+        /// <returns>Indication if the Addition Was Successful</returns>
         public string AddFile(string path, out bool result)
         {
             result = true;
@@ -133,7 +140,6 @@ namespace ImageService.Modal
             //move the file and save the thumbNail picture.
 
 
-
             changeSameName = CheckName(path, monthTumbPath);
 
             try
@@ -152,7 +158,12 @@ namespace ImageService.Modal
             }
             return "seccesfully added";
         }
-
+         ///<summary>
+        ///return the name of the image file  
+        /// </summary>
+        /// <param name="pathFile">The Path of image </param>
+        ///<param name="pathDir">The Path of destination dir</param>
+        /// <returns>the path of the image</returns>
         private string CheckName(string pathFile, string pathDir)
         {
             int count = 0;
@@ -165,7 +176,11 @@ namespace ImageService.Modal
             }
             return fileNamePath;
         }
-
+          ///<summary>
+        ///return the date of the image in path
+        /// </summary>
+        /// <param name="path">The Path of the Image file</param>
+        /// <returns>date of image</returns>
         public static DateTime GetDateTakenFromImage(string path)
         {
             using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read))

@@ -13,13 +13,17 @@ namespace ImageService.Commands
     {
         private IImageServiceModal m_modal;
 
-
+         ///<summary>
+        ///constructor
+        ///</summary>
         public NewFileCommand(IImageServiceModal modal)
         {
             m_modal = modal;            // Storing the Modal
         }
 
-
+         ///<summary>
+        ///pass args to the m_modal to execute the command and update result
+        ///</summary>
         public string Execute(string[] args, out bool result)
         {
             try
