@@ -17,6 +17,9 @@ namespace ImageService.Server
         #region Members
         private IImageController m_controller;
         private ILoggingService m_logging;
+
+        private string[] directories;
+
         #endregion
 
         #region Properties
@@ -32,7 +35,7 @@ namespace ImageService.Server
         {
             this.m_controller = controller;
             this.m_logging = loggingService;
-            string[] directories = (ConfigurationManager.AppSettings.Get("Handler").Split(';'));
+            directories = (ConfigurationManager.AppSettings.Get("Handler").Split(';'));
             foreach (string directory in directories)
             {
                 try
