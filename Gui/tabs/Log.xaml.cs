@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Gui
+namespace Gui.tabs
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for Log.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class Log : UserControl
     {
-        public MainWindow()
+        public Log()
         {
             InitializeComponent();
         }
