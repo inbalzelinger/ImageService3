@@ -26,6 +26,34 @@ namespace ImageService3
         private IImageServiceModal  m_modal;
         private IImageController m_controller;
         private ILoggingService m_logger;
+  
+
+
+
+        public int ServerPort
+        {
+            get
+            {
+                ;
+            }
+            set
+            {
+                ;
+            }
+        }
+
+        public int ServerIP
+        {
+            get
+            {
+                ;
+            }
+            set
+            {
+                ;
+            }
+        }
+
 
         public enum ServiceState
         {

@@ -15,11 +15,5 @@ namespace Gui.ViewModel
         #endregion
 
 
-        private void PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            var command = this.SubmitCommand as DelegateCommand<object>;
-            command.RaiseCanExecuteChanged();
-        }
-
     }
 }

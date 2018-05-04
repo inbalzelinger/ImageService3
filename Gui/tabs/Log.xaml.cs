@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Gui.ViewModel;
 
 namespace Gui.tabs
 {
@@ -20,9 +21,13 @@ namespace Gui.tabs
     /// </summary>
     public partial class Log : UserControl
     {
+        private LogsVM LogsVM;
         public Log()
         {
             InitializeComponent();
+   
+            LogsVM = new LogsVM();
+            this.DataContext = LogsVM;
         }
     }
 }

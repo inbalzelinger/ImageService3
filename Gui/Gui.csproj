@@ -54,12 +54,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="models\ILogsModel.cs" />
+    <Compile Include="models\LogsModel.cs" />
     <Compile Include="tabs\Log.xaml.cs">
       <DependentUpon>Log.xaml</DependentUpon>
     </Compile>
     <Compile Include="tabs\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\LogsVM.cs" />
     <Compile Include="ViewModel\SettingsVM.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
