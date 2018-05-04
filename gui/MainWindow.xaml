@@ -6,7 +6,9 @@
         xmlns:local="clr-namespace:Gui"
         mc:Ignorable="d"
         xmlns:tabs="clr-namespace:Gui.tabs"
-        Title="MainWindow" Height="450" Width="800">
+        xmlns:ImageService="clr-namespace:ImageService3;assembly=ImageService3"
+        Title="MainWindow" Height="450" Width="800"
+        d:DataContext="">
     <Grid>
         <TabControl>
             <TabItem Header="Settings">

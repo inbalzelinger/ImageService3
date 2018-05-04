@@ -10,7 +10,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-
+        <TextBlock HorizontalAlignment="Center" Margin="394,25,325,-20.8" TextWrapping="Wrap" Text="Settings" VerticalAlignment="Top" Height="35" Width="81"/>
 
 
     </Grid>
