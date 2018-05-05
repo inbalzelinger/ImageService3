@@ -54,8 +54,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="comunication\Client.cs" />
+    <Compile Include="comunication\ITelnetClient.cs" />
     <Compile Include="models\ILogsModel.cs" />
+    <Compile Include="models\ISettingsModel.cs" />
     <Compile Include="models\LogsModel.cs" />
+    <Compile Include="models\SettingsModel.cs" />
     <Compile Include="tabs\Log.xaml.cs">
       <DependentUpon>Log.xaml</DependentUpon>
     </Compile>

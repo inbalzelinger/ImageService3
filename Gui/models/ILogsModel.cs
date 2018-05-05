@@ -10,7 +10,7 @@ namespace Gui.models
     interface ILogsModel: INotifyPropertyChanged
     
     {
-        String ServerIP { get; set; }
+        string ServerIP { get; set; }
         int ServerPort { get; set; }
       
     }
