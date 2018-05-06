@@ -12,12 +12,12 @@ namespace Gui.ViewModel
     {
 
         #region properties
-        string ViewOutputDirectory { get; set; }
-        string ViewSourceName { get; set; }
-        string ViewLogName { get; set; }
-        int ViewThumbnailSize { get; set; }
+        string VM_OutputDirectory { get; set; }
+        string VM_SourceName { get; set; }
+        string VM_LogName { get; set; }
+        int VM_ThumbnailSize { get; set; }
         //change to obvervable colection.
-        List<string> ViewHandlers { get; set; }
+        List<string> VM_Handlers { get; set; }
         #endregion
 
     }

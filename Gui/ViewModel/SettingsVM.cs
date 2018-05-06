@@ -4,23 +4,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
+using Gui.models;
 
 namespace Gui.ViewModel
 {
     class SettingsVM : IsettingsVM
     {
-        public string ViewOutputDirectory
+
+        private ISettingsModel m_settingsModel;
+
+        public SettingsVM(ISettingsModel settingsModel)
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
+            this.m_settingsModel = settingsModel;
+            m_settingsModel.PropertyChanged +=
+                delegate (object sender, PropertyChangedEventArgs e)
+                {
+                    NotifyPropertyChanged("VM_" + e.PropertyName);
+                };
         }
-        public string ViewSourceName
+
+
+        public string VM_OutputDirectory
         {
             get
             {
@@ -32,11 +36,22 @@ namespace Gui.ViewModel
             }
         }
 
-        public string ViewLogName
+        public string VM_SourceName
         {
             get
             {
+                return m_settingsModel.SourceName;
+            }
+            set
+            {
                 throw new NotImplementedException();
+            }
+        }
+        public string VM_LogName
+        {
+            get
+            {
+                return m_settingsModel.LogName;
             }
             set
             {
@@ -44,22 +59,23 @@ namespace Gui.ViewModel
             }
         }
 
-        public int ViewThumbnailSize
+        public int VM_ThumbnailSize
         {
             get
             {
-                throw new NotImplementedException();
+                return m_settingsModel.ThumbnailSize;
             }
             set
             {
                 throw new NotImplementedException();
             }
         }
-        public List<string> ViewHandlers
+
+        public List<string> VM_Handlers
         {
             get
             {
-                throw new NotImplementedException();
+                return m_settingsModel.Handlers;
             }
             set
             {
@@ -68,5 +84,12 @@ namespace Gui.ViewModel
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+        public void NotifyPropertyChanged(string propname)
+        {
+            if (this.PropertyChanged != null)
+            {
+                this.PropertyChanged(this, new PropertyChangedEventArgs(propname));
+            }
+        }
     }
 }
