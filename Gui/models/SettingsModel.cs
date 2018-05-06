@@ -18,40 +18,89 @@ namespace Gui.models
         private string m_surceName;
         private string m_logName;
         private int m_thubnailSize;
-
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
+        private List<string> m_handlers;
 
         public SettingsModel(ITelnetClient client)
         {
             m_client = client;
+            
+        }
+
+        string ISettingsModel.OutputDirectory
+        {
+            get
+            {
+                return this.m_outputDirectory;
+            }
+            set
+            {
+                this.m_outputDirectory = value;
+                this.NotifyPropertyChanged("ISettingsModel.OutputDirectory");
+            }
         }
 
 
-        public List<string> GetHandlers()
+        string ISettingsModel.SourceName
         {
-            throw new NotImplementedException();
+            get
+            {
+                return this.m_surceName;
+            }
+            set
+            {
+                this.m_surceName = value;
+                this.NotifyPropertyChanged("ISettingsModel.SourceName");
+            }
         }
 
-        public string GetLogName()
+
+        string ISettingsModel.LogName
         {
-            throw new NotImplementedException();
+            get
+            {
+                return this.m_logName;
+            }
+            set
+            {
+                this.m_logName = value;
+                this.NotifyPropertyChanged("ISettingsModel.LogName");
+            }
         }
 
-        public string GetOutputDirectory()
+        int ISettingsModel.ThumbnailSize
         {
-            throw new NotImplementedException();
+            get
+            {
+                return this.m_thubnailSize;
+            }
+            set
+            {
+                this.m_thubnailSize = value;
+                this.NotifyPropertyChanged("ISettingsModel.ThumbnailSize");
+            }
         }
 
-        public string GetSourceName()
+        List<string> ISettingsModel.Handlers
         {
-            throw new NotImplementedException();
+            get
+            {
+                return this.m_handlers;
+            }
+            set
+            {
+                this.m_handlers = value;
+                this.NotifyPropertyChanged("ISettingsModel.Handlers");
+            }
         }
 
-        public int GetYhumbnailSize()
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void NotifyPropertyChanged(string propname)
         {
-            throw new NotImplementedException();
+            if(this.PropertyChanged != null)
+            {
+                this.PropertyChanged(this, new PropertyChangedEventArgs(propname));
+            }
         }
     }
 }

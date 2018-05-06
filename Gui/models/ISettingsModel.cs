@@ -10,10 +10,14 @@ namespace Gui.models
 {
     interface ISettingsModel : INotifyPropertyChanged
     {
-        string GetOutputDirectory();
-        string GetSourceName();
-        string GetLogName();
-        int GetYhumbnailSize();
-        List<string> GetHandlers();
+
+        #region properties
+        string OutputDirectory { get; set; }
+        string SourceName { get; set; }
+        string LogName { get; set; }
+        int ThumbnailSize { get; set; }
+        //change to obvervable colection.
+        List<string> Handlers { get; set; }
+        #endregion
     }
 }
