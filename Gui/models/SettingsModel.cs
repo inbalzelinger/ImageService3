@@ -23,6 +23,7 @@ namespace Gui.models
         public SettingsModel(ITelnetClient client)
         {
             m_client = client;
+
             
         }
 

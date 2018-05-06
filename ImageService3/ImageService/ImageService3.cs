@@ -27,33 +27,7 @@ namespace ImageService3
         private IImageController m_controller;
         private ILoggingService m_logger;
   
-
-
-
-        public int ServerPort
-        {
-            get
-            {
-                ;
-            }
-            set
-            {
-                ;
-            }
-        }
-
-        public int ServerIP
-        {
-            get
-            {
-                ;
-            }
-            set
-            {
-                ;
-            }
-        }
-
+       
 
         public enum ServiceState
         {
@@ -117,10 +91,11 @@ namespace ImageService3
 
 
         ///<summary>
-        ///write masseges to the service log
+        ///write masseges to the service logger
         ///</summary>
         private void onMessage(object sender, MessageRecievedEventArgs e)
         {
+
             eventLog1.WriteEntry(e.Status + ":" + e.Message);
         }
 
@@ -131,7 +106,6 @@ namespace ImageService3
         ///</summary>
         protected override void OnStart(string[] args)
         {
-
             m_logger.Log("In OnStart", MessageTypeEnum.INFO);
             // Update the service state to Start Pending.  
             ServiceStatus serviceStatus = new ServiceStatus();
@@ -145,7 +119,8 @@ namespace ImageService3
 
             // create the members.
             this.m_modal = new ImageServiceModal(OutputFolder, ThumbnailSize);
-            this.m_controller = new ImageController(this.m_modal);
+            this.m_co
+                ntroller = new ImageController(this.m_modal);
 
             // create the server which will start listening.
             this.m_server = new ImageServer(this.m_controller, this.m_logger);
