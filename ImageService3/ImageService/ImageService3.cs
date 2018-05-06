@@ -119,8 +119,7 @@ namespace ImageService3
 
             // create the members.
             this.m_modal = new ImageServiceModal(OutputFolder, ThumbnailSize);
-            this.m_co
-                ntroller = new ImageController(this.m_modal);
+            this.m_controller = new ImageController(this.m_modal);
 
             // create the server which will start listening.
             this.m_server = new ImageServer(this.m_controller, this.m_logger);
