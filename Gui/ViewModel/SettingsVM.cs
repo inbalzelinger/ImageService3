@@ -28,7 +28,7 @@ namespace Gui.ViewModel
         {
             get
             {
-                throw new NotImplementedException();
+                return m_settingsModel.OutputDirectory;
             }
             set
             {
