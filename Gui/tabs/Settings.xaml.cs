@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Gui.comunication;
+using Gui.ViewModel;
+using Gui.models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+
 namespace Gui.tabs
 {
     /// <summary>
@@ -20,9 +24,13 @@ namespace Gui.tabs
     /// </summary>
     public partial class Settings : UserControl
     {
+        IsettingsVM m_VM;
+
         public Settings()
         {
             InitializeComponent();
+            m_VM = new SettingsVM(new SettingsModel(new Client()));
+            DataContext = m_VM;
         }
     }
 }

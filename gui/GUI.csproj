@@ -66,6 +66,7 @@
     <Compile Include="tabs\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\IsettingsVM.cs" />
     <Compile Include="ViewModel\LogsVM.cs" />
     <Compile Include="ViewModel\SettingsVM.cs" />
     <Page Include="MainWindow.xaml">

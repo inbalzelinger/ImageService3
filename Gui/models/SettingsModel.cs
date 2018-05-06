@@ -27,6 +27,26 @@ namespace Gui.models
             
         }
 
+        public void Connect(string IP, int port)
+        {
+            this.m_client.Connent(IP, port);
+        }
+
+        public void Disconnect()
+        {
+            this.m_client.Disconnect();
+        }
+
+        public void Start()
+        {
+            m_client.Write("get app config");
+            string s = this.m_client.Read();
+            //divide into properties.
+            //and now the properties changed.
+
+        }
+
+
         string ISettingsModel.OutputDirectory
         {
             get
@@ -95,6 +115,7 @@ namespace Gui.models
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
 
         public void NotifyPropertyChanged(string propname)
         {
