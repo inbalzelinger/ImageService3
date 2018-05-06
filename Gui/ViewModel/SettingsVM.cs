@@ -7,13 +7,66 @@ using System.ComponentModel;
 
 namespace Gui.ViewModel
 {
-    class SettingsVM : INotifyPropertyChanged
+    class SettingsVM : IsettingsVM
     {
+        public string ViewOutputDirectory
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+        public string ViewSourceName
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
 
-        #region Notify Changed
+        public string ViewLogName
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public int ViewThumbnailSize
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+        public List<string> ViewHandlers
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
-        #endregion
-
-
     }
 }
