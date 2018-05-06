@@ -8,6 +8,8 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using Gui.comunication;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Gui.models
 {
@@ -23,9 +25,15 @@ namespace Gui.models
         public SettingsModel(ITelnetClient client)
         {
             m_client = client;
+            // m_client.Write("get app config");
+            string s = this.m_client.Read();
+            JObject jsonObject = JObject.Parse(s);
+            m_outputDirectory = (string) jsonObject["outputDirectory"];
+            m_surceName = (string) jsonObject["surceName"];
+            m_logName = (string) jsonObject["mlogName"];
+            m_thubnailSize = (int) jsonObject["thubnailSize"];
 
-            
-        }
+    }
 
         public void Connect(string IP, int port)
         {
@@ -39,12 +47,9 @@ namespace Gui.models
 
         public void Start()
         {
-            m_client.Write("get app config");
-            string s = this.m_client.Read();
-            //divide into properties.
-            //and now the properties changed.
-
-        }
+           // m_client.Write("get app config");
+            //string s = this.m_client.Read();
+    }
 
 
         string ISettingsModel.OutputDirectory
@@ -75,7 +80,7 @@ namespace Gui.models
         }
 
 
-        string ISettingsModel.LogName
+         string ISettingsModel.LogName
         {
             get
             {
@@ -88,7 +93,7 @@ namespace Gui.models
             }
         }
 
-        int ISettingsModel.ThumbnailSize
+          int ISettingsModel.ThumbnailSize
         {
             get
             {
