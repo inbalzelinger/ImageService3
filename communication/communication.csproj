@@ -42,15 +42,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Client.cs" />
-    <Compile Include="ITelnetClient.cs" />
-    <Compile Include="TCPClientHandler.cs" />
-    <Compile Include="TcpServer.cs" />
+    <Compile Include="Client\Client.cs" />
+    <Compile Include="Client\IClient.cs" />
+    <Compile Include="IClientHandler.cs" />
+    <Compile Include="server\IServer.cs" />
+    <Compile Include="server\Server.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

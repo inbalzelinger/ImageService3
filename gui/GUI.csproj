@@ -67,7 +67,6 @@
     <Compile Include="tabs\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModel\IsettingsVM.cs" />
     <Compile Include="ViewModel\LogsVM.cs" />
     <Compile Include="ViewModel\SettingsVM.cs" />
     <Page Include="MainWindow.xaml">
@@ -119,6 +118,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\communication\Communication.csproj">
+      <Project>{46858f50-1a8d-43cb-bca5-cb11a650c0a4}</Project>
+      <Name>Communication</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ImageService3\ImageService3.csproj">
       <Project>{2549df8f-8faf-4c8b-8efa-2d62ce229bef}</Project>
       <Name>ImageService3</Name>
