@@ -7,17 +7,22 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Gui.comunication
+namespace Communication
 {
     class Client : ITelnetClient
     {
         private TcpClient client;
+
+
 
         public Client()
         {
             client = new TcpClient();
         }
 
+        public bool Connection => throw new NotImplementedException();
+
+        public event EventHandler<string> MessageRecived;
 
         public void Connent(string IP, int port)
         {

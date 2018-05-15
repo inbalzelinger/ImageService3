@@ -42,9 +42,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="comunication\Client.cs" />
-    <Compile Include="comunication\ITelnetClient.cs" />
-    <Compile Include="comunication\TcpServer.cs" />
+    <Compile Include="Client.cs" />
+    <Compile Include="ITelnetClient.cs" />
+    <Compile Include="TCPClientHandler.cs" />
+    <Compile Include="TcpServer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

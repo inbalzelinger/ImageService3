@@ -4,10 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Gui.comunication
+namespace Communication
 {
     interface ITelnetClient
     {
+        event EventHandler<string> MessageRecived;
+        bool Connection { get; }
+
+
         void Connent(string IP, int port);
         void Write(string command);
         string Read();
