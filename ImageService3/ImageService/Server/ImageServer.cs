@@ -9,10 +9,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Configuration;
+using communication;
+using System.Net.Sockets;
+using System.Threading;
+using System.IO;
 
 namespace ImageService.Server
 {
-    public class ImageServer
+    public class ImageServer : IClientHandler
     {
         #region Members
         private IImageController m_controller;
@@ -24,6 +28,7 @@ namespace ImageService.Server
 
         #region Properties
         public event EventHandler<CommandRecievedEventArgs> CommandRecieved; // The event that notifies about a new Command being recieved
+
         public event EventHandler<CommandRecievedEventArgs> CloseService;
         #endregion
         /// <summary>
@@ -70,6 +75,32 @@ namespace ImageService.Server
                 this.m_logging.Log("server->on flose service Exception: " + ex.ToString(), Logging.Modal.MessageTypeEnum.FAIL);
             }
         }
+
+        private static Mutex clientsMutex = new Mutex();
+
+        public void HandleClient(TcpClient client)
+        {        
+            new Task(() =>
+            {
+                NetworkStream stream = client.GetStream();
+                BinaryReader reader = new BinaryReader(stream);
+                BinaryWriter writer = new BinaryWriter(stream);
+                while (client.Connected)
+                {
+                    string commandLine = reader.ReadString();
+                    if (commandLine == null)
+                        continue;
+                    CommandRecievedEventArgs crea = CommandRecievedEventArgs.FromJson(commandLine);
+                    bool result;
+                    string res = this.m_controller.ExecuteCommand(crea.CommandID, crea.Args, out result);
+                    clientsMutex.WaitOne();
+                    writer.Write(res);
+                    clientsMutex.ReleaseMutex();
+                    res = string.Empty;
+                }
+            }).Start();
+        }
+        
     }
 
 }

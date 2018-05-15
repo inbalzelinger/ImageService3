@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Communication
+namespace communication
 {
-    class TcpServer
+    public interface IClientHandler
     {
-        event EventHandler<Data>
+            void HandleClient(TcpClient client);
     }
 }

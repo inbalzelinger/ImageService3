@@ -7,24 +7,98 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
-using Gui.comunication;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using communication.Client;
+
+
 
 namespace Gui.models
 {
     class SettingsModel : ISettingsModel
     {
-        private ITelnetClient m_client;
+        private IClient m_client;
         private string m_outputDirectory;
         private string m_surceName;
         private string m_logName;
         private int m_thubnailSize;
-        private List<string> m_handlers;
+        private List<string> m_handlers; 
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        public SettingsModel(ITelnetClient client)
+        public SettingsModel()
         {
-            m_client = client;
+            try
+            {
+                this.m_client = Client.ClientInstance;
+                this.m_client.MessageRecived += GetMessageFromClient;
+                SendCommandToService(new CommandRecievedEventArgs((int)CommandEnum.GetConfigCommand, null, null));
+            }
+            catch (Exception e)
+            {
+                NotConnectedValues();
+            }
+        }
+
+
+
+        public void NotConnectedValues()
+        {
+            OutputDir = "Not connected to server!";
+            SourceName = null;
+            ThumbnailSize = 0;
+            LogName = null;
+            Handlers = null;
+        }
+        public void GetMessageFromClient(object sender, string message)
+        {
+            if (message.Contains("Config "))
+            {
+                Console.WriteLine("Working on config...");
+                int i = message.IndexOf(" ") + 1;
+                message = message.Substring(i);
+                JObject json = JObject.Parse(message);
+                OutputDir = (string)json["OutputDir"];
+                SourceName = (string)json["SourceName"];
+                ThumbnailSize = int.Parse((string)json["ThumbnailSize"]);
+                LogName = (string)json["LogName"];
+                string[] handlersArray = ((string)json["Handler"]).Split(';');
+                Handlers = new ObservableCollection<string>(handlersArray);
+
+                Console.WriteLine("Done!");
+            }
+            else if (message.Contains("Close "))
+            {
+                string[] newHandlers = message.Split(';');
+                Handlers = new ObservableCollection<string>(newHandlers);
+            }
+            else
+            {
+                Console.WriteLine("Config model ignored message = " + message);
+            }
+        }
+        public void SendCommandToService(CommandRecievedEventArgs command)
+        {
+            client.Write(command.ToJson());
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+        public SettingsModel()
+        {
+            this.m_client = Client.ClientInstance;
+
+
+
+
             // m_client.Write("get app config");
             string s = this.m_client.Read();
             JObject jsonObject = JObject.Parse(s);
@@ -52,7 +126,7 @@ namespace Gui.models
     }
 
 
-        string ISettingsModel.OutputDirectory
+       public string OutputDirectory
         {
             get
             {
@@ -66,7 +140,7 @@ namespace Gui.models
         }
 
 
-        string ISettingsModel.SourceName
+       public string SourceName
         {
             get
             {
@@ -80,7 +154,7 @@ namespace Gui.models
         }
 
 
-         string ISettingsModel.LogName
+       public  string LogName
         {
             get
             {
@@ -93,7 +167,7 @@ namespace Gui.models
             }
         }
 
-          int ISettingsModel.ThumbnailSize
+         public int ThumbnailSize
         {
             get
             {
@@ -106,7 +180,7 @@ namespace Gui.models
             }
         }
 
-        List<string> ISettingsModel.Handlers
+       public List<string> Handlers
         {
             get
             {
@@ -118,8 +192,6 @@ namespace Gui.models
                 this.NotifyPropertyChanged("ISettingsModel.Handlers");
             }
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
 
         public void NotifyPropertyChanged(string propname)

@@ -4,18 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Communication
+namespace communication.Client
 {
-    interface ITelnetClient
+    public interface IClient
     {
         event EventHandler<string> MessageRecived;
+
+
         bool Connection { get; }
-
-
         void Connent(string IP, int port);
         void Write(string command);
-        string Read();
+        void Read();
         void Disconnect();
-
     }
 }

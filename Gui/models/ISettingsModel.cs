@@ -8,19 +8,16 @@ using System.ComponentModel;
 
 namespace Gui.models
 {
-    interface ISettingsModel : INotifyPropertyChanged
+    public interface ISettingsModel : INotifyPropertyChanged
     {
-
-
         #region properties
         string OutputDirectory { get; set; }
-        string SourceName { get; set; }
-        string LogName { get; set; }
-        int ThumbnailSize { get; set; }
+         string SourceName { get; set; }
+         string LogName { get; set; }
+         int ThumbnailSize { get; set; }
         //change to obvervable colection.
         List<string> Handlers { get; set; }
         #endregion
-
 
         //check the client thing. this should be connected to the service somehow.
         // if the server will get the command get appconfig it will return all the fields.

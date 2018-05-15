@@ -19,7 +19,7 @@ namespace Gui.models
         private int n_serverPort;
         private ObservableCollection<>
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        event PropertyChangedEventHandler PropertyChanged;
     
         string ILogsModel.ServerIP
         {
@@ -44,5 +44,17 @@ namespace Gui.models
             }
         }
 
+        event PropertyChangedEventHandler INotifyPropertyChanged.PropertyChanged
+        {
+            add
+            {
+                throw new NotImplementedException();
+            }
+
+            remove
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
 }

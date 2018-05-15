@@ -1,5 +1,4 @@
-﻿using Gui.comunication;
-using Gui.ViewModel;
+﻿using Gui.ViewModel;
 using Gui.models;
 using System;
 using System.Collections.Generic;
@@ -24,13 +23,15 @@ namespace Gui.tabs
     /// </summary>
     public partial class Settings : UserControl
     {
-        IsettingsVM m_VM;
+        SettingsVM m_VM;
 
         public Settings()
         {
             InitializeComponent();
-            m_VM = new SettingsVM(new SettingsModel(new Client()));
+            m_VM = new SettingsVM();
+            // m_VM = new SettingsVM(new SettingsModel(new Client()));
             DataContext = m_VM;
+
         }
     }
 }

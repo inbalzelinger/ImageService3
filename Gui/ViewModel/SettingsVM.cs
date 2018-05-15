@@ -8,20 +8,19 @@ using Gui.models;
 
 namespace Gui.ViewModel
 {
-    class SettingsVM : IsettingsVM
+    class SettingsVM : INotifyPropertyChanged
     {
 
         private ISettingsModel m_settingsModel;
+        // public string VM_OutputDirectory { get; set; }
+        //  public string VM_SourceName { get; set; }
+        // public string VM_LogName { get; set; }
+        // public int VM_ThumbnailSize { get; set; }
+        //change to obvervable colection.
+        // public List<string> VM_Handlers { get; set; }
 
-        public SettingsVM(ISettingsModel settingsModel)
-        {
-            this.m_settingsModel = settingsModel;
-            m_settingsModel.PropertyChanged +=
-                delegate (object sender, PropertyChangedEventArgs e)
-                {
-                    NotifyPropertyChanged("VM_" + e.PropertyName);
-                };
-        }
+
+        #region properties
 
 
         public string VM_OutputDirectory
@@ -83,7 +82,23 @@ namespace Gui.ViewModel
             }
         }
 
+        #endregion
+
+        public SettingsVM()
+        {
+            this.m_settingsModel = new SettingsModel();
+            m_settingsModel.PropertyChanged +=
+                delegate (object sender, PropertyChangedEventArgs e)
+                {
+                    NotifyPropertyChanged("VM_" + e.PropertyName);
+                };
+            this.VM_LogName = "yyyyy";
+        }
+
+
         public event PropertyChangedEventHandler PropertyChanged;
+
+
         public void NotifyPropertyChanged(string propname)
         {
             if (this.PropertyChanged != null)

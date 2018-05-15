@@ -14,7 +14,7 @@
             <TabItem Header="Settings">
                 <tabs:Settings />
             </TabItem>
-            <TabItem Header="logs">
+            <TabItem Header="logs" HorizontalAlignment="Left" Margin="-1.667,-2,-2.333,0" Width="38">
                 <tabs:Log />
             </TabItem>
         </TabControl>
