@@ -14,7 +14,7 @@ using ImageService.Logging.Modal;
 using ImageService.Server;
 using ImageService.Controller;
 using ImageService.Modal;
-
+using communication.server;
 
 namespace ImageService3
 {
@@ -123,6 +123,8 @@ namespace ImageService3
 
             // create the server which will start listening.
             this.m_server = new ImageServer(this.m_controller, this.m_logger);
+            IServer server = new Server(this.m_server);
+            server.Start();
 
             System.Timers.Timer timer = new System.Timers.Timer();
             timer.Interval = 60000; // 60 seconds  

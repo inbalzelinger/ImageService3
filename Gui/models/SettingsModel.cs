@@ -35,6 +35,7 @@ namespace Gui.models
                 this.m_client = Client.ClientInstance;
 
                 this.m_client.MessageRecived += GetMessageFromClient;
+
                 SendCommandToService(new CommandRecievedEventArgs((int)CommandEnum.GetConfigCommand, null, null));
             }
             catch (Exception e)

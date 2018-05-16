@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace communication.server
 {
-    class Server : IServer
+    public class Server : IServer
     {
         private string ip;
         private int port;
@@ -62,11 +62,5 @@ namespace communication.server
             Port = 8000;
             IP = "127.0.0.1";
         }
-    }
-
-
-
-
-
+    }   
 }
-
