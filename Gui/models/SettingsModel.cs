@@ -33,6 +33,7 @@ namespace Gui.models
             try
             {
                 this.m_client = Client.ClientInstance;
+
                 this.m_client.MessageRecived += GetMessageFromClient;
                 SendCommandToService(new CommandRecievedEventArgs((int)CommandEnum.GetConfigCommand, null, null));
             }
@@ -52,6 +53,8 @@ namespace Gui.models
             LogName = null;
             Handlers = null;
         }
+
+
         public void GetMessageFromClient(object sender, string message)
         {
             if (message.Contains("Config "))

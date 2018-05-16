@@ -12,7 +12,7 @@ namespace communication.Client
 
 
         bool Connection { get; }
-        void Connent(string IP, int port);
+        void Connente(string IP, int port);
         void Write(string command);
         void Read();
         void Disconnect();

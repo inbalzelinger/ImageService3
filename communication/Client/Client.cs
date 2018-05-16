@@ -16,6 +16,7 @@ namespace communication.Client
         #region members
         private TcpClient m_client;
         private static Client m_clientInstance = null;
+        private IPEndPoint m_ep;
         #endregion
 
 
@@ -45,9 +46,11 @@ namespace communication.Client
         private Client(int port , string IP)
         {
             this.m_client = new TcpClient();
+            this.m_ep = new IPEndPoint(IPAddress.Parse(IP), port);
+
             try
             {
-              Connent(IP, port);
+              Connente(IP, port);
             } catch(Exception e)
             {
                Console.Write("cannot connect");
@@ -58,12 +61,12 @@ namespace communication.Client
 
 
 
-         public void Connent(string IP, int port)
+         public void Connente(string IP, int port)
          {
-          IPEndPoint ep = new IPEndPoint(IPAddress.Parse(IP), port);
             try
             {
-                m_client.Connect(ep);
+                m_client.Connect(this.m_ep);
+
             } catch(Exception e)
             {
                 Console.Write("cannot connect");
