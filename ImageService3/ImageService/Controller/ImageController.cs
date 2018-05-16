@@ -23,11 +23,14 @@ namespace ImageService.Controller
             commands = new Dictionary<int, ICommand>();
             // For Now will contain NEW_FILE_COMMAND
             commands[(int)(CommandEnum.NewFileCommand)] = new NewFileCommand(m_modal);
-            commands[(int)(CommandEnum.GetConfigCommand)] = 
-          
+            
+
+
+
+
 
         }
-         ///<summary>
+        ///<summary>
         ///executing the Command according to the command id in the dictinary
         ///</summary>
         /// <param name="commandID">command id</param name>

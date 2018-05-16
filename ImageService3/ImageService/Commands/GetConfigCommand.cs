@@ -6,23 +6,38 @@ using System.Text;
 using System.Threading.Tasks;
 using ImageService.Commands;
 using ImageService.Modal;
-
+using Newtonsoft.Json.Linq;
 
 namespace ImageService3.ImageService.Commands
 {
     public class GetConfigCommand : ICommand
     {
+        public GetConfigCommand()
+        {
+            ;
+        }
 
         public string Execute(string[] args, out bool result)
         {
-            string eventSourceName = ConfigurationManager.AppSettings.Get("SourceName");
-            string loggerName = ConfigurationManager.AppSettings.Get("LogName");
-            string ThumbnailSize = ConfigurationManager.AppSettings.Get("ThumbnailSize");
-            string OutputDir = ConfigurationManager.AppSettings.Get("OutputDir");
-            string Handler = ConfigurationManager.AppSettings.Get("Handler");
-
-
-
+            try
+            {
+                JObject j = new JObject();
+                j["eventSourceName"] = ConfigurationManager.AppSettings["SourceName"];
+                j["ThumbnailSize"] = ConfigurationManager.AppSettings["ThumbnailSize"];
+                j["loggerName"] = ConfigurationManager.AppSettings["LogName"];
+                j["Handler"] = ConfigurationManager.AppSettings["Handler"];
+                j["OutputDir"] = ConfigurationManager.AppSettings["OutputDir"];
+                result = true;
+                string ret = "Config " + j.ToString().Replace(Environment.NewLine, " ");
+                return ret;
+            }
+            catch (Exception e)
+            {
+                result = false;
+                return e.ToString();
+            }
+           
+   
         }
     }
 }
