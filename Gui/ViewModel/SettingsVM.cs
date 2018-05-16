@@ -31,7 +31,7 @@ namespace Gui.ViewModel
             }
             set
             {
-                throw new NotImplementedException();
+                this.VM_OutputDirectory = value;
             }
         }
 
@@ -43,7 +43,7 @@ namespace Gui.ViewModel
             }
             set
             {
-                throw new NotImplementedException();
+                this.VM_SourceName = value;
             }
         }
         public string VM_LogName
@@ -54,7 +54,7 @@ namespace Gui.ViewModel
             }
             set
             {
-                throw new NotImplementedException();
+               // this.VM_LogName = value;
             }
         }
 
@@ -66,7 +66,7 @@ namespace Gui.ViewModel
             }
             set
             {
-                throw new NotImplementedException();
+                this.VM_ThumbnailSize = value;
             }
         }
 
@@ -78,7 +78,7 @@ namespace Gui.ViewModel
             }
             set
             {
-                throw new NotImplementedException();
+                this.VM_Handlers = value;
             }
         }
 

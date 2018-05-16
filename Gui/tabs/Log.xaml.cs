@@ -26,8 +26,8 @@ namespace Gui.tabs
         {
             InitializeComponent();
    
-            LogsVM = new LogsVM();
-            this.DataContext = LogsVM;
+           /// LogsVM = new LogsVM();
+            //this.DataContext = LogsVM;
         }
     }
 }
