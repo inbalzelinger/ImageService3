@@ -15,7 +15,6 @@ namespace communication.Client
 
         #region members
         private TcpClient m_client;
-        private IPEndPoint m_endPoint;
         private static Client m_clientInstance = null;
         #endregion
 
