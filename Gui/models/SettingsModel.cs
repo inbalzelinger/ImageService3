@@ -10,8 +10,11 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using communication.Client;
-
-
+using ImageService.Commands;
+using ImageService.Controller;
+using ImageService.Modal;
+using ImageService.Infrastructure.Enums;
+using System.Collections.ObjectModel;
 
 namespace Gui.models
 {
@@ -43,7 +46,7 @@ namespace Gui.models
 
         public void NotConnectedValues()
         {
-            OutputDir = "Not connected to server!";
+            OutputDirectory = "Not connected to server!";
             SourceName = null;
             ThumbnailSize = 0;
             LogName = null;
@@ -57,19 +60,18 @@ namespace Gui.models
                 int i = message.IndexOf(" ") + 1;
                 message = message.Substring(i);
                 JObject json = JObject.Parse(message);
-                OutputDir = (string)json["OutputDir"];
+                OutputDirectory = (string)json["OutputDir"];
                 SourceName = (string)json["SourceName"];
                 ThumbnailSize = int.Parse((string)json["ThumbnailSize"]);
                 LogName = (string)json["LogName"];
                 string[] handlersArray = ((string)json["Handler"]).Split(';');
-                Handlers = new ObservableCollection<string>(handlersArray);
-
+               // Handlers = new ObservableCollection<string>(handlersArray);
                 Console.WriteLine("Done!");
             }
             else if (message.Contains("Close "))
             {
                 string[] newHandlers = message.Split(';');
-                Handlers = new ObservableCollection<string>(newHandlers);
+              //  Handlers = new ObservableCollection<string>(newHandlers);
             }
             else
             {
@@ -78,52 +80,8 @@ namespace Gui.models
         }
         public void SendCommandToService(CommandRecievedEventArgs command)
         {
-            client.Write(command.ToJson());
+            m_client.Write(command.ToJson());
         }
-
-
-
-
-
-
-
-
-
-
-
-
-        public SettingsModel()
-        {
-            this.m_client = Client.ClientInstance;
-
-
-
-
-            // m_client.Write("get app config");
-            string s = this.m_client.Read();
-            JObject jsonObject = JObject.Parse(s);
-            m_outputDirectory = (string) jsonObject["outputDirectory"];
-            m_surceName = (string) jsonObject["surceName"];
-            m_logName = (string) jsonObject["mlogName"];
-            m_thubnailSize = (int) jsonObject["thubnailSize"];
-
-    }
-
-        public void Connect(string IP, int port)
-        {
-            this.m_client.Connent(IP, port);
-        }
-
-        public void Disconnect()
-        {
-            this.m_client.Disconnect();
-        }
-
-        public void Start()
-        {
-           // m_client.Write("get app config");
-            //string s = this.m_client.Read();
-    }
 
 
        public string OutputDirectory

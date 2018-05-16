@@ -21,10 +21,5 @@ namespace Gui.models
 
         //check the client thing. this should be connected to the service somehow.
         // if the server will get the command get appconfig it will return all the fields.
-
-        void Connect(string IP ,int port);
-        void Disconnect();
-        //first we want to take all the inpormation of the appconfig.
-        void Start();
     }
 }
