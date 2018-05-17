@@ -12,32 +12,28 @@ namespace ImageService3.ImageService.Commands
 {
     public class GetConfigCommand : ICommand
     {
-        public GetConfigCommand()
+        private IImageServiceModal m_modal;
+
+
+        public GetConfigCommand(IImageServiceModal modal)
         {
-            ;
+            this.m_modal = modal;
         }
 
         public string Execute(string[] args, out bool result)
         {
             try
             {
-                JObject j = new JObject();
-                j["eventSourceName"] = ConfigurationManager.AppSettings["SourceName"];
-                j["ThumbnailSize"] = ConfigurationManager.AppSettings["ThumbnailSize"];
-                j["loggerName"] = ConfigurationManager.AppSettings["LogName"];
-                j["Handler"] = ConfigurationManager.AppSettings["Handler"];
-                j["OutputDir"] = ConfigurationManager.AppSettings["OutputDir"];
-                result = true;
-                string ret = "Config " + j.ToString().Replace(Environment.NewLine, " ");
-                return ret;
+                string s = this.m_modal.GetConfigFile(out result);
+                return s;
             }
             catch (Exception e)
             {
                 result = false;
-                return e.ToString();
+                return null;
+
             }
-           
-   
+
         }
     }
 }

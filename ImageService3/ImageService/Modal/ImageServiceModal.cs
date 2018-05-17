@@ -1,6 +1,8 @@
 ﻿using ImageService.Infrastructure;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -192,5 +194,17 @@ namespace ImageService.Modal
             }
         }
 
+        public string GetConfigFile(out bool result)
+        {
+            JObject j = new JObject();
+            j["SourceName"] = ConfigurationManager.AppSettings["SourceName"];
+            j["ThumbnailSize"] = ConfigurationManager.AppSettings["ThumbnailSize"];
+            j["LogName"] = ConfigurationManager.AppSettings["LogName"];
+            j["Handler"] = ConfigurationManager.AppSettings["Handler"];
+            j["OutputDir"] = ConfigurationManager.AppSettings["OutputDir"];
+            result = true;
+            string ret = "Config " + j.ToString().Replace(Environment.NewLine, " ");
+            return ret;
+        }
     }
 }
