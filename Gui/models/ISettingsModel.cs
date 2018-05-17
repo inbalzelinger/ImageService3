@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
-
+using System.Collections.ObjectModel;
 
 namespace Gui.models
 {
@@ -15,8 +15,8 @@ namespace Gui.models
          string SourceName { get; set; }
          string LogName { get; set; }
          int ThumbnailSize { get; set; }
-        //change to obvervable colection.
-        List<string> Handlers { get; set; }
+        ObservableCollection<string> Handlers { get; set; }
+
         #endregion
 
         //check the client thing. this should be connected to the service somehow.

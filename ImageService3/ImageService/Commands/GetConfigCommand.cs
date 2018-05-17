@@ -31,7 +31,6 @@ namespace ImageService3.ImageService.Commands
             {
                 result = false;
                 return null;
-
             }
 
         }

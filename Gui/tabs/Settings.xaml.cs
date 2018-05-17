@@ -29,7 +29,6 @@ namespace Gui.tabs
         {
             InitializeComponent();
             m_VM = new SettingsVM();
-            // m_VM = new SettingsVM(new SettingsModel(new Client()));
             DataContext = m_VM;
 
         }

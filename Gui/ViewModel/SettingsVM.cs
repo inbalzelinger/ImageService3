@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using Gui.models;
+using System.Collections.ObjectModel;
 
 namespace Gui.ViewModel
 {
@@ -12,12 +13,6 @@ namespace Gui.ViewModel
     {
 
         private ISettingsModel m_settingsModel;
-        // public string VM_OutputDirectory { get; set; }
-        //  public string VM_SourceName { get; set; }
-        // public string VM_LogName { get; set; }
-        // public int VM_ThumbnailSize { get; set; }
-        //change to obvervable colection.
-        // public List<string> VM_Handlers { get; set; }
 
 
         #region properties
@@ -70,7 +65,7 @@ namespace Gui.ViewModel
             }
         }
 
-        public List<string> VM_Handlers
+         public ObservableCollection<string> VM_Handlers
         {
             get
             {
@@ -92,7 +87,6 @@ namespace Gui.ViewModel
                 {
                     NotifyPropertyChanged("VM_" + e.PropertyName);
                 };
-            this.VM_LogName = "yyyyy";
         }
 
 
@@ -101,10 +95,8 @@ namespace Gui.ViewModel
 
         public void NotifyPropertyChanged(string propname)
         {
-            if (this.PropertyChanged != null)
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propname));
-            }
+
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propname));
         }
     }
 }

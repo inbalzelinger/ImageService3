@@ -25,7 +25,8 @@ namespace Gui.models
         private string m_surceName;
         private string m_logName;
         private int m_thubnailSize;
-        private List<string> m_handlers; 
+        ObservableCollection<string> m_handler;
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public SettingsModel()
@@ -33,9 +34,7 @@ namespace Gui.models
             try
             {
                 this.m_client = Client.ClientInstance;
-
                 this.m_client.MessageRecived += GetMessageFromClient;
-
                 SendCommandToService(new CommandRecievedEventArgs((int)CommandEnum.GetConfigCommand, null, null));
             }
             catch (Exception e)
@@ -48,7 +47,7 @@ namespace Gui.models
 
         public void NotConnectedValues()
         {
-            OutputDirectory = "Not connected to server!";
+            OutputDirectory = "Not connected";
             SourceName = null;
             ThumbnailSize = 0;
             LogName = null;
@@ -69,13 +68,13 @@ namespace Gui.models
                 ThumbnailSize = int.Parse((string)json["ThumbnailSize"]);
                 LogName = (string)json["LogName"];
                 string[] handlersArray = ((string)json["Handler"]).Split(';');
-               // Handlers = new ObservableCollection<string>(handlersArray);
+                Handlers = new ObservableCollection<string>(handlersArray);
                 Console.WriteLine("Done!");
             }
             else if (message.Contains("Close "))
             {
                 string[] newHandlers = message.Split(';');
-              //  Handlers = new ObservableCollection<string>(newHandlers);
+               // Handlers = new ObservableCollection<string>(newHandlers);
             }
             else
             {
@@ -142,18 +141,21 @@ namespace Gui.models
             }
         }
 
-       public List<string> Handlers
+
+
+        public ObservableCollection<string> Handlers
         {
             get
             {
-                return this.m_handlers;
+                return this.m_handler;
             }
             set
             {
-                this.m_handlers = value;
+                this.m_handler = value;
                 this.NotifyPropertyChanged("ISettingsModel.Handlers");
             }
         }
+
 
 
         public void NotifyPropertyChanged(string propname)
