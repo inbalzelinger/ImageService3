@@ -8,10 +8,9 @@ using System.ComponentModel;
 namespace Gui.models
 {
     interface ILogsModel: INotifyPropertyChanged
-    
     {
-        string ServerIP { get; set; }
-        int ServerPort { get; set; }
-      
+        event PropertyChangedEventHandler PropertyChanged;
+
+
     }
 }

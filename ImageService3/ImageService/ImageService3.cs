@@ -123,6 +123,8 @@ namespace ImageService3
 
             // create the server which will start listening.
             this.m_server = new ImageServer(this.m_controller, this.m_logger);
+
+            //create server for the gui.
             IServer server = new Server(this.m_server);
             server.Start();
 

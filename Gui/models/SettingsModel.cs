@@ -158,10 +158,7 @@ namespace Gui.models
 
         public void NotifyPropertyChanged(string propname)
         {
-            if(this.PropertyChanged != null)
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propname));
-            }
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propname));
         }
     }
 }

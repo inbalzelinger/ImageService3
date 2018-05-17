@@ -36,7 +36,7 @@ namespace communication.Client
             {
                 if(m_clientInstance == null)
                 {
-                    m_clientInstance = new Client(8000, "127.0.0.1");
+                    m_clientInstance = new Client(8001, "127.0.0.1");
                 }
                 return m_clientInstance;
             }

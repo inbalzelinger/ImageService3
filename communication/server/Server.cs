@@ -10,29 +10,30 @@ namespace communication.server
 {
     public class Server : IServer
     {
-        private string ip;
-        private int port;
-        private TcpListener listener;
-        private IClientHandler ch;
+        private string m_ip;
+        private int m_port;
+        private TcpListener m_listener;
+        private IClientHandler m_ch;
+        private IPEndPoint m_ep;
 
         #region properties
-        public IClientHandler ClientHandler { get { return ch; } set { this.ch = value; } }
-        public string IP { get { return ip; } set { this.ip = value; } }
-        public int Port { get { return port; } set { this.port = value; } }
-        public TcpListener Listener { get { return this.listener; } set { this.listener = value; } }
+        public IClientHandler ClientHandler { get { return m_ch; } set { this.m_ch = value; } }
+        public string IP { get { return m_ip; } set { this.m_ip = value; } }
+        public int Port { get { return m_port; } set { this.m_port = value; } }
+        public TcpListener Listener { get { return this.m_listener; } set { this.m_listener = value; } }
         #endregion
 
         public Server(IClientHandler ch)
         {
-            this.ch = ch;
+            this.m_ch = ch;
             ServerConfig();
+            m_ep = new IPEndPoint(IPAddress.Parse(m_ip), m_port);
         }
 
         public void Start()
         {
-            IPEndPoint ep = new IPEndPoint(IPAddress.Parse(ip), port);
-            listener = new TcpListener(ep);
-            listener.Start();
+            m_listener = new TcpListener(m_ep);
+            m_listener.Start();
             Console.WriteLine("Waiting for connections...");
             Task task = new Task(() =>//creating a listening thread that keeps running.
             {
@@ -40,9 +41,9 @@ namespace communication.server
                 {
                     try
                     {
-                        TcpClient client = listener.AcceptTcpClient(); //recieve new client
+                        TcpClient client = m_listener.AcceptTcpClient(); //recieve new client
                         Console.WriteLine("Got new connection");
-                        ch.HandleClient(client); //handle the player through the client handler
+                        m_ch.HandleClient(client); //handle the player through the client handler
                     }
                     catch (SocketException)
                     {
@@ -54,13 +55,13 @@ namespace communication.server
         }
         public void Stop()
         {
-            listener.Stop();
+            m_listener.Stop();
         }
 
         private void ServerConfig()
         {
-            Port = 8000;
-            IP = "127.0.0.1";
+            m_port = 8001;
+            m_ip = "127.0.0.1";
         }
     }   
 }
