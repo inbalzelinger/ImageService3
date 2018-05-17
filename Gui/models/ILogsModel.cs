@@ -10,7 +10,5 @@ namespace Gui.models
     interface ILogsModel: INotifyPropertyChanged
     {
         event PropertyChangedEventHandler PropertyChanged;
-
-
     }
 }
