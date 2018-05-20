@@ -9,14 +9,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Configuration;
-using communication;
-using System.Net.Sockets;
 using System.Threading;
 using System.IO;
 
 namespace ImageService.Server
 {
-    public class ImageServer : IClientHandler
+    public class ImageServer
     {
         #region Members
         private IImageController m_controller;
@@ -63,6 +61,7 @@ namespace ImageService.Server
         /// </summary>
         /// <param name="controller">image controller</param>
         /// <param name="loggingService">logger</param>
+        /// 
         public void OnCloseSevice()
         {
             try
@@ -76,30 +75,33 @@ namespace ImageService.Server
             }
         }
 
-        private static Mutex clientsMutex = new Mutex();
 
-        public void HandleClient(TcpClient client)
-        {        
-            new Task(() =>
-            {
-                NetworkStream stream = client.GetStream();
-                BinaryReader reader = new BinaryReader(stream);
-                BinaryWriter writer = new BinaryWriter(stream);
-                while (client.Connected)
-                {
-                    string commandLine = reader.ReadString();
-                    if (commandLine == null)
-                        continue;
-                    CommandRecievedEventArgs crea = CommandRecievedEventArgs.FromJson(commandLine);
-                    bool result;
-                    string res = this.m_controller.ExecuteCommand(crea.CommandID, crea.Args, out result);
-                    clientsMutex.WaitOne();
-                    writer.Write(res);
-                    clientsMutex.ReleaseMutex();
-                    res = string.Empty;
-                }
-            }).Start();
-        }
+
+
+        //private static Mutex clientsMutex = new Mutex();
+
+        //public void HandleClient(TcpClient client)
+        //{        
+        //    new Task(() =>
+        //    {
+        //        NetworkStream stream = client.GetStream();
+        //        BinaryReader reader = new BinaryReader(stream);
+        //        BinaryWriter writer = new BinaryWriter(stream);
+        //        while (client.Connected)
+        //        {
+        //            string commandLine = reader.ReadString();
+        //            if (commandLine == null)
+        //                continue;
+        //            CommandRecievedEventArgs crea = CommandRecievedEventArgs.FromJson(commandLine);
+        //            bool result;
+        //            string res = this.m_controller.ExecuteCommand(crea.CommandID, crea.Args, out result);
+        //            clientsMutex.WaitOne();
+        //            writer.Write(res);
+        //            clientsMutex.ReleaseMutex();
+        //            res = string.Empty;
+        //        }
+        //    }).Start();
+        //}
         
     }
 

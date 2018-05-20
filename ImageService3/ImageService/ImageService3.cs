@@ -15,6 +15,7 @@ using ImageService.Server;
 using ImageService.Controller;
 using ImageService.Modal;
 using communication.server;
+using ImageService3.ImageService.Server;
 
 namespace ImageService3
 {
@@ -26,6 +27,7 @@ namespace ImageService3
         private IImageServiceModal  m_modal;
         private IImageController m_controller;
         private ILoggingService m_logger;
+        private GUIServer m_guiServer;
   
        
 
@@ -77,7 +79,7 @@ namespace ImageService3
                 eventLog1.Source = eventSourceName;
                 eventLog1.Log = loggerName;
                 this.m_logger = new LoggingService();
-                m_logger.MessageRecieved += onMessage;
+                m_logger.MessageRecieved += OnMessage;
                 m_logger.Log("end of ImageService3 constructor, the logger event was added", MessageTypeEnum.INFO);
 
 
@@ -93,7 +95,7 @@ namespace ImageService3
         ///<summary>
         ///write masseges to the service logger
         ///</summary>
-        private void onMessage(object sender, MessageRecievedEventArgs e)
+        private void OnMessage(object sender, MessageRecievedEventArgs e)
         {
 
             eventLog1.WriteEntry(e.Status + ":" + e.Message);
@@ -125,8 +127,9 @@ namespace ImageService3
             this.m_server = new ImageServer(this.m_controller, this.m_logger);
 
             //create server for the gui.
-            IServer server = new Server(this.m_server);
-            server.Start();
+
+            this.m_guiServer = new GUIServer(this.m_controller);
+
 
             System.Timers.Timer timer = new System.Timers.Timer();
             timer.Interval = 60000; // 60 seconds  
@@ -161,7 +164,7 @@ namespace ImageService3
         ///<summary>
         ///for service debuging.
         ///</summary>
-        public void onDebug()
+        public void OnDebug()
         {
             OnStart(null);
         }

@@ -8,13 +8,13 @@ namespace communication.Client
 {
     public interface IClient
     {
-        event EventHandler<string> MessageRecived;
-
+        event EventHandler<string> OnMessageRecived;
 
         bool Connection { get; }
-        void Connente(string IP, int port);
+
         void Write(string command);
-        void Read();
+        void StartReading();
+
         void Disconnect();
     }
 }

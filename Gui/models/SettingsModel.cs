@@ -15,6 +15,7 @@ using ImageService.Controller;
 using ImageService.Modal;
 using ImageService.Infrastructure.Enums;
 using System.Collections.ObjectModel;
+using System.Windows.Media;
 
 namespace Gui.models
 {
@@ -29,12 +30,15 @@ namespace Gui.models
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+
         public SettingsModel()
         {
             try
             {
                 this.m_client = Client.ClientInstance;
-                this.m_client.MessageRecived += GetMessageFromClient;
+
+                this.m_client.OnMessageRecived += GetMessageFromClient;
+
                 SendCommandToService(new CommandRecievedEventArgs((int)CommandEnum.GetConfigCommand, null, null));
             }
             catch (Exception e)
@@ -43,7 +47,25 @@ namespace Gui.models
             }
         }
 
+        public string IsConnect 
+        {
+            get
+            {
+                try
+                {
+                    if (this.m_client.Connection == true)
+                    {
+                        return "#FFFFFFFF";
 
+                    }
+
+                } catch(Exception e)
+                {
+                    return "#FFA9A9A9";
+                }
+                return "#FFA9A9A9";
+            }
+        }
 
         public void NotConnectedValues()
         {

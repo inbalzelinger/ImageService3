@@ -1,10 +1,9 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ImageService.Modal;
 using communication.Client;
 using communication.server;
 
-namespace UnitTestProject1
+namespace UnitTestProject3
 {
     [TestClass]
     public class UnitTest1
@@ -12,8 +11,9 @@ namespace UnitTestProject1
         [TestMethod]
         public void TestMethod1()
         {
-
-
+            IClient client = Client.ClientInstance;
+            client.Connente("127.0.0.1", 8001);
+           
         }
     }
 }

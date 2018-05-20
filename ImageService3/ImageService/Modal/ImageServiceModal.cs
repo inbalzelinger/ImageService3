@@ -66,12 +66,8 @@ namespace ImageService.Modal
         public string AddFile(string path, out bool result)
         {
             result = true;
-
             DateTime dateTime;
-
             string imageName = Path.GetFileName(path);
-
-
             try
             {
                 dateTime = GetDateTakenFromImage(path);
@@ -205,6 +201,12 @@ namespace ImageService.Modal
             result = true;
             string ret = "Config " + j.ToString().Replace(Environment.NewLine, " ");
             return ret;
+        }
+
+
+        public string CloseHandlerCommand(out bool result)
+        {
+            throw new NotImplementedException();
         }
     }
 }

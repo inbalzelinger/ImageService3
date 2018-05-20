@@ -93,7 +93,7 @@ namespace ImageService.Controller.Handlers
 
           ///</summary>
          ///the event that will be activated when service needs to be close
-        /// </summary>
+        ///// </summary>
         /// <param name="sender">the notifyer</param name>
         ///<pararm name="e">arguments of the command</param name>
         public void OnCloseSevice(object sender, CommandRecievedEventArgs e)

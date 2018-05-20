@@ -9,6 +9,8 @@ namespace communication
 {
     public interface IClientHandler
     {
-            void HandleClient(TcpClient client);
+        void Close();
+        void StartReading();
+        void Write(object sender, string command);
     }
 }

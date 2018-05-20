@@ -6,16 +6,43 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using Gui.models;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace Gui.ViewModel
 {
     class SettingsVM : INotifyPropertyChanged
     {
-
+        #region members
         private ISettingsModel m_settingsModel;
+        private string m_handlerToRemove;
+        #endregion
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
 
         #region properties
+
+        public string IsConnect
+        {
+            get
+            {
+                return this.m_settingsModel.IsConnect;
+            }
+        }
+
+
+        public string HandlerToRemove
+        {
+            get
+            {
+                return this.m_handlerToRemove;
+            }
+            set
+            {
+                this.m_handlerToRemove = value;
+            }
+        }
+
 
 
         public string VM_OutputDirectory
@@ -76,7 +103,6 @@ namespace Gui.ViewModel
                 this.VM_Handlers = value;
             }
         }
-
         #endregion
 
         public SettingsVM()
@@ -87,16 +113,17 @@ namespace Gui.ViewModel
                 {
                     NotifyPropertyChanged("VM_" + e.PropertyName);
                 };
+            m_settingsModel.PropertyChanged += delegate (object sender, PropertyChangedEventArgs e)
+            {
+                NotifyPropertyChanged(e.PropertyName);
+            };
         }
-
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
 
         public void NotifyPropertyChanged(string propname)
         {
-
                 this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propname));
         }
+
     }
 }

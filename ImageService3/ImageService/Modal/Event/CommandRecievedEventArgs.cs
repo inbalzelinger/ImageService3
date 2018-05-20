@@ -36,6 +36,9 @@ namespace ImageService.Modal
             jStr["Args"] = new JArray(Args);
             return jStr.ToString().Replace(Environment.NewLine, " ");
         }
+
+
+
         public static CommandRecievedEventArgs FromJson(string jStr)
         {
             try

@@ -14,8 +14,9 @@ namespace Gui.models
         string OutputDirectory { get; set; }
          string SourceName { get; set; }
          string LogName { get; set; }
-         int ThumbnailSize { get; set; }
-        ObservableCollection<string> Handlers { get; set; }
+          int ThumbnailSize { get; set; }
+          ObservableCollection<string> Handlers { get; set; }
+          string IsConnect { get; }
 
         #endregion
 
