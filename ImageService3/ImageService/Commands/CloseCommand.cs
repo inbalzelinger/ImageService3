@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace ImageService3.ImageService.Commands
 {
-    class CloseHandler : ICommand
+    class CloseCommand : ICommand
     {
         private IImageServiceModal m_modal;
 
-        public CloseHandler(IImageServiceModal modal)
+        public CloseCommand(IImageServiceModal modal)
         {
             this.m_modal = modal;
         }

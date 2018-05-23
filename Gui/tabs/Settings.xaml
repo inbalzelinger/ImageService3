@@ -45,7 +45,7 @@
                 <TextBlock Grid.Column="0" Text="Thumbnail Size:" FontSize="20" FontWeight="ExtraBold"/>
                 <TextBlock Grid.Column="1" FontSize="20" Text = "{Binding VM_ThumbnailSize}"/>
             </Grid >
-            <Button Height="30" Content="Remove" />
+            <Button Height="30" Content="Remove" Command="{Binding OnRemove}"/>
             <ListBox HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" TextBlock.FontSize="17" 
                      TextBlock.TextAlignment="Center" Height="200" ItemsSource="{Binding VM_Handlers}"
                      SelectedItem="{Binding HandlerToRemove}"/>

@@ -18,6 +18,9 @@ namespace communication.Client
 
         #region members
         private TcpClient m_client;
+        private NetworkStream m_stream;
+        private BinaryReader m_reader;
+        private BinaryWriter m_writer;
         private static Client m_clientInstance = null;
         private IPEndPoint m_ep;
         #endregion
@@ -40,6 +43,7 @@ namespace communication.Client
                 if (m_clientInstance == null)
                 {
                     m_clientInstance = new Client(8001, "127.0.0.1");
+                    m_clientInstance.StartReading();
                 }
                 return m_clientInstance;
             }
@@ -54,13 +58,27 @@ namespace communication.Client
             try
             {
                 Connente(IP, port);
+                InitParameters(m_client);
             }
             catch (Exception e)
             {
                 Console.Write("cannot connect");
                 throw e;
             }
-            StartReading();
+            //StartReading();
+        }
+
+        private Client(TcpClient client)
+        {
+            InitParameters(client);
+        }
+
+        private void InitParameters(TcpClient client)
+        {
+            m_client = client;
+            m_stream = m_client.GetStream();
+            m_reader = new BinaryReader(m_stream);
+            m_writer = new BinaryWriter(m_stream);
         }
 
 
@@ -98,9 +116,7 @@ namespace communication.Client
             {
                 while (Connection)
                 {
-                    NetworkStream stream = m_client.GetStream();
-                    StreamReader reader = new StreamReader(stream);
-                    string res = ReadData(reader);
+                    string res = m_reader.ReadString();
                     if (res != null)
                     {
                         OnMessageRecived?.Invoke(this, res);
@@ -128,13 +144,10 @@ namespace communication.Client
         public void Write(string command)
         {
             mut.WaitOne();
-            // System.Threading.Thread.Sleep(100);
             try
             {
-                NetworkStream stream = m_client.GetStream();
-                StreamWriter writer = new StreamWriter(stream);
-                writer.Write(command.Trim());
-                writer.Flush();
+                m_writer.Write(command.Trim());
+                m_writer.Flush();
             }
             catch { }
             mut.ReleaseMutex();

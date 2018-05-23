@@ -75,6 +75,10 @@ namespace ImageService.Server
             }
         }
 
+        public void SendCommand(CommandRecievedEventArgs e)
+        {
+            CommandRecieved?.Invoke(this, e);
+        }
 
 
 

@@ -16,6 +16,7 @@ using ImageService.Modal;
 using ImageService.Infrastructure.Enums;
 using System.Collections.ObjectModel;
 using System.Windows.Media;
+using System.Diagnostics;
 
 namespace Gui.models
 {
@@ -41,7 +42,7 @@ namespace Gui.models
 
                 SendCommandToService(new CommandRecievedEventArgs((int)CommandEnum.GetConfigCommand, null, null));
             }
-            catch (Exception e)
+            catch 
             {
                 NotConnectedValues();
             }
@@ -70,8 +71,8 @@ namespace Gui.models
         public void NotConnectedValues()
         {
             OutputDirectory = "Not connected";
+            ThumbnailSize = 1;
             SourceName = null;
-            ThumbnailSize = 0;
             LogName = null;
             Handlers = null;
         }
@@ -81,7 +82,7 @@ namespace Gui.models
         {
             if (message.Contains("Config "))
             {
-                Console.WriteLine("Working on config...");
+                Debug.WriteLine("Working on config...");
                 int i = message.IndexOf(" ") + 1;
                 message = message.Substring(i);
                 JObject json = JObject.Parse(message);
@@ -91,22 +92,28 @@ namespace Gui.models
                 LogName = (string)json["LogName"];
                 string[] handlersArray = ((string)json["Handler"]).Split(';');
                 Handlers = new ObservableCollection<string>(handlersArray);
-                Console.WriteLine("Done!");
+                Debug.WriteLine("Done!");
             }
             else if (message.Contains("Close "))
             {
-                string[] newHandlers = message.Split(';');
+                string removedHandler = message.Substring(("Close ".Length));
+                m_handler.Remove(removedHandler);
+                //string[] newHandlers = message.Split(';');
                // Handlers = new ObservableCollection<string>(newHandlers);
             }
             else
             {
-                Console.WriteLine("Config model ignored message = " + message);
+                Debug.WriteLine("Config model ignored message = " + message);
             }
         }
+
+
+
         public void SendCommandToService(CommandRecievedEventArgs command)
         {
             m_client.Write(command.ToJson());
         }
+
 
 
        public string OutputDirectory

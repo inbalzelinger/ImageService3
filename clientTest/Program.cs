@@ -12,12 +12,10 @@ namespace clientTest
         static void Main(string[] args)
         {
             IClient client = Client.ClientInstance;
+            client.OnMessageRecived += Client_MessageRecived;
+            client.StartReading();
             client.Write("hiiiiiiiiiiiiiiiii\r\nh2\r\nh3");
             client.Write("hiiiiiiiiiiiiiiiii\r\n");
-            client.StartReading();
-
-            client.OnMessageRecived += Client_MessageRecived;
-
             Console.ReadLine();
         }
 

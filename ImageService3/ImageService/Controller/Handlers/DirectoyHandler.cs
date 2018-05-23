@@ -11,6 +11,7 @@ using ImageService.Logging;
 using ImageService.Logging.Modal;
 using ImageService.Server;
 using System.Text.RegularExpressions;
+using ImageService3.ImageService.Server;
 
 namespace ImageService.Controller.Handlers
 {
@@ -80,6 +81,17 @@ namespace ImageService.Controller.Handlers
         public void OnCommandRecieved(object sender, CommandRecievedEventArgs e)
         {
             bool result;
+
+            if(e.CommandID == (int)CommandEnum.CloseCommand)
+            {
+                if (e.RequestDirPath.Equals(this.m_path))
+                {
+                    this.OnCloseSevice(this, e);
+                    GUIServer.Instance.Write("Close " + m_path);
+                }
+                return;
+            }
+
             this.m_controller.ExecuteCommand(e.CommandID, e.Args, out result);
             if (result)
             {

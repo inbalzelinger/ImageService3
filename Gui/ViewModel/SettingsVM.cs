@@ -7,6 +7,8 @@ using System.ComponentModel;
 using Gui.models;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using ImageService.Modal;
+using ImageService.Infrastructure.Enums;
 
 namespace Gui.ViewModel
 {
@@ -43,6 +45,21 @@ namespace Gui.ViewModel
             }
         }
 
+        
+        public string OnRemove
+        {
+            get {
+                if (HandlerToRemove == null)
+                    return "not ok";
+
+                Debug.WriteLine("in onRemove:" , HandlerToRemove);
+                List<string> args = new List<string>();
+                args.Add(HandlerToRemove);
+                this.m_settingsModel.SendCommandToService(new CommandRecievedEventArgs((int)CommandEnum.CloseCommand, args.ToArray(), null));
+                return "ok";
+            }
+        }
+
 
 
         public string VM_OutputDirectory
@@ -68,6 +85,8 @@ namespace Gui.ViewModel
                 this.VM_SourceName = value;
             }
         }
+
+
         public string VM_LogName
         {
             get

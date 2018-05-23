@@ -16,6 +16,8 @@ using ImageService.Controller;
 using ImageService.Modal;
 using communication.server;
 using ImageService3.ImageService.Server;
+using communication;
+using ImageService.Infrastructure.Enums;
 
 namespace ImageService3
 {
@@ -56,8 +58,6 @@ namespace ImageService3
 
         [DllImport("advapi32.dll", SetLastError = true)]
         private static extern bool SetServiceStatus(IntPtr handle, ref ServiceStatus serviceStatus);
-
-
 
 
         ///<summary>
@@ -128,7 +128,8 @@ namespace ImageService3
 
             //create server for the gui.
 
-            this.m_guiServer = new GUIServer(this.m_controller);
+            GUIServer.Instance.OnMessageRecived += M_server_OnMessageRecived;
+            //this.m_guiServer = new GUIServer(this.m_controller);
 
 
             System.Timers.Timer timer = new System.Timers.Timer();
@@ -167,6 +168,26 @@ namespace ImageService3
         public void OnDebug()
         {
             OnStart(null);
+        }
+
+        private void M_server_OnMessageRecived(object sender, string e)
+        {
+            try
+            {
+                CommandRecievedEventArgs crea = CommandRecievedEventArgs.FromJson(e);
+                bool result;
+                if(crea.CommandID == (int)CommandEnum.CloseCommand)
+                {
+                    m_server.SendCommand(new CommandRecievedEventArgs((int)CommandEnum.CloseCommand, null, crea.Args[0]));
+                }
+                string res = this.m_controller.ExecuteCommand(crea.CommandID, crea.Args, out result);
+                IClientHandler clientHandler = (IClientHandler)sender;
+                clientHandler.Write(this, res);
+            }
+            catch
+            {
+                Debug.Write("we are on GUIServer In M_server_OnMessageRecived and it isnt good!");
+            }
         }
     }
 }

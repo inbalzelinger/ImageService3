@@ -18,12 +18,18 @@ namespace communication
 
         #region members
         private TcpClient m_client;
+        private NetworkStream m_stream;
+        private BinaryReader m_reader;
+        private BinaryWriter m_writer;
         #endregion
 
 
         public ClientHandler(TcpClient client)
         {
             this.m_client = client;
+            m_stream = client.GetStream();
+            m_reader = new BinaryReader(m_stream);
+            m_writer = new BinaryWriter(m_stream);
         }
 
 
@@ -31,7 +37,7 @@ namespace communication
         {
             if (m_client != null)
             {
-              //  m_client.GetStream().Close();
+                //  m_client.GetStream().Close();
                 m_client.Close();
                 m_client = null;
             }
@@ -43,32 +49,31 @@ namespace communication
             //wrap with try and catch
             try
             {
-           //     new Task(() =>
-            //    {
-                    NetworkStream stream = m_client.GetStream();
-                    StreamReader reader = new StreamReader(stream);
-                    while (m_client.Connected)
+                new Task(() =>
+               {
+                   while (m_client.Connected)
+                {
+                    string res = m_reader.ReadString();
+                    if (res != null)
                     {
-                        string res = ReadData(reader); //reader.ReadLine();
-                        if (res != null)
-                        {
-                            OnMessageRecived?.Invoke(this, res);
-                        }
-                        else
-                        {
-                            Debug.Write("hii prob");
-                        }
+                        OnMessageRecived?.Invoke(this, res);
                     }
-            //    }).Start();
-            }catch { };
-           
+                    else
+                    {
+                        Debug.Write("hii prob");
+                    }
+                }
+               }).Start();
+            }
+            catch { };
+
         }
 
         private string ReadData(StreamReader reader)
         {
             StringBuilder str = new StringBuilder();
             char[] buffer = new char[1024];
-            int index=0, readBytes;
+            int index = 0, readBytes;
             try
             {
                 while ((readBytes = reader.Read(buffer, index, buffer.Length)) > 0)
@@ -78,7 +83,8 @@ namespace communication
 
                     if (reader.Peek() <= 0) break;
                 }
-            } catch(Exception e)
+            }
+            catch (Exception e)
             {
                 this.Close();
             }
@@ -87,10 +93,8 @@ namespace communication
 
         public void Write(object sender, string command)
         {
-                NetworkStream stream = m_client.GetStream();
-                StreamWriter writer = new StreamWriter(stream);
-                writer.Write(command.Trim());
-                writer.Flush();
+            m_writer.Write(command.Trim());
+            m_writer.Flush();
         }
     }
 }

@@ -16,30 +16,47 @@ namespace ImageService3.ImageService.Server
         private IServer m_server;
         private IImageController m_controller;
 
-        public GUIServer(IImageController controller)
+        private static GUIServer m_instance = null;
+
+
+
+        public static GUIServer Instance
         {
-            m_controller = controller;
+            get
+            {
+                if (m_instance == null)
+                {
+                    m_instance = new GUIServer();
+                    return m_instance;
+                }
+                else
+                {
+                    return m_instance;
+                }
+            }
+            set
+            {
+                ;
+            }
+        }
+
+
+
+        public event EventHandler<string> OnMessageRecived
+        { add { m_server.OnMessageRecived += value; } remove { m_server.OnMessageRecived -= value; } }
+
+
+
+        private GUIServer()
+        {
             m_server = new communication.server.Server();
-            m_server.OnMessageRecived += M_server_OnMessageRecived;
             m_server.Start();
         }
 
-
-
-        private void M_server_OnMessageRecived(object sender, string e)
+        public void Write(string command)
         {
-            try
-            {
-                CommandRecievedEventArgs crea = CommandRecievedEventArgs.FromJson(e);
-                bool result;
-                string res = this.m_controller.ExecuteCommand(crea.CommandID, crea.Args, out result);
-                IClientHandler clientHandler = (IClientHandler)sender;
-                clientHandler.Write(this, res);
-            }
-            catch 
-            {
-                Debug.Write("ok!!!!!!!!!!!!!");
-            }
+            m_server.Write(command);
         }
+        
     }
 }
