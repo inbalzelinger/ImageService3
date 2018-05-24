@@ -22,9 +22,10 @@ namespace ImageService.Controller
         {
             m_modal = modal;                    // Storing the Modal Of The System
             commands = new Dictionary<int, ICommand>();
-            // For Now will contain NEW_FILE_COMMAND
+           
             commands[(int)(CommandEnum.NewFileCommand)] = new NewFileCommand(m_modal);
             commands[(int)(CommandEnum.GetConfigCommand)] = new GetConfigCommand(m_modal);
+            commands[(int)(CommandEnum.LogCommand)] = new LogCommand(m_modal);
         }
         ///<summary>
         ///executing the Command according to the command id in the dictinary
@@ -52,7 +53,7 @@ namespace ImageService.Controller
             }
             return task.Result[0];
             
-           // return commands[commandID].Execute(args, out resultSuccesful);
+         
         }
     }
 

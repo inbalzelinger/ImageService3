@@ -31,5 +31,10 @@ namespace ImageService.Logging.Modal
             this.m_status = status;
             this.m_message = message;
         }
+
+        public static MessageRecievedEventArgs FromJson(string s)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

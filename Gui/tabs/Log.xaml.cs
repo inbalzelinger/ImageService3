@@ -21,13 +21,13 @@ namespace Gui.tabs
     /// </summary>
     public partial class Log : UserControl
     {
-        private LogsVM LogsVM;
+        LogsVM m_logsVM;
+
         public Log()
         {
             InitializeComponent();
-   
-           /// LogsVM = new LogsVM();
-            //this.DataContext = LogsVM;
+            m_logsVM = new LogsVM();
+            this.DataContext = m_logsVM;
         }
     }
 }

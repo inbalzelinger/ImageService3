@@ -15,5 +15,6 @@ namespace ImageService.Modal
         /// <returns>Indication if the Addition Was Successful</returns>
         string AddFile(string path, out bool result);
         string GetConfigFile(out bool result);
+        string GetAllLogs(out bool result);
     }
 }

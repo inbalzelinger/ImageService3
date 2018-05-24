@@ -18,12 +18,12 @@
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="7*"/>
+         m                                                                                                                                                                                                                                                                       <RowDefinition Height="7*"/>
                 </Grid.RowDefinitions>
                     <TextBlock Grid.Column="0" Grid.Row="0" Margin="7,5" Text="Type" FontSize="20" Foreground="Black" FontWeight="ExtraBold"/>
                     <TextBlock Grid.Column="1" Grid.Row="0" Margin="7,5" Text="Message" FontSize="20" Foreground="Black" FontWeight="ExtraBold"/>
                     <TextBlock Grid.Column="0" Grid.Row="1" Margin="7,0" Text="balabal" FontSize="20" Foreground="Black"/>
-                <TextBlock Grid.Column="1" Grid.Row="1" Margin="7,0" Text="balabal" FontSize="20" Foreground="Black"/>
+                <TextBlock Grid.Column="1" Grid.Row="1" Margin="7,0" Text="{Binding VM}FontSize="20" Foreground="Black"/>
 
                 </Grid>
             </Border>

@@ -59,6 +59,7 @@
     </ApplicationDefinition>
     <Compile Include="models\ILogsModel.cs" />
     <Compile Include="models\ISettingsModel.cs" />
+    <Compile Include="models\LogsModel.cs" />
     <Compile Include="models\SettingsModel.cs" />
     <Compile Include="tabs\Log.xaml.cs">
       <DependentUpon>Log.xaml</DependentUpon>

@@ -206,5 +206,10 @@ namespace ImageService.Modal
             string ret = "Config " + j.ToString().Replace(Environment.NewLine, " ");
             return ret;
         }
+
+        public string GetAllLogs(out bool result)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
