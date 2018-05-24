@@ -14,7 +14,7 @@ namespace ImageService3.ImageService.Server
     class GUIServer
     {
         private IServer m_server;
-        private IImageController m_controller;
+      //  private IImageController m_controller;
 
         private static GUIServer m_instance = null;
 
@@ -43,6 +43,7 @@ namespace ImageService3.ImageService.Server
 
 
         public event EventHandler<string> OnMessageRecived
+
         { add { m_server.OnMessageRecived += value; } remove { m_server.OnMessageRecived -= value; } }
 
 

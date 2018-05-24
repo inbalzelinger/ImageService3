@@ -69,6 +69,8 @@ namespace communication
 
         }
 
+
+
         private string ReadData(StreamReader reader)
         {
             StringBuilder str = new StringBuilder();
