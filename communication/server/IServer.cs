@@ -9,13 +9,17 @@ namespace communication.server
 {
     public interface IServer
     {
-        // IISClientHandler ClientHandler { get; set; }
+        event EventHandler<string> OnMessageRecived;
+
+        event EventHandler<string> OnMessageSends;
+
 
         int Port { get; set; }
         string IP { get; set; }
 
         TcpListener Listener { get; set; }
 
+        void Write(string command);
         void Start();
         void Stop();
 

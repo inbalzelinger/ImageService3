@@ -15,6 +15,8 @@ using ImageService.Controller;
 using ImageService.Modal;
 using ImageService.Infrastructure.Enums;
 using System.Collections.ObjectModel;
+using System.Windows.Media;
+using System.Diagnostics;
 
 namespace Gui.models
 {
@@ -29,27 +31,48 @@ namespace Gui.models
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+
         public SettingsModel()
         {
             try
             {
                 this.m_client = Client.ClientInstance;
-                this.m_client.MessageRecived += GetMessageFromClient;
+
+                this.m_client.OnMessageRecived += GetMessageFromClient;
+
                 SendCommandToService(new CommandRecievedEventArgs((int)CommandEnum.GetConfigCommand, null, null));
             }
-            catch (Exception e)
+            catch 
             {
                 NotConnectedValues();
             }
         }
 
+        public string IsConnect 
+        {
+            get
+            {
+                try
+                {
+                    if (this.m_client.Connection == true)
+                    {
+                        return "#FFFFFFFF";
 
+                    }
+
+                } catch(Exception e)
+                {
+                    return "#FFA9A9A9";
+                }
+                return "#FFA9A9A9";
+            }
+        }
 
         public void NotConnectedValues()
         {
             OutputDirectory = "Not connected";
+            ThumbnailSize = 1;
             SourceName = null;
-            ThumbnailSize = 0;
             LogName = null;
             Handlers = null;
         }
@@ -59,7 +82,7 @@ namespace Gui.models
         {
             if (message.Contains("Config "))
             {
-                Console.WriteLine("Working on config...");
+                Debug.WriteLine("Working on config...");
                 int i = message.IndexOf(" ") + 1;
                 message = message.Substring(i);
                 JObject json = JObject.Parse(message);
@@ -69,22 +92,28 @@ namespace Gui.models
                 LogName = (string)json["LogName"];
                 string[] handlersArray = ((string)json["Handler"]).Split(';');
                 Handlers = new ObservableCollection<string>(handlersArray);
-                Console.WriteLine("Done!");
+                Debug.WriteLine("Done!");
             }
             else if (message.Contains("Close "))
             {
-                string[] newHandlers = message.Split(';');
+                string removedHandler = message.Substring(("Close ".Length));
+                m_handler.Remove(removedHandler);
+                //string[] newHandlers = message.Split(';');
                // Handlers = new ObservableCollection<string>(newHandlers);
             }
             else
             {
-                Console.WriteLine("Config model ignored message = " + message);
+                Debug.WriteLine("Config model ignored message = " + message);
             }
         }
+
+
+
         public void SendCommandToService(CommandRecievedEventArgs command)
         {
             m_client.Write(command.ToJson());
         }
+
 
 
        public string OutputDirectory

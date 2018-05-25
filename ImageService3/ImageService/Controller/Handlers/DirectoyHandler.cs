@@ -11,6 +11,7 @@ using ImageService.Logging;
 using ImageService.Logging.Modal;
 using ImageService.Server;
 using System.Text.RegularExpressions;
+using ImageService3.ImageService.Server;
 
 namespace ImageService.Controller.Handlers
 {
@@ -80,6 +81,17 @@ namespace ImageService.Controller.Handlers
         public void OnCommandRecieved(object sender, CommandRecievedEventArgs e)
         {
             bool result;
+
+            if(e.CommandID == (int)CommandEnum.CloseCommand)
+            {
+                if (e.RequestDirPath.Equals(this.m_path))
+                {
+                    this.OnCloseSevice(this, e);
+                    GUIServer.Instance.Write("Close " + m_path);
+                }
+                return;
+            }
+
             this.m_controller.ExecuteCommand(e.CommandID, e.Args, out result);
             if (result)
             {
@@ -93,7 +105,7 @@ namespace ImageService.Controller.Handlers
 
           ///</summary>
          ///the event that will be activated when service needs to be close
-        /// </summary>
+        ///// </summary>
         /// <param name="sender">the notifyer</param name>
         ///<pararm name="e">arguments of the command</param name>
         public void OnCloseSevice(object sender, CommandRecievedEventArgs e)
