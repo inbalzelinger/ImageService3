@@ -11,7 +11,7 @@
     <Border Padding="15" Background="{Binding IsConnect}">
         
         <StackPanel>
-            <TextBlock Text="Settings" FontSize="40" Margin="300 10" Foreground="Gold" FontWeight="ExtraBold"/>
+            <TextBlock Text="Settings" FontSize="40" TextAlignment="Center" Foreground="Gold" FontWeight="ExtraBold"/>
             <Grid Margin="0 5">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>

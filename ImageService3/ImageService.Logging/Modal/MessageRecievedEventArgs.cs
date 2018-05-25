@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -31,10 +33,28 @@ namespace ImageService.Logging.Modal
             this.m_status = status;
             this.m_message = message;
         }
-
+        /*
         public static MessageRecievedEventArgs FromJson(string s)
         {
-            throw new NotImplementedException();
+            try
+            {
+                JObject jObject = (JObject)JsonConvert.DeserializeObject(s);
+                int messageType = (int)jObject["Status"];
+                string message = (string)jObject["Message"];
+                return new MessageRecievedEventArgs((MessageTypeEnum)messageType, message);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
+        */
+        public string ToJson()
+        {
+            //One string with no new lines.
+            return JsonConvert.SerializeObject(this).Replace(Environment.NewLine, " ");
+        }
+
     }
-}
+    }
+

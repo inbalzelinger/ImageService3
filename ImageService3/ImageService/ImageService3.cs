@@ -26,12 +26,12 @@ namespace ImageService3
 
         private int eventId = 1;
         private ImageServer m_server;          // The Image Server
-        private IImageServiceModal  m_modal;
+        private IImageServiceModal m_modal;
         private IImageController m_controller;
         private ILoggingService m_logger;
         private GUIServer m_guiServer;
-  
-       
+
+
 
         public enum ServiceState
         {
@@ -57,7 +57,8 @@ namespace ImageService3
         };
 
         [DllImport("advapi32.dll", SetLastError = true)]
-        private static extern bool SetServiceStatus(IntPtr handle, ref ServiceStatus serviceStatus);
+        private static extern bool SetServiceStatus(IntPtr handle, ref
+ServiceStatus serviceStatus);
 
 
         ///<summary>
@@ -68,8 +69,8 @@ namespace ImageService3
             try
             {
                 InitializeComponent();
-                string eventSourceName = ConfigurationManager.AppSettings.Get("SourceName");
-                string loggerName = ConfigurationManager.AppSettings.Get("LogName");
+                string eventSourceName =ConfigurationManager.AppSettings.Get("SourceName");
+                string loggerName =ConfigurationManager.AppSettings.Get("LogName");
                 eventLog1 = new EventLog();
                 if (!EventLog.SourceExists("MySource"))
                 {
@@ -80,13 +81,13 @@ namespace ImageService3
                 eventLog1.Log = loggerName;
                 this.m_logger = new LoggingService();
                 m_logger.MessageRecieved += OnMessage;
-                m_logger.Log("end of ImageService3 constructor, the logger event was added", MessageTypeEnum.INFO);
+                m_logger.Log("end of ImageService3 constructor, thelogger event was added", MessageTypeEnum.INFO);
 
 
             }
             catch (Exception e)
             {
-                m_logger.Log("exception in ImageService constructor", MessageTypeEnum.FAIL);
+                m_logger.Log("exception in ImageService constructor",MessageTypeEnum.FAIL);
             }
 
         }
@@ -96,98 +97,102 @@ namespace ImageService3
         ///write masseges to the service logger
         ///</summary>
         private void OnMessage(object sender, MessageRecievedEventArgs e)
-        {
+{
 
-            eventLog1.WriteEntry(e.Status + ":" + e.Message);
+    eventLog1.WriteEntry(e.Status + ":" + e.Message);
+}
+
+
+
+///<summary>
+///start the service
+///</summary>
+protected override void OnStart(string[] args)
+{
+    m_logger.Log("In OnStart", MessageTypeEnum.INFO);
+    // Update the service state to Start Pending.
+    ServiceStatus serviceStatus = new ServiceStatus();
+    serviceStatus.dwCurrentState = ServiceState.SERVICE_START_PENDING;
+    serviceStatus.dwWaitHint = 100000;
+    SetServiceStatus(this.ServiceHandle, ref serviceStatus);
+
+    // reads from the app config the parameters.
+    string OutputFolder =
+ConfigurationManager.AppSettings.Get("OutputDir");
+    int ThumbnailSize =
+Int32.Parse(ConfigurationManager.AppSettings.Get("ThumbnailSize"));
+
+    // create the members.
+    this.m_modal = new ImageServiceModal(OutputFolder, ThumbnailSize);
+    this.m_controller = new ImageController(this.m_modal,this.m_logger);
+
+    // create the server which will start listening.
+    this.m_server = new ImageServer(this.m_controller, this.m_logger);
+
+    //create server for the gui.
+
+    GUIServer.Instance.OnMessageRecived += M_server_OnMessageRecived;
+    //this.m_guiServer = new GUIServer(this.m_controller);
+
+
+    System.Timers.Timer timer = new System.Timers.Timer();
+    timer.Interval = 60000; // 60 seconds
+    timer.Elapsed += new
+System.Timers.ElapsedEventHandler(this.OnTimer);
+    timer.Start();
+    // Update the service state to Running.
+    serviceStatus.dwCurrentState = ServiceState.SERVICE_RUNNING;
+    SetServiceStatus(this.ServiceHandle, ref serviceStatus);
+}
+
+
+///<summary>
+///OnTimer
+///</summary>
+public void OnTimer(object sender, System.Timers.ElapsedEventArgs args)
+{
+    // TODO: Insert monitoring activities here.
+   // m_logger.Log("In OnTimer", MessageTypeEnum.INFO);
+}
+
+
+///<summary>
+///while stoping the service, will close the server.
+///</summary>
+protected override void OnStop()
+{
+    m_logger.Log("In on onStop", MessageTypeEnum.INFO);
+    this.m_server.OnCloseSevice();
+}
+
+
+///<summary>
+///for service debuging.
+///</summary>
+public void OnDebug()
+{
+    OnStart(null);
+}
+
+private void M_server_OnMessageRecived(object sender, string e)
+{
+    try
+    {
+        CommandRecievedEventArgs crea =CommandRecievedEventArgs.FromJson(e);
+        bool result;
+        if (crea.CommandID == (int)CommandEnum.CloseCommand)
+        {
+            m_server.SendCommand(new
+CommandRecievedEventArgs((int)CommandEnum.CloseCommand, null,crea.Args[0]));
         }
-
-
-
-        ///<summary>
-        ///start the service 
-        ///</summary>
-        protected override void OnStart(string[] args)
-        {
-            m_logger.Log("In OnStart", MessageTypeEnum.INFO);
-            // Update the service state to Start Pending.  
-            ServiceStatus serviceStatus = new ServiceStatus();
-            serviceStatus.dwCurrentState = ServiceState.SERVICE_START_PENDING;
-            serviceStatus.dwWaitHint = 100000;
-            SetServiceStatus(this.ServiceHandle, ref serviceStatus);
-
-            // reads from the app config the parameters. 
-            string OutputFolder = ConfigurationManager.AppSettings.Get("OutputDir");
-            int    ThumbnailSize = Int32.Parse(ConfigurationManager.AppSettings.Get("ThumbnailSize"));
-
-            // create the members.
-            this.m_modal = new ImageServiceModal(OutputFolder, ThumbnailSize);
-            this.m_controller = new ImageController(this.m_modal);
-
-            // create the server which will start listening.
-            this.m_server = new ImageServer(this.m_controller, this.m_logger);
-
-            //create server for the gui.
-
-            GUIServer.Instance.OnMessageRecived += M_server_OnMessageRecived;
-            //this.m_guiServer = new GUIServer(this.m_controller);
-
-
-            System.Timers.Timer timer = new System.Timers.Timer();
-            timer.Interval = 60000; // 60 seconds  
-            timer.Elapsed += new System.Timers.ElapsedEventHandler(this.OnTimer);
-            timer.Start();
-            // Update the service state to Running.  
-            serviceStatus.dwCurrentState = ServiceState.SERVICE_RUNNING;
-            SetServiceStatus(this.ServiceHandle, ref serviceStatus);
-        }
-
-
-        ///<summary>
-        ///OnTimer
-        ///</summary>
-        public void OnTimer(object sender, System.Timers.ElapsedEventArgs args)
-        {
-            // TODO: Insert monitoring activities here.  
-            m_logger.Log("In OnTimer", MessageTypeEnum.INFO);
-        }
-
-
-        ///<summary>
-        ///while stoping the service, will close the server.
-        ///</summary>
-        protected override void OnStop()
-        {
-            m_logger.Log("In on onStop", MessageTypeEnum.INFO);
-            this.m_server.OnCloseSevice();
-        }
-
-
-        ///<summary>
-        ///for service debuging.
-        ///</summary>
-        public void OnDebug()
-        {
-            OnStart(null);
-        }
-
-        private void M_server_OnMessageRecived(object sender, string e)
-        {
-            try
-            {
-                CommandRecievedEventArgs crea = CommandRecievedEventArgs.FromJson(e);
-                bool result;
-                if(crea.CommandID == (int)CommandEnum.CloseCommand)
-                {
-                    m_server.SendCommand(new CommandRecievedEventArgs((int)CommandEnum.CloseCommand, null, crea.Args[0]));
-                }
-                string res = this.m_controller.ExecuteCommand(crea.CommandID, crea.Args, out result);
-                IClientHandler clientHandler = (IClientHandler)sender;
-                clientHandler.Write(this, res);
+        string res =this.m_controller.ExecuteCommand(crea.CommandID, crea.Args, out result);
+        IClientHandler clientHandler = (IClientHandler)sender;
+        clientHandler.Write(this, res);
+    }
+    catch
+    {
+        Debug.Write("we are on GUIServer InM_server_OnMessageRecived and it isnt good!");
             }
-            catch
-            {
-                Debug.Write("we are on GUIServer In M_server_OnMessageRecived and it isnt good!");
-            }
-        }
+}
     }
 }

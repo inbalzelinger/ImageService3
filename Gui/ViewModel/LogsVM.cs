@@ -15,22 +15,37 @@ namespace Gui.ViewModel
 
     {
         private LogsModel m_logsModel;
-        
         public event PropertyChangedEventHandler PropertyChanged;
-        private ImageService3.ImageService3 m_modal;
         ObservableCollection<MessageRecievedEventArgs> logs;
-     
 
+        #region properties
+        public ObservableCollection<MessageRecievedEventArgs> VM_Logs
+        {
+            get
+            {
+                return m_logsModel.LogsList;
+            }
+            set
+            {
+                logs = value;
+            }
+        }
+        #endregion
 
+    
         public LogsVM()
         {
             this.m_logsModel = new LogsModel();
+
             m_logsModel.PropertyChanged +=
                 delegate (object sender, PropertyChangedEventArgs e)
                 {
-                    NotifyPropertyChanged("VM_" + e.PropertyName);
+                    NotifyPropertyChanged("VM_Logs");
                 };
-
+            m_logsModel.PropertyChanged += delegate (object sender, PropertyChangedEventArgs e)
+            {
+                NotifyPropertyChanged(e.PropertyName);
+            };
         }
         public void NotifyPropertyChanged(string propname)
         {
@@ -38,17 +53,6 @@ namespace Gui.ViewModel
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propname));
         }
 
-
-        public ObservableCollection<MessageRecievedEventArgs> VM_Logs
-        {
-            get
-            {
-                return m_logsModel.LogsList;
-            }
-            set {
-                logs = value;
-            }
-        }
     }
 }
 
