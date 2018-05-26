@@ -1,0 +1,108 @@
+﻿using communication.Client;
+using ImageService.Infrastructure.Enums;
+using ImageService.Logging.Modal;
+using ImageService.Modal;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Gui.models
+{
+    class LogsModel : ILogsModel
+    {
+
+        private IClient m_client;
+        private ObservableCollection<MessageRecievedEventArgs> m_logs;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+
+        #region properties
+        public ObservableCollection<MessageRecievedEventArgs> LogsList
+
+        {
+            get
+            {
+                return this.m_logs;
+            }
+            set
+            {
+                this.m_logs = value;
+            }
+        }
+        #endregion
+
+
+
+
+        public LogsModel()
+        {
+            try
+            {
+                this.m_client = Client.ClientInstance;
+                this.m_client.OnMessageRecived += GetMessageFromClient;
+                SendCommandToService(new CommandRecievedEventArgs((int)CommandEnum.LogCommand, null, null));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+
+
+        public void GetMessageFromClient(object sender, string message)
+        {
+            CommandRecievedEventArgs commandRecieved = CommandRecievedEventArgs.FromJson(message);
+            if (commandRecieved.CommandID == (int)CommandEnum.LogCommand) { 
+            // if (message.Contains("GetLog "))
+            //if (!message.Contains("Config "))
+            
+            
+                ObservableCollection<MessageRecievedEventArgs> tempList = new ObservableCollection<MessageRecievedEventArgs>();
+                
+               // int i = message.IndexOf(" ") + 1;
+                //message = message.Substring(i);
+                
+                string[] logsStrings = commandRecieved.Args[0].Split(';');
+                foreach (string s in logsStrings)
+                {
+                    if (s.Contains("Status") && s.Contains("Message"))
+                    {
+                        try
+                        {
+                            JObject jObject = (JObject)JsonConvert.DeserializeObject(s);
+                            int messageType = (int)jObject["Status"];
+                            string msg = (string)jObject["Message"];
+                            MessageRecievedEventArgs messageRecieved = new MessageRecievedEventArgs((MessageTypeEnum)messageType, msg);
+                            tempList.Add(messageRecieved);
+                        }catch(Exception e) { throw e; }
+
+                    }
+                }
+                //  ObservableCollection<MessageRecievedEventArgs> tempList = new ObservableCollection<MessageRecievedEventArgs>();
+                //MessageRecievedEventArgs messageRecieved = new MessageRecievedEventArgs(MessageTypeEnum.FAIL, message);
+                //tempList.Add(messageRecieved);
+                tempList.Add(new MessageRecievedEventArgs(MessageTypeEnum.FAIL, "example fail"));
+                tempList.Add(new MessageRecievedEventArgs(MessageTypeEnum.WARNING, "example warning"));
+                m_logs = tempList;
+                    Console.WriteLine("Done!");
+                
+            }
+
+        }
+        public void SendCommandToService(CommandRecievedEventArgs command)
+        {
+            m_client.Write(command.ToJson());
+        }
+
+
+
+    }
+}
+

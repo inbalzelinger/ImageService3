@@ -9,23 +9,32 @@
 
     <Border Padding="15" >
         <StackPanel>
-            <TextBlock Text="Logs" FontSize="40" Margin="335 10" Foreground="Gold" FontWeight="ExtraBold"/>
+            <TextBlock Text="Logs" FontSize="40" TextAlignment="Center" Foreground="Gold" FontWeight="ExtraBold"/>
             <Border Padding="15" BorderBrush="Black" BorderThickness="2" Height="348">
-            <Grid Margin="0 5" ShowGridLines="True" >
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="3*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="7*"/>
-                </Grid.RowDefinitions>
-                    <TextBlock Grid.Column="0" Grid.Row="0" Margin="7,5" Text="Type" FontSize="20" Foreground="Black" FontWeight="ExtraBold"/>
-                    <TextBlock Grid.Column="1" Grid.Row="0" Margin="7,5" Text="Message" FontSize="20" Foreground="Black" FontWeight="ExtraBold"/>
-                    <TextBlock Grid.Column="0" Grid.Row="1" Margin="7,0" Text="balabal" FontSize="20" Foreground="Black"/>
-                <TextBlock Grid.Column="1" Grid.Row="1" Margin="7,0" Text="balabal" FontSize="20" Foreground="Black"/>
+                <DataGrid ItemsSource="{Binding VM_Logs}" AutoGenerateColumns="False" >
+                    <DataGrid.Columns>
 
-                </Grid>
+                        <DataGridTextColumn Binding="{Binding Status}" Width="*" Header="Type">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Style.Triggers>
+                                    <Trigger Property="Text" Value="INFO">
+                                        <Setter Property="Background" Value="LightGreen"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="FAIL">
+                                            <Setter Property="Background" Value="Red"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="WARNING">
+                                            <Setter Property="Background" Value="Yellow"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Binding="{Binding Message}" Width="6*" Header="Message"/>
+                        </DataGrid.Columns>
+                </DataGrid>
+
             </Border>
         </StackPanel>
     </Border>

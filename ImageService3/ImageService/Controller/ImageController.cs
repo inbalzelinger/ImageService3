@@ -8,23 +8,27 @@ using System.Text;
 using System.Threading.Tasks;
 using ImageService.Commands;
 using ImageService3.ImageService.Commands;
+using ImageService.Logging;
 
 namespace ImageService.Controller
 {
     public class ImageController : IImageController
     {
         private IImageServiceModal m_modal;                      // The Modal Object
+        private ILoggingService m_loggingService;
         private Dictionary<int, ICommand> commands;
         ///<summary>
         ///constructor
         ///</summary>
-        public ImageController(IImageServiceModal modal)
+        public ImageController(IImageServiceModal modal, ILoggingService loggingService)
         {
             m_modal = modal;                    // Storing the Modal Of The System
+            m_loggingService = loggingService;
             commands = new Dictionary<int, ICommand>();
-            // For Now will contain NEW_FILE_COMMAND
+           
             commands[(int)(CommandEnum.NewFileCommand)] = new NewFileCommand(m_modal);
             commands[(int)(CommandEnum.GetConfigCommand)] = new GetConfigCommand(m_modal);
+            commands[(int)(CommandEnum.LogCommand)] = new LogCommand(m_loggingService);
         }
         ///<summary>
         ///executing the Command according to the command id in the dictinary
@@ -52,7 +56,7 @@ namespace ImageService.Controller
             }
             return task.Result[0];
             
-           // return commands[commandID].Execute(args, out resultSuccesful);
+         
         }
     }
 

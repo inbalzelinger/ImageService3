@@ -15,5 +15,8 @@ namespace ImageService.Logging
         ///Logging the Message
         ///</summary>
         void Log(string message, MessageTypeEnum type);
+        List<MessageRecievedEventArgs> LogsList { get; }
+
+
     }
 }

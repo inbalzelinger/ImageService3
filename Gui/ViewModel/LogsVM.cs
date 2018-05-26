@@ -5,27 +5,61 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using ImageService3;
+using Gui.models;
+using ImageService.Logging.Modal;
+using System.Collections.ObjectModel;
 
 namespace Gui.ViewModel
 {
     class LogsVM : INotifyPropertyChanged
+
     {
+        private LogsModel m_logsModel;
         public event PropertyChangedEventHandler PropertyChanged;
-        private ImageService3.ImageService3 m_modal;
+        ObservableCollection<MessageRecievedEventArgs> logs;
 
-
-
-        public LogsVM(ImageService3.ImageService3 modal)
+        #region properties
+        public ObservableCollection<MessageRecievedEventArgs> VM_Logs
         {
-            
-            this.m_modal = modal;
+            get
+            {
+                return m_logsModel.LogsList;
+            }
+            set
+            {
+                logs = value;
+            }
         }
+        #endregion
 
     
-        protected void onPropertyChanged(String name)
+        public LogsVM()
         {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+            this.m_logsModel = new LogsModel();
+
+            m_logsModel.PropertyChanged +=
+                delegate (object sender, PropertyChangedEventArgs e)
+                {
+                    NotifyPropertyChanged("VM_Logs");
+                };
+            m_logsModel.PropertyChanged += delegate (object sender, PropertyChangedEventArgs e)
+            {
+                NotifyPropertyChanged(e.PropertyName);
+            };
+        }
+        public void NotifyPropertyChanged(string propname)
+        {
+
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propname));
         }
 
     }
 }
+
+
+
+
+
+
+
+    

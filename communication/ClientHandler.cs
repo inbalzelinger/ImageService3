@@ -89,6 +89,7 @@ namespace communication
             catch (Exception e)
             {
                 this.Close();
+                Console.WriteLine(e.Message);
             }
             return str.ToString();
         }
