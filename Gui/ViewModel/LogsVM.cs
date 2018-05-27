@@ -19,7 +19,7 @@ namespace Gui.ViewModel
         ObservableCollection<MessageRecievedEventArgs> logs;
 
         #region properties
-        public ObservableCollection<MessageRecievedEventArgs> VM_Logs
+        public ObservableCollection<MessageRecievedEventArgs> VM_LogsList
         {
             get
             {
@@ -32,7 +32,7 @@ namespace Gui.ViewModel
         }
         #endregion
 
-    
+
         public LogsVM()
         {
             this.m_logsModel = new LogsModel();
@@ -40,12 +40,12 @@ namespace Gui.ViewModel
             m_logsModel.PropertyChanged +=
                 delegate (object sender, PropertyChangedEventArgs e)
                 {
-                    NotifyPropertyChanged("VM_Logs");
+                    NotifyPropertyChanged("VM_" + e.PropertyName);
                 };
-            m_logsModel.PropertyChanged += delegate (object sender, PropertyChangedEventArgs e)
-            {
-                NotifyPropertyChanged(e.PropertyName);
-            };
+            //m_logsModel.PropertyChanged += delegate (object sender, PropertyChangedEventArgs e)
+            //{
+            //    NotifyPropertyChanged(e.PropertyName);
+            //};
         }
         public void NotifyPropertyChanged(string propname)
         {
@@ -62,4 +62,4 @@ namespace Gui.ViewModel
 
 
 
-    
+

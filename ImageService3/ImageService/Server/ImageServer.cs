@@ -43,9 +43,14 @@ namespace ImageService.Server
             {
                 try
                 {
-                    IDirectoryHandler handler = new DirectoyHandler(m_controller, m_logging , directory);
+                    IDirectoryHandler handler = new DirectoyHandler(m_controller, m_logging, directory);
                     CloseService += handler.OnCloseSevice;
                     CommandRecieved += handler.OnCommandRecieved;
+                    handler.DirectoryClose += (s, e) =>
+                    {
+                        CloseService -= handler.OnCloseSevice;
+                        CommandRecieved -= handler.OnCommandRecieved;
+                    };
                     handler.StartHandleDirectory(directory);
                     m_logging.Log("Handler created for " + directory, Logging.Modal.MessageTypeEnum.INFO);
                 }
@@ -106,7 +111,7 @@ namespace ImageService.Server
         //        }
         //    }).Start();
         //}
-        
+
     }
 
 }

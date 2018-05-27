@@ -52,17 +52,17 @@ namespace communication
                 new Task(() =>
                {
                    while (m_client.Connected)
-                {
-                    string res = m_reader.ReadString();
-                    if (res != null)
-                    {
-                        OnMessageRecived?.Invoke(this, res);
-                    }
-                    else
-                    {
-                        Debug.Write("hii prob");
-                    }
-                }
+                   {
+                       string res = m_reader.ReadString();
+                       if (res != null)
+                       {
+                           OnMessageRecived?.Invoke(this, res);
+                       }
+                       else
+                       {
+                           Debug.Write("hii prob");
+                       }
+                   }
                }).Start();
             }
             catch { };
@@ -96,8 +96,15 @@ namespace communication
 
         public void Write(object sender, string command)
         {
-            m_writer.Write(command.Trim());
-            m_writer.Flush();
+            try
+            {
+                m_writer.Write(command.Trim());
+                m_writer.Flush();
+            }
+            catch
+            {
+                Close();
+            }
         }
     }
 }

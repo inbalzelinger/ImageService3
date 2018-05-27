@@ -9,6 +9,8 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using ImageService.Modal;
 using ImageService.Infrastructure.Enums;
+using Microsoft.Practices.Prism.Commands;
+using System.Windows.Input;
 
 namespace Gui.ViewModel
 {
@@ -16,6 +18,7 @@ namespace Gui.ViewModel
     {
         #region members
         private ISettingsModel m_settingsModel;
+        public ICommand SubmitCommand { get; private set; }
         private string m_handlerToRemove;
         #endregion
 
@@ -42,25 +45,9 @@ namespace Gui.ViewModel
             set
             {
                 this.m_handlerToRemove = value;
+                NotifyPropertyChanged("VM_HandlerToRemove");
             }
         }
-
-        
-        public string OnRemove
-        {
-            get {
-                if (HandlerToRemove == null)
-                    return "not ok";
-
-                Debug.WriteLine("in onRemove:" , HandlerToRemove);
-                List<string> args = new List<string>();
-                args.Add(HandlerToRemove);
-                this.m_settingsModel.SendCommandToService(new CommandRecievedEventArgs((int)CommandEnum.CloseCommand, args.ToArray(), null));
-                return "ok";
-            }
-        }
-
-
 
         public string VM_OutputDirectory
         {
@@ -70,7 +57,7 @@ namespace Gui.ViewModel
             }
             set
             {
-                this.VM_OutputDirectory = value;
+                this.m_settingsModel.OutputDirectory = value;
             }
         }
 
@@ -82,7 +69,7 @@ namespace Gui.ViewModel
             }
             set
             {
-                this.VM_SourceName = value;
+                this.m_settingsModel.SourceName = value;
             }
         }
 
@@ -95,7 +82,7 @@ namespace Gui.ViewModel
             }
             set
             {
-               // this.VM_LogName = value;
+                this.m_settingsModel.LogName = value;
             }
         }
 
@@ -107,11 +94,11 @@ namespace Gui.ViewModel
             }
             set
             {
-                this.VM_ThumbnailSize = value;
+                this.m_settingsModel.ThumbnailSize = value;
             }
         }
 
-         public ObservableCollection<string> VM_Handlers
+        public ObservableCollection<string> VM_Handlers
         {
             get
             {
@@ -119,30 +106,54 @@ namespace Gui.ViewModel
             }
             set
             {
-                this.VM_Handlers = value;
+                this.m_settingsModel.Handlers = value;
             }
         }
         #endregion
 
         public SettingsVM()
         {
+            this.SubmitCommand = new DelegateCommand<object>(this.OnRemove, this.CanSubmit);
+            this.PropertyChanged += OnPropertyUpdate;
+
             this.m_settingsModel = new SettingsModel();
             m_settingsModel.PropertyChanged +=
                 delegate (object sender, PropertyChangedEventArgs e)
                 {
                     NotifyPropertyChanged("VM_" + e.PropertyName);
                 };
-            m_settingsModel.PropertyChanged += delegate (object sender, PropertyChangedEventArgs e)
-            {
-                NotifyPropertyChanged(e.PropertyName);
-            };
+            //m_settingsModel.PropertyChanged += delegate (object sender, PropertyChangedEventArgs e)
+            //{
+            //    NotifyPropertyChanged(e.PropertyName);
+            //};
         }
 
+        private void OnPropertyUpdate(object sender, PropertyChangedEventArgs e)
+        {
+            var command = this.SubmitCommand as DelegateCommand<object>;
+            command.RaiseCanExecuteChanged();
+        }
+
+        private void OnRemove(object obj)
+        {
+            Debug.WriteLine("in onRemove");
+            if (HandlerToRemove == null)
+                return;
+
+            Debug.WriteLine("in onRemove:", HandlerToRemove);
+            List<string> args = new List<string>();
+            args.Add(HandlerToRemove);
+            this.m_settingsModel.SendCommandToService(new CommandRecievedEventArgs((int)CommandEnum.CloseCommand, args.ToArray(), null));
+        }
+
+        private bool CanSubmit(object obj)
+        {
+            return HandlerToRemove != null;
+        }
 
         public void NotifyPropertyChanged(string propname)
         {
-                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propname));
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propname));
         }
-
     }
 }
