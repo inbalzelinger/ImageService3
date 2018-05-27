@@ -43,7 +43,7 @@ namespace ImageService.Modal
         {
             try
             {
-                JObject jObject = JObject.Parse(jStr);
+                JObject jObject = JObject.Parse(jStr.Substring(0));
                 int id = (int)jObject["CommandID"];
                 JArray args = (JArray)jObject["Args"];
                 string[] argsArr = args.Select(c => (string)c).ToArray();

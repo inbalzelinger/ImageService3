@@ -87,7 +87,6 @@ namespace ImageService.Controller.Handlers
                 if (e.RequestDirPath.Equals(this.m_path))
                 {
                     this.OnCloseSevice(this, e);
-                    GUIServer.Instance.Write("Close " + m_path);
                 }
                 return;
             }
@@ -111,10 +110,11 @@ namespace ImageService.Controller.Handlers
         public void OnCloseSevice(object sender, CommandRecievedEventArgs e)
         {
             m_dirWatcher.EnableRaisingEvents = false;
-            ImageServer server = (ImageServer)sender;
+            //ImageServer server = (ImageServer)sender;
             m_dirWatcher.Dispose();
             m_logging.Log("Handler closed " + m_path, MessageTypeEnum.INFO);
-            server.CloseService -= OnCommandRecieved;
+            //server.CloseService -= OnCommandRecieved;
+            DirectoryClose?.Invoke(this, new DirectoryCloseEventArgs(m_path, "message"));
         }
     }
 }

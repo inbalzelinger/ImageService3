@@ -17,6 +17,7 @@ using ImageService.Infrastructure.Enums;
 using System.Collections.ObjectModel;
 using System.Windows.Media;
 using System.Diagnostics;
+using System.Windows.Data;
 
 namespace Gui.models
 {
@@ -40,15 +41,18 @@ namespace Gui.models
 
                 this.m_client.OnMessageRecived += GetMessageFromClient;
 
+                Handlers = new ObservableCollection<string>();
+                BindingOperations.EnableCollectionSynchronization(Handlers, new object());
+
                 SendCommandToService(new CommandRecievedEventArgs((int)CommandEnum.GetConfigCommand, null, null));
             }
-            catch 
+            catch
             {
                 NotConnectedValues();
             }
         }
 
-        public string IsConnect 
+        public string IsConnect
         {
             get
             {
@@ -60,7 +64,8 @@ namespace Gui.models
 
                     }
 
-                } catch(Exception e)
+                }
+                catch (Exception e)
                 {
                     return "#FFA9A9A9";
                 }
@@ -91,7 +96,10 @@ namespace Gui.models
                 ThumbnailSize = int.Parse((string)json["ThumbnailSize"]);
                 LogName = (string)json["LogName"];
                 string[] handlersArray = ((string)json["Handler"]).Split(';');
-                Handlers = new ObservableCollection<string>(handlersArray);
+                foreach (string handler in handlersArray)
+                {
+                    Handlers.Add(handler);
+                }
                 Debug.WriteLine("Done!");
             }
             else if (message.Contains("Close "))
@@ -99,7 +107,7 @@ namespace Gui.models
                 string removedHandler = message.Substring(("Close ".Length));
                 m_handler.Remove(removedHandler);
                 //string[] newHandlers = message.Split(';');
-               // Handlers = new ObservableCollection<string>(newHandlers);
+                // Handlers = new ObservableCollection<string>(newHandlers);
             }
             else
             {
@@ -116,7 +124,7 @@ namespace Gui.models
 
 
 
-       public string OutputDirectory
+        public string OutputDirectory
         {
             get
             {
@@ -125,12 +133,12 @@ namespace Gui.models
             set
             {
                 this.m_outputDirectory = value;
-                this.NotifyPropertyChanged("ISettingsModel.OutputDirectory");
+                this.NotifyPropertyChanged("OutputDirectory");
             }
         }
 
 
-       public string SourceName
+        public string SourceName
         {
             get
             {
@@ -139,12 +147,12 @@ namespace Gui.models
             set
             {
                 this.m_surceName = value;
-                this.NotifyPropertyChanged("ISettingsModel.SourceName");
+                this.NotifyPropertyChanged("SourceName");
             }
         }
 
 
-       public  string LogName
+        public string LogName
         {
             get
             {
@@ -153,11 +161,11 @@ namespace Gui.models
             set
             {
                 this.m_logName = value;
-                this.NotifyPropertyChanged("ISettingsModel.LogName");
+                this.NotifyPropertyChanged("LogName");
             }
         }
 
-         public int ThumbnailSize
+        public int ThumbnailSize
         {
             get
             {
@@ -166,7 +174,7 @@ namespace Gui.models
             set
             {
                 this.m_thubnailSize = value;
-                this.NotifyPropertyChanged("ISettingsModel.ThumbnailSize");
+                this.NotifyPropertyChanged("ThumbnailSize");
             }
         }
 
@@ -181,7 +189,7 @@ namespace Gui.models
             set
             {
                 this.m_handler = value;
-                this.NotifyPropertyChanged("ISettingsModel.Handlers");
+                this.NotifyPropertyChanged("Handlers");
             }
         }
 
@@ -189,7 +197,7 @@ namespace Gui.models
 
         public void NotifyPropertyChanged(string propname)
         {
-                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propname));
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propname));
         }
     }
 }

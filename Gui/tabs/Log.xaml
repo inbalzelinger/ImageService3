@@ -11,7 +11,7 @@
         <StackPanel>
             <TextBlock Text="Logs" FontSize="40" TextAlignment="Center" Foreground="Gold" FontWeight="ExtraBold"/>
             <Border Padding="15" BorderBrush="Black" BorderThickness="2" Height="348">
-                <DataGrid ItemsSource="{Binding VM_Logs}" AutoGenerateColumns="False" >
+                <DataGrid ItemsSource="{Binding VM_LogsList}" AutoGenerateColumns="False" >
                     <DataGrid.Columns>
 
                         <DataGridTextColumn Binding="{Binding Status}" Width="*" Header="Type">

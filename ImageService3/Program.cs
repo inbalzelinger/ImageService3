@@ -16,8 +16,6 @@ namespace ImageService3
         {
 
 
-
-           
             ////While debugging this section is used.
             //ImageService3 myService = new ImageService3();
             //myService.OnDebug();

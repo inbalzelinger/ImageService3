@@ -11,6 +11,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Data;
+using System.Windows.Threading;
 
 namespace Gui.models
 {
@@ -45,8 +47,12 @@ namespace Gui.models
         {
             try
             {
+
                 this.m_client = Client.ClientInstance;
                 this.m_client.OnMessageRecived += GetMessageFromClient;
+                LogsList = new ObservableCollection<MessageRecievedEventArgs>();
+                BindingOperations.EnableCollectionSynchronization(LogsList, new object());
+                LogsList.CollectionChanged += (s, e) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("LogsList"));
                 SendCommandToService(new CommandRecievedEventArgs((int)CommandEnum.LogCommand, null, null));
             }
             catch (Exception e)
@@ -58,17 +64,19 @@ namespace Gui.models
 
         public void GetMessageFromClient(object sender, string message)
         {
+            if (message[0] != '{') return;
             CommandRecievedEventArgs commandRecieved = CommandRecievedEventArgs.FromJson(message);
-            if (commandRecieved.CommandID == (int)CommandEnum.LogCommand) { 
-            // if (message.Contains("GetLog "))
-            //if (!message.Contains("Config "))
-            
-            
+            if (commandRecieved.CommandID == (int)CommandEnum.LogCommand)
+            {
+                // if (message.Contains("GetLog "))
+                //if (!message.Contains("Config "))
+
+
                 ObservableCollection<MessageRecievedEventArgs> tempList = new ObservableCollection<MessageRecievedEventArgs>();
-                
-               // int i = message.IndexOf(" ") + 1;
+
+                // int i = message.IndexOf(" ") + 1;
                 //message = message.Substring(i);
-                
+
                 string[] logsStrings = commandRecieved.Args[0].Split(';');
                 foreach (string s in logsStrings)
                 {
@@ -80,19 +88,19 @@ namespace Gui.models
                             int messageType = (int)jObject["Status"];
                             string msg = (string)jObject["Message"];
                             MessageRecievedEventArgs messageRecieved = new MessageRecievedEventArgs((MessageTypeEnum)messageType, msg);
-                            tempList.Add(messageRecieved);
-                        }catch(Exception e) { throw e; }
+                            LogsList.Add(messageRecieved);
+                        }
+                        catch (Exception e) { throw e; }
 
                     }
                 }
                 //  ObservableCollection<MessageRecievedEventArgs> tempList = new ObservableCollection<MessageRecievedEventArgs>();
                 //MessageRecievedEventArgs messageRecieved = new MessageRecievedEventArgs(MessageTypeEnum.FAIL, message);
                 //tempList.Add(messageRecieved);
-                tempList.Add(new MessageRecievedEventArgs(MessageTypeEnum.FAIL, "example fail"));
-                tempList.Add(new MessageRecievedEventArgs(MessageTypeEnum.WARNING, "example warning"));
-                m_logs = tempList;
-                    Console.WriteLine("Done!");
-                
+                //tempList.Add(new MessageRecievedEventArgs(MessageTypeEnum.FAIL, "example fail"));
+                //tempList.Add(new MessageRecievedEventArgs(MessageTypeEnum.WARNING, "example warning"));
+                Console.WriteLine("Done!");
+
             }
 
         }

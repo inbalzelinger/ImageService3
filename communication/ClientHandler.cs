@@ -52,52 +52,34 @@ namespace communication
                 new Task(() =>
                {
                    while (m_client.Connected)
-                {
-                    string res = m_reader.ReadString();
-                    if (res != null)
-                    {
-                        OnMessageRecived?.Invoke(this, res);
-                    }
-                    else
-                    {
-                        Debug.Write("hii prob");
-                    }
-                }
+                   {
+                       string res = m_reader.ReadString();
+                       if (res != null)
+                       {
+                           OnMessageRecived?.Invoke(this, res);
+                       }
+                       else
+                       {
+                           Debug.Write("hii prob");
+                       }
+                   }
                }).Start();
             }
             catch { };
 
         }
-
-
-
-        private string ReadData(StreamReader reader)
-        {
-            StringBuilder str = new StringBuilder();
-            char[] buffer = new char[1024];
-            int index = 0, readBytes;
-            try
-            {
-                while ((readBytes = reader.Read(buffer, index, buffer.Length)) > 0)
-                {
-                    str.Append(buffer, 0, readBytes);
-                    index += readBytes;
-
-                    if (reader.Peek() <= 0) break;
-                }
-            }
-            catch (Exception e)
-            {
-                this.Close();
-                Console.WriteLine(e.Message);
-            }
-            return str.ToString();
-        }
-
+        
         public void Write(object sender, string command)
         {
-            m_writer.Write(command.Trim());
-            m_writer.Flush();
+            try
+            {
+                m_writer.Write(command.Trim());
+                m_writer.Flush();
+            }
+            catch
+            {
+                Close();
+            }
         }
     }
 }
