@@ -76,7 +76,7 @@ namespace ImageService.Server
             }
             catch (Exception ex)
             {
-                this.m_logging.Log("server->on flose service Exception: " + ex.ToString(), Logging.Modal.MessageTypeEnum.FAIL);
+                this.m_logging.Log("server->on close service Exception: " + ex.ToString(), Logging.Modal.MessageTypeEnum.FAIL);
             }
         }
 

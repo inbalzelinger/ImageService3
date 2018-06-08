@@ -9,7 +9,9 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using ImageService.Modal;
 using ImageService.Infrastructure.Enums;
-using Microsoft.Practices.Prism.Commands;
+using Microsoft.Practices.ServiceLocation;
+using Prism.Commands;
+//\using Microsoft.Practices.Prism.Commands;
 using System.Windows.Input;
 
 namespace Gui.ViewModel
@@ -113,7 +115,7 @@ namespace Gui.ViewModel
 
         public SettingsVM()
         {
-            this.SubmitCommand = new DelegateCommand<object>(this.OnRemove, this.CanSubmit);
+            this.SubmitCommand = new Prism.Commands.DelegateCommand<object>(this.OnRemove, this.CanSubmit);
             this.PropertyChanged += OnPropertyUpdate;
 
             this.m_settingsModel = new SettingsModel();
@@ -130,7 +132,7 @@ namespace Gui.ViewModel
 
         private void OnPropertyUpdate(object sender, PropertyChangedEventArgs e)
         {
-            var command = this.SubmitCommand as DelegateCommand<object>;
+            var command = this.SubmitCommand as Prism.Commands.DelegateCommand<object>;
             command.RaiseCanExecuteChanged();
         }
 
