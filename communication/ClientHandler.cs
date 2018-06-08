@@ -16,7 +16,7 @@ namespace communication
         public event EventHandler<string> OnMessageSends;
 
 
-        #region members
+        #region Members
         private TcpClient m_client;
         private NetworkStream m_stream;
         private BinaryReader m_reader;
