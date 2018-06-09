@@ -9,8 +9,8 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using ImageService.Modal;
 using ImageService.Infrastructure.Enums;
-using Microsoft.Practices.ServiceLocation;
-using Prism.Commands;
+//using Microsoft.Practices.ServiceLocation;
+//using Prism.Commands;
 //\using Microsoft.Practices.Prism.Commands;
 using System.Windows.Input;
 

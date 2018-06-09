@@ -23,6 +23,7 @@ namespace WebProgect.BL
         { 
            this.m_client = Client.ClientInstance;
            this.m_client.OnMessageRecived += GetMessageFromClient;
+            
         }
 
         private void GetMessageFromClient(object sender, string e)

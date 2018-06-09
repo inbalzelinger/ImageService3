@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ContosoUniversity.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,6 +9,14 @@ namespace WebProgect.Controllers
 {
     public class HomeController : Controller
     {
+        static ConfigModel configModel;
+        static Student student;                                              
+
+        public HomeController()
+        {
+            configModel = new ConfigModel();
+        }
+
         public ActionResult Index()
         {
             return View();
@@ -24,6 +33,23 @@ namespace WebProgect.Controllers
         {
             ViewBag.Message = "Your contact page.";
 
+            return View();
+        }
+
+        public ActionResult Co()
+        {
+            ViewBag.Message = "Your contact page.";
+
+            return View();
+        }
+
+        public ActionResult Config()
+        {
+            return View(configModel);
+        }
+
+        public ActionResult ImageWeb()
+        {
             return View();
         }
     }
