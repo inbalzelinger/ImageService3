@@ -67,6 +67,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Windows" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -159,6 +160,7 @@
     </Compile>
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\Enrollment.cs" />
+    <Compile Include="Models\LogsModal.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -200,6 +202,7 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\ImageWebView.cshtml" />
+    <Content Include="Views\Logs.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -222,6 +225,10 @@
     <ProjectReference Include="..\communication\Communication.csproj">
       <Project>{46858f50-1a8d-43cb-bca5-cb11a650c0a4}</Project>
       <Name>Communication</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ImageService3\ImageService3.csproj">
+      <Project>{2549df8f-8faf-4c8b-8efa-2d62ce229bef}</Project>
+      <Name>ImageService3</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
