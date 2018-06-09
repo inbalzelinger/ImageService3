@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Image Web Service</title>
-    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/bootstrap.css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
@@ -21,16 +21,20 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-              
 
-                <li>
-                    @Html.ActionLink("Config", "Config",
-    "Home")
-                </li>
-                <li>
-                    @Html.ActionLink("ImageWeb", "ImageWeb",
-    "Home")
-                </li>
+
+                    <li>
+                        @Html.ActionLink("Config", "Config",
+"Home")
+                    </li>
+                    <li>
+                        @Html.ActionLink("ImageWeb", "ImageWeb",
+"Home")
+                    </li>
+                    <li>
+                        @Html.ActionLink("Logs", "Logs",
+"Home")
+                    </li>
 
 
                 </ul>

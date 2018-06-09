@@ -4,17 +4,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WebProgect.Models;
 
 namespace WebProgect.Controllers
 {
     public class HomeController : Controller
     {
         static ConfigModel configModel;
+        static LogsWebModel logsWebModel;
+
         static Student student;                                              
 
         public HomeController()
         {
             configModel = new ConfigModel();
+            logsWebModel = new LogsWebModel();
         }
 
         public ActionResult Index()
@@ -51,6 +55,11 @@ namespace WebProgect.Controllers
         public ActionResult ImageWeb()
         {
             return View();
+        }
+
+        public ActionResult Logs()
+        {
+            return View(logsWebModel);
         }
     }
 }
