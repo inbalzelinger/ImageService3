@@ -58,7 +58,7 @@ namespace ImageService3
 
         [DllImport("advapi32.dll", SetLastError = true)]
         private static extern bool SetServiceStatus(IntPtr handle, ref
-ServiceStatus serviceStatus);
+        ServiceStatus serviceStatus);
 
 
         ///<summary>
