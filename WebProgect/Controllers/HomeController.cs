@@ -13,6 +13,7 @@ namespace WebProgect.Controllers
         static ConfigModel configModel;
         static LogsWebModel logsWebModel = new LogsWebModel();
         static PhotosWebModel photosWebModel;
+        static ImageWebModel ImageWebModel;
 
 
         public HomeController()
@@ -20,6 +21,7 @@ namespace WebProgect.Controllers
             configModel = new ConfigModel();
            // logsWebModel = new LogsWebModel();
             photosWebModel = new PhotosWebModel(configModel.OutputDirectory);
+            ImageWebModel = new ImageWebModel();
         }
 
         public ActionResult Index()
@@ -55,7 +57,7 @@ namespace WebProgect.Controllers
 
         public ActionResult ImageWeb()
         {
-            return View();
+            return View(ImageWebModel);
         }
 
         public ActionResult Logs()
