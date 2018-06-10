@@ -27,7 +27,7 @@ namespace ContosoUniversity.Models
             StudentsList = GetListFromFile();
             //m_imageCount = 0;
             m_serviceStatus = "kkkk";
-            ImageCount = "9";
+            ImageCount = "0";
 
             try
             {
