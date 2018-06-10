@@ -29,6 +29,7 @@ namespace ImageService.Controller
             commands[(int)(CommandEnum.NewFileCommand)] = new NewFileCommand(m_modal);
             commands[(int)(CommandEnum.GetConfigCommand)] = new GetConfigCommand(m_modal);
             commands[(int)(CommandEnum.LogCommand)] = new LogCommand(m_loggingService);
+            commands[(int)CommandEnum.GetImageWebCommand] = new GetImageWebCommand(m_modal);
         }
         ///<summary>
         ///executing the Command according to the command id in the dictinary

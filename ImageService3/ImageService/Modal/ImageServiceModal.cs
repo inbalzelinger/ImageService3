@@ -20,8 +20,9 @@ namespace ImageService.Modal
         private string m_OutputFolder;  // The Output Folder
         private int m_thumbnailSize;   // The Size Of The Thumbnail Size
         private static Regex r = new Regex(":");
+        private int m_imageCount;
         #endregion
-      /// <summary>
+        /// <summary>
         /// constructor
         /// </summary>
         /// <param name="m_OutputFolder">The Path of the destination foldr</param>
@@ -32,6 +33,7 @@ namespace ImageService.Modal
             this.m_thumbnailSize = m_thumbnailSize;
             Directory.CreateDirectory(m_OutputFolder);
             new FileInfo(m_OutputFolder).Attributes = new FileInfo(m_OutputFolder).Attributes | FileAttributes.Hidden;
+            this.m_imageCount = Count(this.m_OutputFolder);
         }
 
         public string OutputFolder
@@ -57,8 +59,19 @@ namespace ImageService.Modal
                 m_thumbnailSize = value;
             }
         }
+        public int ImageCount
+        {
+            get
+            {
+                return m_imageCount;
+            }
+            set
+            {
+                m_imageCount = value;
+            }
+        }
         ///</summary>
-         ///create folders according  to date if
+        ///create folders according  to date if
         ///needed and add the image in path
         /// </summary>
         /// <param name="path">The Path of the Image from the file</param>
@@ -158,9 +171,10 @@ namespace ImageService.Modal
                 result = false;
                 return "save the thimnbNail or copy the picture";
             }
+            this.m_imageCount++;
             return "seccesfully added";
         }
-         ///<summary>
+        ///<summary>
         ///return the name of the image file  
         /// </summary>
         /// <param name="pathFile">The Path of image </param>
@@ -178,7 +192,7 @@ namespace ImageService.Modal
             }
             return fileNamePath;
         }
-          ///<summary>
+        ///<summary>
         ///return the date of the image in path
         /// </summary>
         /// <param name="path">The Path of the Image file</param>
@@ -206,20 +220,36 @@ namespace ImageService.Modal
             string ret = "Config " + j.ToString().Replace(Environment.NewLine, " ");
             return ret;
         }
-        /*
-        public string GetAllLogs(out bool result)
-        {
-            string s= "hhhhhhhhhhh";
-            result = true;
 
-
-            return s;
-
-        }*/
 
         public string CloseHandlerCommand(out bool result)
         {
             throw new NotImplementedException();
         }
+
+        public string GetImageWebDetails(out bool result)
+        {
+            JObject j = new JObject();
+            j["ImageCount"] = ImageCount.ToString();
+            result = true;
+            string ret = "ImageWeb " + j.ToString().Replace(Environment.NewLine, " ");
+            
+            return ret;
+        }
+
+        public static int Count(string dirPath)
+        {
+           // Directory directory = new Directory();
+           // Directory directory = new Directory(dirPath);
+            //int c = directory.GetFiles().Length;
+            
+            string[] files = Directory.GetFiles(dirPath,".", SearchOption.AllDirectories);
+            string[] thumbs = Directory.GetFiles(dirPath + "\\" + "thumbNail", ".", SearchOption.AllDirectories);
+            return files.Length - thumbs.Length;
+           
+        }
+        }
     }
-}
+
+
+    

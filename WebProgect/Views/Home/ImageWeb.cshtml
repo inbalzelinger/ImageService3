@@ -1,33 +1,38 @@
 ﻿
-@model IEnumerable<ContosoUniversity.Models.Student>
+@model ContosoUniversity.Models.ImageWebModel
 
 @{
-    ViewBag.Title = "ImageWeb";
-    <label>status:</label> @ViewBag.ImageServiceStatus;
-    <label>imageCount</label> @ViewBag.ImageCount;
+    ViewBag.Title = "Image Web";
+
+   
 }
+	<h2>ImageWebView</h2>
 
-
-    <table style="width:100%">
+	<h3>Image count: @Html.DisplayFor(modelItem => Model.ImageCount)</h3>
+	<h4>ServiceStatus:  @Html.DisplayFor(modelItem => Model.ServiceStatus)</h4>
+	<table class="table">
+    
         <tr>
-            <th>Firstname</th>
-            <th>Lastname</th>
             <th>ID</th>
+            <th>Last Name</th>
+            <th>First Name</th>
         </tr>
-
-        @*@foreach (var student in Model)
+		
+        @foreach (var student in Model.StudentsList)
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => student.ID)
+                @Html.DisplayFor(modelItem => student.Id)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => student.LastName)
             </td>
-            <td> @Html.DisplayFor(modelItem =>student.FirstMidName)</td>
+            <td>
+				@Html.DisplayFor(modelItem =>student.FirstName)
+			</td>
         </tr>
       }
-    </table>*@
+    </table>
 
-<h2>ImageWebView</h2>
+
 

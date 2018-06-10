@@ -30,6 +30,8 @@ namespace ImageService3
         private IImageController m_controller;
         private ILoggingService m_logger;
         private GUIServer m_guiServer;
+        private bool m_isRunning;
+
 
 
 
@@ -69,6 +71,7 @@ namespace ImageService3
             try
             {
                 InitializeComponent();
+                this.m_isRunning = false;
                 string eventSourceName = ConfigurationManager.AppSettings.Get("SourceName");
                 string loggerName = ConfigurationManager.AppSettings.Get("LogName");
                 eventLog1 = new EventLog();
@@ -83,7 +86,7 @@ namespace ImageService3
                 m_logger.MessageRecieved += OnMessage;
                 m_logger.MessageRecieved += M_logger_MessageRecieved;
                 m_logger.Log("end of ImageService3 constructor, thelogger event was added", MessageTypeEnum.INFO);
-
+                
 
             }
             catch (Exception e)
@@ -117,6 +120,7 @@ namespace ImageService3
         ///</summary>
         protected override void OnStart(string[] args)
         {
+            m_isRunning = true;
             m_logger.Log("In OnStart", MessageTypeEnum.INFO);
             // Update the service state to Start Pending.
             ServiceStatus serviceStatus = new ServiceStatus();
@@ -131,7 +135,16 @@ namespace ImageService3
         Int32.Parse(ConfigurationManager.AppSettings.Get("ThumbnailSize"));
 
             // create the members.
-            this.m_modal = new ImageServiceModal(OutputFolder, ThumbnailSize);
+            try
+            {
+                this.m_modal = new ImageServiceModal(OutputFolder, ThumbnailSize);
+
+            } catch (Exception e)
+            {
+                m_logger.Log("exception in ImageService create model", MessageTypeEnum.FAIL);
+            }
+
+
             this.m_controller = new ImageController(this.m_modal, this.m_logger);
 
             // create the server which will start listening.
@@ -169,6 +182,7 @@ namespace ImageService3
         ///</summary>
         protected override void OnStop()
         {
+            m_isRunning = false;
             m_logger.Log("In on onStop", MessageTypeEnum.INFO);
             this.m_server.OnCloseSevice();
         }
