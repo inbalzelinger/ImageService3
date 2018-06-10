@@ -71,7 +71,7 @@ namespace communication.server
 
         private void ServerConfig()
         {
-            m_port = 8001;
+            m_port = 8002;
             m_ip = "127.0.0.1";
         }
 

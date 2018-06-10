@@ -32,8 +32,7 @@ namespace ContosoUniversity.Models
             try
             {
                 this.m_client = Client.ClientInstance;
-                
-
+               
                 this.m_client.OnMessageRecived += GetMessageFromClient;
 
                SendCommandToService(new CommandRecievedEventArgs((int)CommandEnum.GetImageWebCommand, null, null));
