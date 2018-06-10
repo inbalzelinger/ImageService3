@@ -35,7 +35,10 @@ namespace WebProgect.Models
                 this.m_client.OnMessageRecived += GetMessageFromClient;
 
                 LogsList = new ObservableCollection<Tuple<string, string>>();
+
+
                 BindingOperations.EnableCollectionSynchronization(LogsList, new object());
+
                 LogsList.CollectionChanged += (s, e) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("LogsList"));
                 SendCommandToService(new CommandRecievedEventArgs((int)CommandEnum.LogCommand, null, null));
             }
