@@ -12,7 +12,7 @@ namespace WebProgect.Controllers
     {
         static ConfigModel configModel;
         static LogsWebModel logsWebModel = new LogsWebModel();
-        static PhotosWebModel photosWebModel = new PhotosWebModel(configModel.OutputDirectory);
+        static PhotosWebModel photosWebModel;
         static ImageWebModel imageWebModel;
         static ViewImage viewImage;
         static DeleteImage deleteImage;
@@ -68,8 +68,6 @@ namespace WebProgect.Controllers
                 return View(executeDeleteModel);
 
         }
-
-
 
         public ActionResult ViewImage(string date, string name, string imagePath, string thumbPath)
         {
