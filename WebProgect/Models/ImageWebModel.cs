@@ -53,6 +53,7 @@ namespace ContosoUniversity.Models
                 message = message.Substring(i);
                 JObject json = JObject.Parse(message);
                 ImageCount = (string)json["ImageCount"];
+                ServiceStatus = (string)json["ServiceStatus"];
                 Debug.WriteLine("Done!");
             }
            

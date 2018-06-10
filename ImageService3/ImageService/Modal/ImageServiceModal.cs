@@ -228,9 +228,16 @@ namespace ImageService.Modal
         }
 
         public string GetImageWebDetails(out bool result)
+
         {
+            string status = " Not Running";
+            if (ImageService3.ServiceStatusClass.isRunnig)
+            {
+                status = "Runnig";
+            }
             JObject j = new JObject();
             j["ImageCount"] = ImageCount.ToString();
+            j["ServiceStatus"] = status;
             result = true;
             string ret = "ImageWeb " + j.ToString().Replace(Environment.NewLine, " ");
             
@@ -239,12 +246,9 @@ namespace ImageService.Modal
 
         public static int Count(string dirPath)
         {
-           // Directory directory = new Directory();
-           // Directory directory = new Directory(dirPath);
-            //int c = directory.GetFiles().Length;
-            
-            string[] files = Directory.GetFiles(dirPath,".", SearchOption.AllDirectories);
-            string[] thumbs = Directory.GetFiles(dirPath + "\\" + "thumbNail", ".", SearchOption.AllDirectories);
+          
+            string[] files = Directory.GetFiles(dirPath,"*", SearchOption.AllDirectories);
+            string[] thumbs = Directory.GetFiles(dirPath + "\\" + "thumbNail", "*", SearchOption.AllDirectories);
             return files.Length - thumbs.Length;
            
         }

@@ -21,6 +21,11 @@ using ImageService.Infrastructure.Enums;
 
 namespace ImageService3
 {
+    static class ServiceStatusClass
+    {
+        public static bool isRunnig { get; set; }
+    }
+
     public partial class ImageService3 : ServiceBase
     {
 
@@ -30,10 +35,10 @@ namespace ImageService3
         private IImageController m_controller;
         private ILoggingService m_logger;
         private GUIServer m_guiServer;
-        private bool m_isRunning;
+        
 
 
-
+        
 
         public enum ServiceState
         {
@@ -71,7 +76,8 @@ namespace ImageService3
             try
             {
                 InitializeComponent();
-                this.m_isRunning = false;
+               
+                ServiceStatusClass.isRunnig = false;
                 string eventSourceName = ConfigurationManager.AppSettings.Get("SourceName");
                 string loggerName = ConfigurationManager.AppSettings.Get("LogName");
                 eventLog1 = new EventLog();
@@ -120,7 +126,8 @@ namespace ImageService3
         ///</summary>
         protected override void OnStart(string[] args)
         {
-            m_isRunning = true;
+            
+            ServiceStatusClass.isRunnig = true;
             m_logger.Log("In OnStart", MessageTypeEnum.INFO);
             // Update the service state to Start Pending.
             ServiceStatus serviceStatus = new ServiceStatus();
@@ -182,7 +189,8 @@ namespace ImageService3
         ///</summary>
         protected override void OnStop()
         {
-            m_isRunning = false;
+            
+            ServiceStatusClass.isRunnig = false;
             m_logger.Log("In on onStop", MessageTypeEnum.INFO);
             this.m_server.OnCloseSevice();
         }
