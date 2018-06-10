@@ -157,14 +157,15 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\DeleteImage.cs" />
+    <Compile Include="Models\ExecuteDeleteModel.cs" />
     <Compile Include="Models\RemoveHandlerModel.cs" />
     <Compile Include="Models\ImageWebModel.cs" />
     <Compile Include="Models\ConfigModel.cs" />
-    <Compile Include="Models\Course.cs" />
-    <Compile Include="Models\Enrollment.cs" />
     <Compile Include="Models\LogsWebModel.cs" />
     <Compile Include="Models\PhotosWebModel.cs" />
     <Compile Include="Models\Student.cs" />
+    <Compile Include="Models\ViewImage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -184,6 +185,9 @@
     <Content Include="Views\Home\Photos.cshtml" />
     <Content Include="Views\Home\RemoveHandler.cshtml" />
     <Content Include="Views\Home\DeleteHandlerForSure.cshtml" />
+    <Content Include="Views\Home\DeleteImage.cshtml" />
+    <Content Include="Views\Home\ExecuteDelete.cshtml" />
+    <Content Include="Views\Home\ViewImage.cshtml" />
     <None Include="Views\Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Views\Scripts\jquery-1.10.2.js" />
     <Content Include="Views\Scripts\jquery-1.10.2.min.js" />
@@ -206,8 +210,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\ImageWeb.cshtml" />
     <Content Include="Views\Home\Config.cshtml" />

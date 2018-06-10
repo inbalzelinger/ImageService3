@@ -14,9 +14,11 @@ namespace WebProgect.Controllers
         static LogsWebModel logsWebModel = new LogsWebModel();
         static PhotosWebModel photosWebModel;
         static ImageWebModel imageWebModel;
+        static RemoveHandlerModel removeHandlerModel;
+
         static ViewImage viewImage;
         static DeleteImage deleteImage;
-       static ExecuteDeleteModel executeDeleteModel;
+        static ExecuteDeleteModel executeDeleteModel;
    
 
 
@@ -24,7 +26,7 @@ namespace WebProgect.Controllers
         {
            configModel = new ConfigModel();
            photosWebModel = new PhotosWebModel(configModel.OutputDirectory);
-          imageWebModel = new ImageWebModel();
+            imageWebModel = new ImageWebModel();
             
         }
 
@@ -73,6 +75,19 @@ namespace WebProgect.Controllers
         {
             viewImage = new ViewImage(date, name, imagePath,thumbPath);
             return View(viewImage);
+        }
+
+
+        public ActionResult RemoveHandler(string handlerToRemove)
+        {
+            removeHandlerModel = new RemoveHandlerModel(handlerToRemove);
+            return View(removeHandlerModel);
+        }
+
+        public ActionResult DeleteHandlerForSure(string handlerToRemove)
+        {
+            removeHandlerModel.RemoveHandler();
+            return View();
         }
     }
 }
