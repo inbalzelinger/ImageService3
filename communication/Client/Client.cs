@@ -42,7 +42,7 @@ namespace communication.Client
             {
                 if (m_clientInstance == null)
                 {
-                    m_clientInstance = new Client(8002, "127.0.0.1");
+                    m_clientInstance = new Client(8003, "127.0.0.1");
                     m_clientInstance.StartReading();
                 }
                 return m_clientInstance;

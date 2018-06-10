@@ -1,0 +1,24 @@
+﻿@model ContosoUniversity.Models.DeleteImage
+
+@{
+    ViewBag.Title = "Delete Image";
+	var imagePath=Model.ImagePath;
+	var thumbPath=Model.ThumbPath;
+}
+
+<h2>Are you sure you wamt to delete this Image?</h2>
+
+	<h3>Image Name: @Html.DisplayFor(modelItem => Model.Name)</h3>
+
+    <div class="col-xs-18 col-sm-6 col-md-3">
+        <div class="image">
+            <img src="/@Model.ThumbPath.Replace(Server.MapPath("~"),"").Replace("\\","/")" alt="Avatar">
+            <div class="caption">
+                
+				  @Html.ActionLink("yes", "ExecuteDelete","Home",new{imagePath=imagePath,thumbPath=thumbPath},null)
+				
+            </div>
+        </div>
+    </div>
+}
+        

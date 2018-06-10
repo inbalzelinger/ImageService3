@@ -9,13 +9,21 @@
 
 @foreach (var pic in Model.TthubToPic)
 {
+
+var date=@pic["date"];
+var name=@pic["name"];
+var imagePath=@pic["pic"];
+var thumbPath=@pic["thumb"];
+
     <div class="col-xs-18 col-sm-6 col-md-3">
         <div class="thumbnail">
             <img class="img-circle" src="/@pic["thumb"].Replace(Server.MapPath("~"),"").Replace("\\","/")" alt="Avatar">
             <div class="caption">
                 <h4> @pic["name"]</h4>
                 <p>date: @pic["date"]</p>
-                <p><a href="#" class="btn btn-info btn-xs" role="button">Button</a> <a href="#" class="btn btn-default btn-xs" role="button">Button</a></p>
+				 @Html.ActionLink("view", "viewImage","Home",new{date=date,name=name,imagePath=imagePath,thumbPath=thumbPath},null)
+				  @Html.ActionLink("Delete", "DeleteImage","Home",new{name=name,thumbPath=thumbPath, imagePath=imagePath},null)
+                <p><a href="#" class="btn btn-info btn-xs" role="view">Button</a> <a href="#" class="btn btn-default btn-xs" role="button">Button</a></p>
             </div>
         </div>
     </div>

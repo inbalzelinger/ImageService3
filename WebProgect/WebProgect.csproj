@@ -157,6 +157,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\DeleteImage.cs" />
+    <Compile Include="Models\ExecuteDeleteModel.cs" />
+    <Compile Include="Models\ViewImage.cs" />
     <Compile Include="Models\ImageWebModel.cs" />
     <Compile Include="Models\ConfigModel.cs" />
     <Compile Include="Models\Course.cs" />
@@ -168,12 +171,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\StudentsDetails.txt" />
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Controllers\Content\bootstrap.css" />
+    <Content Include="Controllers\Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
+    <Content Include="Controllers\Content\Site.css" />
     <Content Include="Views\Scripts\bootstrap.js" />
     <Content Include="Views\Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -181,6 +184,9 @@
     </Content>
     <Content Include="Views\Home\Logs.cshtml" />
     <Content Include="Views\Home\Photos.cshtml" />
+    <Content Include="Views\Home\ViewImage.cshtml" />
+    <Content Include="Views\Home\DeleteImage.cshtml" />
+    <Content Include="Views\Home\ExecuteDelete.cshtml" />
     <None Include="Views\Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Views\Scripts\jquery-1.10.2.js" />
     <Content Include="Views\Scripts\jquery-1.10.2.min.js" />

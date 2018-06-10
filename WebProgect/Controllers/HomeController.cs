@@ -12,16 +12,20 @@ namespace WebProgect.Controllers
     {
         static ConfigModel configModel;
         static LogsWebModel logsWebModel = new LogsWebModel();
-        static PhotosWebModel photosWebModel;
+        static PhotosWebModel photosWebModel = new PhotosWebModel(configModel.OutputDirectory);
         static ImageWebModel imageWebModel;
+        static ViewImage viewImage;
+        static DeleteImage deleteImage;
+       static ExecuteDeleteModel executeDeleteModel;
    
 
 
         public HomeController()
         {
-            configModel = new ConfigModel();
-            photosWebModel = new PhotosWebModel(configModel.OutputDirectory);
-            imageWebModel = new ImageWebModel();
+           configModel = new ConfigModel();
+           photosWebModel = new PhotosWebModel(configModel.OutputDirectory);
+          imageWebModel = new ImageWebModel();
+            
         }
 
         public ActionResult Index()
@@ -29,31 +33,12 @@ namespace WebProgect.Controllers
             return View();
         }
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
-
-        public ActionResult Co()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
-
+       
         public ActionResult Config()
         {
             return View(configModel);
         }
+        
 
         public ActionResult ImageWeb()
         {
@@ -68,6 +53,28 @@ namespace WebProgect.Controllers
         public ActionResult Photos()
         {
             return View(photosWebModel);
+        }
+
+        public ActionResult DeleteImage(string name, string thumbPath,string imagePath)
+        {
+            deleteImage = new DeleteImage(name, thumbPath,imagePath);
+            return View(deleteImage);
+        }
+
+        public ActionResult ExecuteDelete(string imagePath,string thumbPath)
+        {
+             executeDeleteModel = new ExecuteDeleteModel(imagePath,thumbPath);
+              executeDeleteModel.DeleteAPhoto();
+                return View(executeDeleteModel);
+
+        }
+
+
+
+        public ActionResult ViewImage(string date, string name, string imagePath, string thumbPath)
+        {
+            viewImage = new ViewImage(date, name, imagePath,thumbPath);
+            return View(viewImage);
         }
     }
 }
