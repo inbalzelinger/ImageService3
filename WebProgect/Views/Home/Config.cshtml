@@ -27,14 +27,16 @@
     </li>
 	<li>
         <b>@Html.DisplayNameFor(model => model.Handlers)</b>
-		<Table class="table">
-		@foreach (string handler in Model.Handlers)
-		{
-			<tr>
-				<td>
-					@handler
-				</td>
-			</tr>
-		}
-	</li>
+        <Table class="table">
+            @foreach (var handler in Model.Handlers)
+             {
+         <tr>
+            <td>
+                <button>
+                    @Html.ActionLink(@handler, "RemoveHandler", "Home", new{ handlerToRemove = handler}, null)
+                </button>
+            </td>
+        </tr>
+}
+</li>
 </ul>

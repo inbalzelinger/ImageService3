@@ -14,6 +14,7 @@ namespace WebProgect.Controllers
         static LogsWebModel logsWebModel = new LogsWebModel();
         static PhotosWebModel photosWebModel;
         static ImageWebModel imageWebModel;
+        static RemoveHandlerModel removeHandlerModel;
    
 
 
@@ -69,5 +70,20 @@ namespace WebProgect.Controllers
         {
             return View(photosWebModel);
         }
+
+
+
+        public ActionResult RemoveHandler(string handlerToRemove)
+        {
+            removeHandlerModel = new RemoveHandlerModel(handlerToRemove);
+            return View(removeHandlerModel);
+        }
+
+        public ActionResult DeleteHandlerForSure(string handlerToRemove)
+        {
+            removeHandlerModel.RemoveHandler();
+            return View();
+        }
+
     }
 }
