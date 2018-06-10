@@ -1,0 +1,27 @@
+﻿@model ContosoUniversity.Models.ViewImage
+
+@{
+    ViewBag.Title = "Photos";
+
+	var name=@Model.Name;
+	var imagePath=@Model.ImagePath;
+	var thumbPath=@Model.ThumbPath;
+	var date=@Model.Date;
+
+	}
+<h2>View Image</h2>
+
+	<h3>Image Name: @Html.DisplayFor(modelItem => Model.Name)</h3>
+	<h4>Image Date:  @Html.DisplayFor(modelItem => Model.Date)</h4>
+
+
+    <div class="col-xs-18 col-sm-6 col-md-3">
+        <div class="image">
+            <img src="/@Model.ImagePath.Replace(Server.MapPath("~"),"").Replace("\\","/")" alt="Avatar">
+            <div class="caption">
+                
+                @Html.ActionLink("Delete", "DeleteImage","Home",new{name=name,thumbPath=thumbPath,imagePath=imagePath},null)
+            </div>
+        </div>
+    </div>
+}
