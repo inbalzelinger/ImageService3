@@ -19,6 +19,7 @@ namespace WebProgect.Models
 
         public string OutputFolder { get; set; }
         public string[] PicPaths { get; set; }
+
         public List<Dictionary<string, string>> TthubToPic;
 
         public PhotosWebModel(string outputFolder)

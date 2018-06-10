@@ -31,11 +31,8 @@ namespace WebProgect.Models
             {
 
                 this.m_client = Client.ClientInstance;
-
                 this.m_client.OnMessageRecived += GetMessageFromClient;
-
                 LogsList = new ObservableCollection<Tuple<string, string>>();
-
 
                 BindingOperations.EnableCollectionSynchronization(LogsList, new object());
 

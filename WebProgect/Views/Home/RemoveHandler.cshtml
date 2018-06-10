@@ -1,0 +1,33 @@
+﻿
+@model ContosoUniversity.Models.RemoveHandlerModel
+
+
+@{
+    ViewBag.Title = "RemoveHandler";
+}
+
+<h2>RemoveHandler</h2>
+<p>are you sure you want to remove the handler?? like for real????</p>
+
+
+
+<tr>
+    <td>
+        <b>@Html.DisplayNameFor(model => model.Handler)</b>
+        @Html.DisplayName(Model.Handler)
+    </td>
+    <td>
+        @Html.ActionLink("Cancel", "Config", "Home")
+    </td>
+    <td>
+        @Html.ActionLink("OK", "DeleteHandlerForSure", "Home", new { handlerToRemove = Model.Handler}, null)
+    </td>
+</tr>
+
+
+
+
+
+
+
+
