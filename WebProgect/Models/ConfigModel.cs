@@ -15,7 +15,7 @@ namespace ContosoUniversity.Models
     public class ConfigModel
     {
         private IClient m_client;
-        //private  m_handler;
+       // private  m_handler;
 
 
         public ConfigModel()
@@ -60,11 +60,11 @@ namespace ContosoUniversity.Models
                 }
                 Debug.WriteLine("Done!");
             }
-            else if (message.Contains("Close "))
-            {
-                string removedHandler = message.Substring(("Close ".Length));
+          //  else if (message.Contains("Close "))
+            //{
+              //  string removedHandler = message.Substring(("Close ".Length));
                 //m_handler.Remove(removedHandler);
-            }
+            //}
             else
             {
                 Debug.WriteLine("Config model ignored message = " + message);

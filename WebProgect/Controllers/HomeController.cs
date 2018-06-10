@@ -12,38 +12,17 @@ namespace WebProgect.Controllers
     {
         static ConfigModel configModel;
         static LogsWebModel logsWebModel;
-
-        static Student student;                                              
+        static ImageWebModel imageWebModel;                                             
 
         public HomeController()
         {
             configModel = new ConfigModel();
             logsWebModel = new LogsWebModel();
+            imageWebModel = new ImageWebModel();
         }
 
         public ActionResult Index()
         {
-            return View();
-        }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
-
-        public ActionResult Co()
-        {
-            ViewBag.Message = "Your contact page.";
-
             return View();
         }
 
@@ -54,7 +33,7 @@ namespace WebProgect.Controllers
 
         public ActionResult ImageWeb()
         {
-            return View();
+            return View(imageWebModel);
         }
 
         public ActionResult Logs()
