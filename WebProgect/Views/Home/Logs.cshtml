@@ -8,14 +8,12 @@
 
 
 <h2>Logs</h2>
-<p>here you can write the types you can to only see</p>
-<input type="text" id="filterField"><br>
-<button id="filter">filter</button>
+<input type="text" id="filterField" onkeyup="myFunction()" placeholder="Search for logs by status"><br>
 
 
-<table style="width:100%">
+<table id="LogsTable" style="width:100%">
     <tr>
-        <th>Status</th>
+        <th id="status">Status</th>
         <th>Messege</th>
     </tr>
 
@@ -31,3 +29,26 @@
         </tr>
     }
 </table>
+
+<script>
+    function myFunction() {
+        // Declare variables
+        var input, filter, table, tr, td, i;
+        input = document.getElementById("filterField");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("LogsTable");
+        tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+                if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>

@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
+using System.Threading;
 using System.Windows.Data;
 
 namespace ContosoUniversity.Models
@@ -15,6 +16,7 @@ namespace ContosoUniversity.Models
     public class ConfigModel
     {
         private IClient m_client;
+        private bool finish;
         //private  m_handler;
 
 
@@ -32,8 +34,9 @@ namespace ContosoUniversity.Models
 
                 Handlers = new ObservableCollection<string>();
                 //BindingOperations.EnableCollectionSynchronization(Handlers, new object());
-
+                finish = false;
                 SendCommandToService(new CommandRecievedEventArgs((int)CommandEnum.GetConfigCommand, null, null));
+                SpinWait.SpinUntil(() => finish);
             }
             catch
             {
@@ -58,6 +61,7 @@ namespace ContosoUniversity.Models
                 {
                     Handlers.Add(handler);
                 }
+                finish = true;
                 Debug.WriteLine("Done!");
             }
             else if (message.Contains("Close "))

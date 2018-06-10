@@ -11,14 +11,15 @@ namespace WebProgect.Controllers
     public class HomeController : Controller
     {
         static ConfigModel configModel;
-        static LogsWebModel logsWebModel;
+        static LogsWebModel logsWebModel = new LogsWebModel();
+        static PhotosWebModel photosWebModel;
 
-        static Student student;                                              
 
         public HomeController()
         {
             configModel = new ConfigModel();
-            logsWebModel = new LogsWebModel();
+           // logsWebModel = new LogsWebModel();
+            photosWebModel = new PhotosWebModel(configModel.OutputDirectory);
         }
 
         public ActionResult Index()
@@ -60,6 +61,11 @@ namespace WebProgect.Controllers
         public ActionResult Logs()
         {
             return View(logsWebModel);
+        }
+
+        public ActionResult Photos()
+        {
+            return View(photosWebModel);
         }
     }
 }

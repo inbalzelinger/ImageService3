@@ -1,0 +1,23 @@
+﻿@model WebProgect.Models.PhotosWebModel
+
+@{
+    ViewBag.Title = "Photos";
+}
+
+<h2>Photos</h2>
+
+
+@foreach (var pic in Model.TthubToPic)
+{
+    <div class="col-xs-18 col-sm-6 col-md-3">
+        <div class="thumbnail">
+            <img class="img-circle" src="/@pic["thumb"].Replace(Server.MapPath("~"),"").Replace("\\","/")" alt="Avatar">
+            <div class="caption">
+                <h4> @pic["name"]</h4>
+                <p>date: @pic["date"]</p>
+                <p><a href="#" class="btn btn-info btn-xs" role="button">Button</a> <a href="#" class="btn btn-default btn-xs" role="button">Button</a></p>
+            </div>
+        </div>
+    </div>
+}
+
