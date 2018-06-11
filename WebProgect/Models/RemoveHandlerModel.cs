@@ -27,7 +27,7 @@ namespace ContosoUniversity.Models
                 this.m_client = Client.ClientInstance;
                 this.m_client.OnMessageRecived += GetMessageFromClient;
                 //BindingOperations.EnableCollectionSynchronization(Handlers, new object());
-                SendCommandToService(new CommandRecievedEventArgs((int)CommandEnum.GetConfigCommand, null, null));
+               // SendCommandToService(new CommandRecievedEventArgs((int)CommandEnum.GetConfigCommand, null, null));
                            }
             catch
             {
@@ -67,6 +67,7 @@ namespace ContosoUniversity.Models
             {
                 Debug.WriteLine("Config model ignored message = " + message);
             }
+            
         }
 
 

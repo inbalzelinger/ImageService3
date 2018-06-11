@@ -19,15 +19,17 @@ namespace ContosoUniversity.Models
 
     {
         private IClient m_client;
-        private int m_imageCount;
+        private string m_imageCount;
         private string m_serviceStatus;
 
         public ImageWebModel()
         {
             StudentsList = GetListFromFile();
-            
-            m_serviceStatus = "kkkk";
-            ImageCount = "0";
+
+            // m_serviceStatus = "R";
+            //m_imageCount = "ll";
+            ServiceStatus = "kkkk";
+            ImageCount = "lll";
 
             try
             {
@@ -39,6 +41,8 @@ namespace ContosoUniversity.Models
             }
             catch
             {
+                m_serviceStatus = "Not Running";
+                m_imageCount = "0";
                 Console.Write("Error");
             }
         }
@@ -73,7 +77,10 @@ namespace ContosoUniversity.Models
         [Required]
         [DataType(DataType.Text)]
         [Display(Name = "Image Count: ")]
-        public string ImageCount{ get; set; }
+        public string ImageCount
+        {
+            get; set;
+        }
         
 
         [Required]
@@ -107,6 +114,10 @@ namespace ContosoUniversity.Models
                 }
                 return lst;
      
+        }
+        public void Send()
+        {
+            SendCommandToService(new CommandRecievedEventArgs((int)CommandEnum.GetImageWebCommand, null, null));
         }
     }
 }

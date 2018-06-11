@@ -24,6 +24,7 @@ namespace WebProgect.Models
 
         public PhotosWebModel(string outputFolder)
         {
+            try { 
             this.m_client = Client.ClientInstance;
             TthubToPic = new List<Dictionary<string, string>>();
             this.OutputFolder = outputFolder;
@@ -53,6 +54,14 @@ namespace WebProgect.Models
                 {
                     { "thumb", s }, { "pic" , tmp}, {"name" ,imageName}, {"date", date}
                  });
+            }
+            }
+            catch
+            {
+                TthubToPic = new List<Dictionary<string, string>>();
+                this.OutputFolder = outputFolder;
+                PicPaths = new string[0];
+            
             }
         }
     

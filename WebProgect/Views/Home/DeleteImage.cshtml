@@ -14,11 +14,13 @@
         <div class="image">
             <img src="/@Model.ThumbPath.Replace(Server.MapPath("~"),"").Replace("\\","/")" alt="Avatar">
             <div class="caption">
-                
-				  @Html.ActionLink("yes", "ExecuteDelete","Home",new{imagePath=imagePath,thumbPath=thumbPath},null)
+
 				
+				@Html.ActionLink("yes", "ExecuteDelete","Home",new{imagePath=imagePath,thumbPath=thumbPath},null)
+				@Html.ActionLink("Cancel", "Photos", "Home")
             </div>
         </div>
     </div>
 
         
+		  
