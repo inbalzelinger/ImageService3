@@ -20,16 +20,17 @@ namespace ContosoUniversity.Models
     {
         private IClient m_client;
         private string m_imageCount;
+        private string m_outputFolderPath;
         private string m_serviceStatus;
 
-        public ImageWebModel()
+        public ImageWebModel(string outputFolderPath)
         {
             StudentsList = GetListFromFile();
 
-            // m_serviceStatus = "R";
-            //m_imageCount = "ll";
-            ServiceStatus = "kkkk";
-            ImageCount = "lll";
+            m_outputFolderPath = outputFolderPath;
+            ServiceStatus = "Running";
+            ImageCount = Count().ToString();
+
 
             try
             {
@@ -56,7 +57,7 @@ namespace ContosoUniversity.Models
                 int i = message.IndexOf(" ") + 1;
                 message = message.Substring(i);
                 JObject json = JObject.Parse(message);
-                ImageCount = (string)json["ImageCount"];
+               // ImageCount = (string)json["ImageCount"];
                 ServiceStatus = (string)json["ServiceStatus"];
                 Debug.WriteLine("Done!");
             }
@@ -71,8 +72,12 @@ namespace ContosoUniversity.Models
             m_client.Write(command.ToJson());
         }
 
-
-
+        public int Count()
+        {
+            //string[] files = Directory.GetFiles(m_outputFolderPath, "*", SearchOption.AllDirectories);
+            string[] thumbs = Directory.GetFiles(m_outputFolderPath+ "\\" + "thumbNail", "*", SearchOption.AllDirectories);
+            return thumbs.Length;
+        }
 
         [Required]
         [DataType(DataType.Text)]

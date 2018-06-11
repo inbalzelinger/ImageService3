@@ -26,7 +26,8 @@ namespace WebProgect.Controllers
         {
             
             photosWebModel = new PhotosWebModel(configModel.OutputDirectory);
-            imageWebModel = new ImageWebModel();
+            string outputdirPath=configModel.OutputDirectory;
+            imageWebModel = new ImageWebModel(outputdirPath);
 
         }
 
@@ -40,7 +41,7 @@ namespace WebProgect.Controllers
 
         public ActionResult ImageWeb()
         {
-            imageWebModel.Send();
+           // imageWebModel.Send();
             return View(imageWebModel);
         }
 
