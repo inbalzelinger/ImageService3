@@ -17,35 +17,42 @@ namespace ContosoUniversity.Models
     {
         private IClient m_client;
         private bool finish;
-
-        [Required]
-        [DataType(DataType.Text)]
-        [Display(Name = "Handlers: ")]
-        public ObservableCollection<string> Handlers { get; set; }
+        public delegate void NotifyAboutChange();
+        public event NotifyAboutChange Notify;
+        //private  m_handler;
 
 
         public ConfigModel()
         {
-            OutputDirectory = "";
-            LogName = "";
-            SourceName = "";
-            ThumbnailSize = "";
+            OutputDirectory = " ";
+            LogName = " ";
+            SourceName = " ";
+            ThumbnailSize = " ";
+
             try
             {
                 this.m_client = Client.ClientInstance;
-
                 this.m_client.OnMessageRecived += GetMessageFromClient;
-
                 Handlers = new ObservableCollection<string>();
                 //BindingOperations.EnableCollectionSynchronization(Handlers, new object());
                 finish = false;
                 SendCommandToService(new CommandRecievedEventArgs((int)CommandEnum.GetConfigCommand, null, null));
                 SpinWait.SpinUntil(() => finish);
+
             }
             catch
             {
+                OutputDirectory = " ";
+                LogName = " ";
+                SourceName = " ";
+                ThumbnailSize = " ";
+                Handlers = new ObservableCollection<string>();
                 Console.Write("Error");
+
+
             }
+           
+     
         }
 
         private void GetMessageFromClient(object sender, string message)
@@ -77,20 +84,31 @@ namespace ContosoUniversity.Models
             {
                 Debug.WriteLine("Config model ignored message = " + message);
             }
+            
         }
+
+
         public void SendCommandToService(CommandRecievedEventArgs command)
         {
             m_client.Write(command.ToJson());
         }
 
-        public void RemoveHandlerFromList(string handler)
+
+        public void HandlerToramove(string handlerToRemove)
         {
-            if(Handlers.Contains(handler))
+              try
             {
-                Handlers.Remove(handler);
+                if (Handlers.Contains(handlerToRemove))
+                {
+                    Handlers.Remove(handlerToRemove);
+
+                }
+            }
+            catch
+            {
+                ;
             }
         }
-
 
         [Required]
         [DataType(DataType.Text)]
@@ -111,6 +129,11 @@ namespace ContosoUniversity.Models
         [DataType(DataType.Text)]
         [Display(Name = "SourceName: ")]
         public string SourceName { get; set; }
+
+        [Required]
+        [DataType(DataType.Text)]
+        [Display(Name = "Handlers: ")]
+        public ObservableCollection<string> Handlers { get; set; }
 
     }
 }

@@ -19,15 +19,19 @@ namespace ContosoUniversity.Models
 
     {
         private IClient m_client;
-        private int m_imageCount;
+        private string m_imageCount;
+        private string m_outputFolderPath;
         private string m_serviceStatus;
 
-        public ImageWebModel()
+        public ImageWebModel(string outputFolderPath)
         {
             StudentsList = GetListFromFile();
+
+            m_outputFolderPath = outputFolderPath;
+            ServiceStatus = "Running";
+            ImageCount = Count().ToString();
             
-            m_serviceStatus = "kkkk";
-            ImageCount = "0";
+
 
             try
             {
@@ -39,6 +43,8 @@ namespace ContosoUniversity.Models
             }
             catch
             {
+                m_serviceStatus = "Not Running";
+                m_imageCount = "0";
                 Console.Write("Error");
             }
         }
@@ -52,7 +58,8 @@ namespace ContosoUniversity.Models
                 int i = message.IndexOf(" ") + 1;
                 message = message.Substring(i);
                 JObject json = JObject.Parse(message);
-                ImageCount = (string)json["ImageCount"];
+               // ImageCount = (string)json["ImageCount"];
+                ServiceStatus = (string)json["ServiceStatus"];
                 Debug.WriteLine("Done!");
             }
            
@@ -66,13 +73,20 @@ namespace ContosoUniversity.Models
             m_client.Write(command.ToJson());
         }
 
-
-
+        public int Count()
+        {
+            //string[] files = Directory.GetFiles(m_outputFolderPath, "*", SearchOption.AllDirectories);
+            string[] thumbs = Directory.GetFiles(m_outputFolderPath+ "\\" + "thumbNail", "*", SearchOption.AllDirectories);
+            return thumbs.Length;
+        }
 
         [Required]
         [DataType(DataType.Text)]
         [Display(Name = "Image Count: ")]
-        public string ImageCount{ get; set; }
+        public string ImageCount
+        {
+            get; set;
+        }
         
 
         [Required]
@@ -106,6 +120,10 @@ namespace ContosoUniversity.Models
                 }
                 return lst;
      
+        }
+        public void Send()
+        {
+            SendCommandToService(new CommandRecievedEventArgs((int)CommandEnum.GetImageWebCommand, null, null));
         }
     }
 }

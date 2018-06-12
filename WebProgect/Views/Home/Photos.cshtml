@@ -23,7 +23,6 @@ var thumbPath=@pic["thumb"];
                 <p>date: @pic["date"]</p>
 				 @Html.ActionLink("view", "viewImage","Home",new{date=date,name=name,imagePath=imagePath,thumbPath=thumbPath},null)
 				  @Html.ActionLink("Delete", "DeleteImage","Home",new{name=name,thumbPath=thumbPath, imagePath=imagePath},null)
-                <p><a href="#" class="btn btn-info btn-xs" role="view">Button</a> <a href="#" class="btn btn-default btn-xs" role="button">Button</a></p>
             </div>
         </div>
     </div>

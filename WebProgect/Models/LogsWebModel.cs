@@ -41,6 +41,7 @@ namespace WebProgect.Models
             }
             catch (Exception e)
             {
+                LogsList = new ObservableCollection<Tuple<string, string>>();
                 Console.WriteLine(e.Message);
             }
         }

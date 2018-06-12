@@ -19,31 +19,29 @@ namespace WebProgect.Controllers
         static ViewImage viewImage;
         static DeleteImage deleteImage;
         static ExecuteDeleteModel executeDeleteModel;
-   
+
 
 
         public HomeController()
         {
-         //   configModel = new ConfigModel();
-            photosWebModel = new PhotosWebModel(configModel.OutputDirectory);
-           imageWebModel = new ImageWebModel();
             
+            photosWebModel = new PhotosWebModel(configModel.OutputDirectory);
+            string outputdirPath=configModel.OutputDirectory;
+            imageWebModel = new ImageWebModel(outputdirPath);
+
         }
 
-        public ActionResult Index()
-        {
-            return View();
-        }
+   
 
-       
         public ActionResult Config()
         {
             return View(configModel);
         }
-        
+
 
         public ActionResult ImageWeb()
         {
+           // imageWebModel.Send();
             return View(imageWebModel);
         }
 
@@ -57,23 +55,23 @@ namespace WebProgect.Controllers
             return View(photosWebModel);
         }
 
-        public ActionResult DeleteImage(string name, string thumbPath,string imagePath)
+        public ActionResult DeleteImage(string name, string thumbPath, string imagePath)
         {
-            deleteImage = new DeleteImage(name, thumbPath,imagePath);
+            deleteImage = new DeleteImage(name, thumbPath, imagePath);
             return View(deleteImage);
         }
 
-        public ActionResult ExecuteDelete(string imagePath,string thumbPath)
+        public ActionResult ExecuteDelete(string imagePath, string thumbPath)
         {
-             executeDeleteModel = new ExecuteDeleteModel(imagePath,thumbPath);
-              executeDeleteModel.DeleteAPhoto();
-                return View(executeDeleteModel);
+            executeDeleteModel = new ExecuteDeleteModel(imagePath, thumbPath);
+            executeDeleteModel.DeleteAPhoto();
+            return View(executeDeleteModel);
 
         }
 
         public ActionResult ViewImage(string date, string name, string imagePath, string thumbPath)
         {
-            viewImage = new ViewImage(date, name, imagePath,thumbPath);
+            viewImage = new ViewImage(date, name, imagePath, thumbPath);
             return View(viewImage);
         }
 
@@ -81,14 +79,25 @@ namespace WebProgect.Controllers
         public ActionResult RemoveHandler(string handlerToRemove)
         {
             removeHandlerModel = new RemoveHandlerModel(handlerToRemove);
+
             return View(removeHandlerModel);
         }
 
         public ActionResult DeleteHandlerForSure(string handlerToRemove)
         {
             removeHandlerModel.RemoveHandler();
-            configModel.RemoveHandlerFromList(handlerToRemove);
-            return View();
+            try
+            {
+                configModel.HandlerToramove(handlerToRemove);
+
+            }
+            catch
+            {
+                ;
+            }
+            return RedirectToAction("Config", "Home");
+            
         }
+       
     }
 }
