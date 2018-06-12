@@ -30,6 +30,7 @@ namespace ContosoUniversity.Models
             m_outputFolderPath = outputFolderPath;
             ServiceStatus = "Running";
             ImageCount = Count().ToString();
+            
 
 
             try
