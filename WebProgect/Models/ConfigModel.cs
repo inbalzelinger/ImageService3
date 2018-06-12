@@ -17,7 +17,11 @@ namespace ContosoUniversity.Models
     {
         private IClient m_client;
         private bool finish;
-        //private  m_handler;
+
+        [Required]
+        [DataType(DataType.Text)]
+        [Display(Name = "Handlers: ")]
+        public ObservableCollection<string> Handlers { get; set; }
 
 
         public ConfigModel()
@@ -79,6 +83,14 @@ namespace ContosoUniversity.Models
             m_client.Write(command.ToJson());
         }
 
+        public void RemoveHandlerFromList(string handler)
+        {
+            if(Handlers.Contains(handler))
+            {
+                Handlers.Remove(handler);
+            }
+        }
+
 
         [Required]
         [DataType(DataType.Text)]
@@ -99,11 +111,6 @@ namespace ContosoUniversity.Models
         [DataType(DataType.Text)]
         [Display(Name = "SourceName: ")]
         public string SourceName { get; set; }
-
-        [Required]
-        [DataType(DataType.Text)]
-        [Display(Name = "Handlers: ")]
-        public ObservableCollection<string> Handlers { get; set; }
 
     }
 }

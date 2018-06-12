@@ -10,7 +10,7 @@ namespace WebProgect.Controllers
 {
     public class HomeController : Controller
     {
-        static ConfigModel configModel;
+        static ConfigModel configModel = new ConfigModel();
         static LogsWebModel logsWebModel = new LogsWebModel();
         static PhotosWebModel photosWebModel;
         static ImageWebModel imageWebModel;
@@ -24,9 +24,9 @@ namespace WebProgect.Controllers
 
         public HomeController()
         {
-           configModel = new ConfigModel();
-           photosWebModel = new PhotosWebModel(configModel.OutputDirectory);
-            imageWebModel = new ImageWebModel();
+         //   configModel = new ConfigModel();
+            photosWebModel = new PhotosWebModel(configModel.OutputDirectory);
+           imageWebModel = new ImageWebModel();
             
         }
 
@@ -87,6 +87,7 @@ namespace WebProgect.Controllers
         public ActionResult DeleteHandlerForSure(string handlerToRemove)
         {
             removeHandlerModel.RemoveHandler();
+            configModel.RemoveHandlerFromList(handlerToRemove);
             return View();
         }
     }
